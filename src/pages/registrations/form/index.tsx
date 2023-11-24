@@ -46,7 +46,7 @@ export default function Form()  {
         zIndex={1}
         padding="0"
         // mb="4rem"
-      
+       
         pr="2rem"
         pl={isLargerThan2000 ?"6rem":"2rem"} 
         display="flex"
@@ -54,9 +54,13 @@ export default function Form()  {
         minHeight={"100vh"}
         pt="8rem"
       >
-        <Text    color="white" mb="4rem">
-          Presale Interest form
+ 
+        <Text  borderBottom={'thick'}
+         color="white" mb="4rem" width={'15%'} display='flex' flexDirection={'row'} justifyContent='begin' >
+                   <Box borderBottomWidth={'thick'} borderBottomColor={'#4D59E8'} p='2'   >
+          Presale Interest form </Box>
         </Text>
+       
         {/* <ContributorsChart/> */}
         <HStack
       w="100%"

@@ -265,7 +265,7 @@ export default function Home() {
               <Box pr="3" mt="0.5" cursor="pointer">
                 <BlueInfoIcon />
               </Box>
-              Your wallet should have more than $50 as balance in USDT/USDC.
+              Your wallet should have more than 50  USDT/USDC.
               {/* <Box
                                 py="1"
                                 pl="4"
@@ -302,8 +302,7 @@ export default function Home() {
                 <RedinfoIcon/>
               </Box>
               Your wallet doesn’t have sufficient balance
-              connect wallet which has more than $50 
-              as balance.
+              connect wallet which has more than 50 USDT/USDC.
               {/* <Box
                                 py="1"
                                 pl="4"

@@ -43,7 +43,7 @@ const DetailsForm = ({ handler }: any) => {
   const [url, setUrl] = useState("")
   const [formSubmitted, setFormSubmitted] = useState<boolean>(false)
   const [successFull, setSuccessFull] = useState(false)
-
+const [txloading, setTxloading] = useState(false);
 
   const handleWalletChange = (e: any) => {
     // setWallet(e.target.value);
@@ -78,7 +78,7 @@ const DetailsForm = ({ handler }: any) => {
   //     uint256 time_to_decision;
   //     string website_url;
   // }
-  const { isSuccess,  writeAsync:writeApproval } = useContractWrite({
+  const {data, isSuccess,  writeAsync:writeApproval } = useContractWrite({
     address: '0xE8B3075aDdcFa5fC46b42837d85c4fdcB8786041',
     abi: erc20ABI,
     functionName: 'approve',
@@ -86,7 +86,7 @@ const DetailsForm = ({ handler }: any) => {
     chainId: sepolia.id
   })
   const [trigger, setTrigger] = useState(false)
-  const { data, isLoading,  writeAsync:writeCall} = useContractWrite({
+  const {  isLoading,  writeAsync:writeCall} = useContractWrite({
     address: '0x745656213975546150F16a24e38428578a1C49Ac',
     abi: preSaleAbi.abi,
     functionName: 'preBooking',
@@ -114,18 +114,27 @@ const DetailsForm = ({ handler }: any) => {
   //   Trigger(trusete);
   // }[isSuccess])
   useEffect(() => {
-    if (trigger && isSuccess) {
+    if (trigger && isSuccess && data?.hash) {
+      console.log(data?.hash)
       setTimeout(async () => {
         try {
+
           await writeCall();
+          setTxloading(false);
+
+
         } catch (err) {
           console.log('Error in writeCall:', err);
           // Handle the error here, you can set some state or perform other actions
         }
-      }, 8000);
+      }, 5000);
       setTrigger(false);
+      setTimeout(() => {
+      setTxloading(false);
+        
+      }, 10000);
     }
-  }, [trigger]);
+  }, [trigger,isSuccess]);
 
   useEffect(() => {
     setTrigger(true);
@@ -133,6 +142,7 @@ const DetailsForm = ({ handler }: any) => {
 
   const handleSubmit = async () => {
     try {
+      setTxloading(true);
       axios.post('https://b1ibz9x1s9.execute-api.ap-southeast-1.amazonaws.com/api/presale/unchecked', { wallet: address, discord: discord, twitter: Twitter, commit: Commit, bookamt: BookAmt, hasInvestor: checked },)
       .then((response) => {
         console.log(response, "linked"); // Log the response from the backend.
@@ -144,6 +154,8 @@ const DetailsForm = ({ handler }: any) => {
       // await writeCall();
     } catch (err) {
       console.log(err);
+      setFormSubmitted(false);
+
     }
   };
   // const {  writeAsync:writeApproval } = useContractWrite({
@@ -173,6 +185,8 @@ const DetailsForm = ({ handler }: any) => {
   //   }
   // }
   const handleInvestorSubmit = async () => {
+    setTxloading(true);
+
     try {
       axios.post('https://b1ibz9x1s9.execute-api.ap-southeast-1.amazonaws.com/api/presale/checked', { wallet: address, discord: discord, twitter: Twitter, commit: Commit, bookamt: BookAmt, hasInvestor: checked, fundname: FundName, Fundcommit: investorcommit, decisiontime: DecisionTime, url: url },)
       .then((response) => {
@@ -184,6 +198,7 @@ const DetailsForm = ({ handler }: any) => {
       await writeApproval();
     } catch (err) {
       console.log(err);
+      setFormSubmitted(false);
     }
   }
 
@@ -779,7 +794,7 @@ const DetailsForm = ({ handler }: any) => {
             </Box>
           </Box>
         }
-        <Button display=" flex"
+       <Button display=" flex"
           mt="2rem"
           width="80%"
           height=" 40px"
@@ -791,6 +806,8 @@ const DetailsForm = ({ handler }: any) => {
           border=" 1px solid var(--stroke-of-30, rgba(103, 109, 154, 0.30))"
           background=" #0969DA"
           color='white'
+          isLoading={txloading}
+          _hover={{background:"white ",color:'black' }} 
           boxShadow=" 0px 1px 0px 0px rgba(27, 31, 35, 0.04)"
           onClick={() => {
             if (checked) {
@@ -808,6 +825,7 @@ const DetailsForm = ({ handler }: any) => {
           isDisabled={dataPreebooked==true ? true :formSubmitted ? true : !checked ? !(discord != "" && Twitter != "" && (Commit >= 500 && Commit <= 2500) && (BookAmt > 50)) : !(discord != "" && Twitter != "" && (Commit >= 500 && Commit <= 2500) && (BookAmt > 50) && FundName != "" && investorcommit > 0 && DecisionTime > 0 && url != "")}
         >Submit
         </Button>
+
 
       </VStack>
       <HStack
@@ -851,7 +869,7 @@ const DetailsForm = ({ handler }: any) => {
             lineHeight="30px"
             letterSpacing="-0.15px"
           >
-            HASH tokens total supply is hard capped to 9,000,000,000 (9 billion). For TGE, Hashstack has partnered with the Industry leading launchpad - Tokensoft that helped launch Ava (Avalanche token), GRAPH (The Graph token) among other notable projects. Leave a place holder to fit 4 bullet points (2 lines each) for Disclaimers
+            HASH tokens total supply is hard capped to 9,000,000,000 (9 billion). For TGE, Hashstack has partnered with the Industry leading launchpad - Tokensoft that helped launch Ava (Avalanche token), GRAPH (The Graph token) among other notable projects. 
           </Text>
           <Text mt="4rem"
             font-size=" 20px"
