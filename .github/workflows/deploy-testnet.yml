@@ -33,15 +33,12 @@ jobs:
       - name: "Setup .env"
         run: |
           touch .env
-          echo 'NEXT_PUBLIC_APP_ENV=production' >> .env
-          echo 'NEXT_PUBLIC_NODE_ENV=testnet' >> .env
-          echo 'NEXT_PUBLIC_TESTNET_CHAINID=0x534e5f474f45524c49' >> .env
-          echo 'NEXT_PUBLIC_MAINNET_CHAINID=0x534e5f4d41494e' >> .env
-          echo 'NEXT_PUBLIC_METRICS_API=https://n4mqvzurra.execute-api.ap-southeast-1.amazonaws.com/' >> .env
-          echo 'NEXT_PUBLIC_MIXPANEL_KEY=${{secrets.NEXT_PUBLIC_MIXPANEL_KEY_DEV}}' >> .env
-          echo 'NEXT_PUBLIC_INFURA_MAINNET=${{secrets.NEXT_PUBLIC_INFURA_MAINNET}}' >> .env
-          echo 'NEXT_PUBLIC_INFURA_TESTNET=${{secrets.NEXT_PUBLIC_INFURA_TESTNET}}' >> .env
-          echo 'NEXT_PUBLIC_FEEDBACK_API=${{secrets.NEXT_PUBLIC_FEEDBACK_API}}' >> .env
+          echo 'NEXT_PUBLIC_INFURA_JSONRPC_WALLET=${{secrets.NEXT_PUBLIC_INFURA_JSONRPC_WALLET}}' >> .env
+          echo 'NEXT_PUBLIC_GOOGLE_CLIENT_EMAIL=${{secrets.NEXT_PUBLIC_GOOGLE_CLIENT_EMAIL}}' >> .env
+          echo 'NEXT_PUBLIC_GOOGLE_SHEET_ID=${{secrets.NEXT_PUBLIC_GOOGLE_SHEET_ID}}' >> .env
+          echo 'NEXT_PUBLIC_INFURA_WALLETCONNECT=${{secrets.NEXT_PUBLIC_INFURA_WALLETCONNECT}}' >> .env
+          echo 'NEXT_PUBLIC_WALLETCONNECT_PROJECTOR=${{secrets.NEXT_PUBLIC_WALLETCONNECT_PROJECTOR}}' >> .env
+          echo 'NEXT_PUBLIC_GOOGLE_PRIVATE_KEY=${{secrets.NEXT_PUBLIC_GOOGLE_PRIVATE_KEY}}' >> .env
 
       - name: Build
         run: yarn build
