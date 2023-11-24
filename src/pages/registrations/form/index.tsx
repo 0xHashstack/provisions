@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react'
 import DetailsForm from '@/components/Form/DetailsForm'
 import { useAccount, useBalance } from 'wagmi'
 import { useRouter } from 'next/router'
-const form = () => {
+export default function Form()  {
   const [isLargerThan2000] = useMediaQuery('(min-width: 2000px)')
   const { address, isConnecting, isDisconnected } = useAccount();
   const router = useRouter();
@@ -81,4 +81,3 @@ const form = () => {
   )
 }
 
-export default form

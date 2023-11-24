@@ -4,7 +4,6 @@ import { Inter } from 'next/font/google'
 import { fetchBalance } from '@wagmi/core'
 import { Box, Text, Card, Skeleton, Button } from '@chakra-ui/react'
 import Link from 'next/link'
-import contr from "../abi/ERC20.json"
 import { useEffect, useState } from 'react'
 import { useConnectors } from '@starknet-react/core'
 import BravosIcon from '@/assets/bravosIcon'
@@ -20,7 +19,6 @@ import { mainnet, sepolia,goerli, polygon, optimism } from '@wagmi/core/chains'
 const inter = Inter({ subsets: ['latin'] })
 import { ethers, JsonRpcProvider, JsonRpcApiProvider, BrowserProvider, InfuraProvider } from 'ethers'
 import RedinfoIcon from '@/assets/redinfoIcon'
-import {presale} from '../blockchain/scripts/rewards'
 export default function Home() {
   const [availableDataLoading, setAvailableDataLoading] = useState(true);
   const { address, isConnecting, isDisconnected } = useAccount();
