@@ -10,7 +10,7 @@ import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
 import { useState } from "react";
 import { InjectedConnector } from '@wagmi/core/connectors/injected'
-import { mainnet, sepolia,goerli, polygon, optimism } from '@wagmi/core/chains'
+import { mainnet, sepolia,goerli, polygon, optimism, polygonMumbai } from '@wagmi/core/chains'
 const theme = extendTheme({
   components: {
     Tabs: {
@@ -131,7 +131,7 @@ const lightTheme = extendTheme({
 
 export default function App({ Component, pageProps }: AppProps) {
   const { chains, publicClient } = configureChains(
-    [mainnet,goerli,sepolia],
+    [mainnet,goerli,sepolia,polygonMumbai],
     [publicProvider()],
   )
   const projectId=process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECTOR || "";
