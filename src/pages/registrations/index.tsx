@@ -14,7 +14,7 @@ import WalletConnectIcon from '@/assets/walletConnectIcon'
 import MetamaskIcon from '@/assets/metamaskIcon'
 import CoinbaseIcon from '@/assets/coinbaseIcon'
 import BlueInfoIcon from '@/assets/blueinfoIcon'
-import { mainnet, sepolia,goerli, polygon, optimism } from '@wagmi/core/chains'
+import { mainnet, sepolia,goerli, polygon, optimism, polygonMumbai } from '@wagmi/core/chains'
 
 const inter = Inter({ subsets: ['latin'] })
 import { ethers, JsonRpcProvider, JsonRpcApiProvider, BrowserProvider, InfuraProvider } from 'ethers'
@@ -45,34 +45,20 @@ export default function Home() {
 
   const usdtBalance=  useBalance({
     address: address,
-    token:`0x${'E8B3075aDdcFa5fC46b42837d85c4fdcB8786041'}`,
-    chainId:sepolia.id
+    token:`0x${'2bbf1f48a678d2f7c291dc5f8fd04805d34f485f'}`,
+    chainId:polygonMumbai.id
    
 
   })
   const usdcBalance=  useBalance({
     address: address,
-    token:`0x${'E8B3075aDdcFa5fC46b42837d85c4fdcB8786041'}`,
-    chainId:sepolia.id
+    token:`0x${'0FA8781a83E46826621b3BC094Ea2A0212e71B23'}`,
+    chainId:polygonMumbai.id
    
 
   })
-  const { data: accessTokenBalance } = useContractRead({
-    address: "0x9FD21bE27A2B059a288229361E2fA632D8D2d074",
-    abi: [
-      {
-        inputs: [{ internalType: "address", name: "owner", type: "address" }],
-        name: "balanceOf",
-        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-        stateMutability: "view",
-        type: "function",
-      },
-    ],
-    functionName: "balanceOf",
-    args: [address],
-  });
 
-  console.log(accessTokenBalance,"balance")
+
 
   console.log("balances",usdcBalance?.data?.formatted,usdtBalance?.data?.formatted)
 

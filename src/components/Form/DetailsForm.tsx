@@ -20,9 +20,9 @@ import {
   TableCaption,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { erc20ABI, useAccount, useContractRead, useContractWrite } from "wagmi";
+import { erc20ABI, useAccount, useBalance, useContractRead, useContractWrite } from "wagmi";
 import preSaleAbi from '../../abi/tokenPreSaleBooking.json'
-import { mainnet, sepolia, goerli, polygon, optimism } from '@wagmi/core/chains'
+import { mainnet, sepolia, goerli, polygon, optimism, polygonMumbai } from '@wagmi/core/chains'
 import { parseUnits } from "viem";
 import { number } from "starknet";
 import { toast } from "react-toastify";
@@ -43,8 +43,49 @@ const DetailsForm = ({ handler }: any) => {
   const [url, setUrl] = useState("")
   const [formSubmitted, setFormSubmitted] = useState<boolean>(false)
   const [successFull, setSuccessFull] = useState(false)
+  const [tokenContr, setTokenContr] = useState("1fdE0eCc619726f4cD597887C9F3b4c8740e19e2")
+  const USDC='0FA8781a83E46826621b3BC094Ea2A0212e71B23'
+  const USDT='2bbf1f48a678d2f7c291dc5f8fd04805d34f485f'
+  const PRESALE_CONTR='E574DA7E5F9249bd669a7C7E09b503973176f67e'
 const [txloading, setTxloading] = useState(false);
+const usdtBalance=  useBalance({
+  address: address,
+  token:`0x${USDT}`,
+  chainId:polygonMumbai.id
+ 
 
+})
+const usdcBalance=  useBalance({
+  address: address,
+  token:`0x${USDC}`,
+  chainId:polygonMumbai.id
+ 
+
+})
+useEffect(() => {
+  try {
+    const setnetwork = async () => {
+      if (address) {
+// console.log((usdtBalance?.data?.value) , Number(usdcBalance?.data?.formatted) ,address)
+        if ((Number(usdtBalance?.data?.formatted) >  50 )) {
+          // router.push("/registrations/form");
+          setTokenContr(USDT)
+        }
+        else if((Number(usdcBalance?.data?.formatted) >  50 )){
+          setTokenContr(USDC)
+
+        }
+      }
+    }
+    if (address) {
+      setnetwork()
+    }
+  } catch (err) {
+    console.log(err, "err in conencting")
+  }
+
+
+}, [address,usdtBalance,usdcBalance])
   const handleWalletChange = (e: any) => {
     // setWallet(e.target.value);
   };
@@ -79,25 +120,25 @@ const [txloading, setTxloading] = useState(false);
   //     string website_url;
   // }
   const {data, isSuccess,  writeAsync:writeApproval } = useContractWrite({
-    address: '0xE8B3075aDdcFa5fC46b42837d85c4fdcB8786041',
+    address: `0x${tokenContr}`,
     abi: erc20ABI,
     functionName: 'approve',
-    args: ["0x745656213975546150F16a24e38428578a1C49Ac", BigInt(BookAmt*1000000)  ],
-    chainId: sepolia.id
+    args: [`0x${PRESALE_CONTR}`, BigInt(BookAmt*1000000)  ],
+    chainId: polygonMumbai.id
   })
   const [trigger, setTrigger] = useState(false)
   const {  isLoading,  writeAsync:writeCall} = useContractWrite({
-    address: '0x745656213975546150F16a24e38428578a1C49Ac',
+    address: `0x${PRESALE_CONTR}`,
     abi: preSaleAbi.abi,
     functionName: 'preBooking',
-    args: [BigInt(BookAmt*1000000), '0xE8B3075aDdcFa5fC46b42837d85c4fdcB8786041'],
-    chainId: sepolia.id,
+    args: [BigInt(BookAmt*1000000), `0x${tokenContr}`],
+    chainId: polygonMumbai.id,
     onError:(err)=>{
       console.log(err)
     }
   })
   const { data:dataPreebooked} = useContractRead({
-    address: '0x745656213975546150F16a24e38428578a1C49Ac',
+    address: `0x${PRESALE_CONTR}`,
     abi: preSaleAbi.abi,
     functionName: 'hasUserPreBooked',
     args:[address],
