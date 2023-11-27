@@ -73,6 +73,7 @@ const usdcBalance=  useBalance({
 //   }
 // },[address])
 
+
 useEffect(() => {
   try {
     const setnetwork = async () => {
