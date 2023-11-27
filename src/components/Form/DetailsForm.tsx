@@ -20,19 +20,20 @@ import {
   TableCaption,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { erc20ABI, useAccount, useBalance, useContractRead, useContractWrite } from "wagmi";
+import { erc20ABI, useAccount, useBalance, useContractRead, useContractWrite, useDisconnect } from "wagmi";
 import preSaleAbi from '../../abi/tokenPreSaleBooking.json'
 import { mainnet, sepolia, goerli, polygon, optimism, polygonMumbai } from '@wagmi/core/chains'
 import { parseUnits } from "viem";
 import { number } from "starknet";
 import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 
 const DetailsForm = ({ handler }: any) => {
   const { address, isConnecting, isDisconnected } = useAccount();
 
   const [wallet, setWallet] = useState(address ? address : "");
   const [discord, setdiscord] = useState("");
-  
+  const router = useRouter();
   const [Twitter, setTwitter] = useState("");
   const [Commit, setCommit] = useState<number>(0);
   const [BookAmt, setBookAmt] = useState<any>(0);
@@ -43,29 +44,40 @@ const DetailsForm = ({ handler }: any) => {
   const [url, setUrl] = useState("")
   const [formSubmitted, setFormSubmitted] = useState<boolean>(false)
   const [successFull, setSuccessFull] = useState(false)
-  const [tokenContr, setTokenContr] = useState("1fdE0eCc619726f4cD597887C9F3b4c8740e19e2")
-  const USDC='0FA8781a83E46826621b3BC094Ea2A0212e71B23'
-  const USDT='2bbf1f48a678d2f7c291dc5f8fd04805d34f485f'
-  const PRESALE_CONTR='E574DA7E5F9249bd669a7C7E09b503973176f67e'
+  const [tokenContr, setTokenContr] = useState(process.env.NEXT_PUBLIC_NODE_ENV=='mainnet'?process.env.NEXT_PUBLIC_MC_USDT:process.env.NEXT_PUBLIC_TC_USDT)
+  const USDC=process.env.NEXT_PUBLIC_NODE_ENV=='mainnet'?process.env.NEXT_PUBLIC_MC_USDC:process.env.NEXT_PUBLIC_TC_USDC
+  const USDT=process.env.NEXT_PUBLIC_NODE_ENV=='mainnet'?process.env.NEXT_PUBLIC_MC_USDT:process.env.NEXT_PUBLIC_TC_USDT
+  const PRESALE_CONTR=process.env.NEXT_PUBLIC_NODE_ENV=='mainnet'?process.env.NEXT_PUBLIC_MC_PRESALE:process.env.NEXT_PUBLIC_TC_PRESALE
 const [txloading, setTxloading] = useState(false);
 const usdtBalance=  useBalance({
   address: address,
   token:`0x${USDT}`,
-  chainId:polygonMumbai.id
+  chainId :process.env.NEXT_PUBLIC_NODE_ENV=='mainnet'?polygon.id: polygonMumbai.id
  
 
 })
+const {disconnect} = useDisconnect();
+
 const usdcBalance=  useBalance({
   address: address,
   token:`0x${USDC}`,
-  chainId:polygonMumbai.id
+  chainId :process.env.NEXT_PUBLIC_NODE_ENV=='mainnet'?polygon.id: polygonMumbai.id
  
 
 })
+// useEffect(()=>{
+//   if(!isNaN(Number(usdtBalance?.data?.formatted))  &&!isNaN(Number(usdcBalance?.data?.formatted)) &&Number(usdtBalance?.data?.formatted) <  50  && (Number(usdcBalance?.data?.formatted) <  50 )){
+//     console.log(address,Number(usdcBalance?.data?.formatted) )
+//     // router.push('')
+
+//   }
+// },[address])
+
 useEffect(() => {
   try {
     const setnetwork = async () => {
       if (address) {
+        setWallet(address);
 // console.log((usdtBalance?.data?.value) , Number(usdcBalance?.data?.formatted) ,address)
         if ((Number(usdtBalance?.data?.formatted) >  50 )) {
           // router.push("/registrations/form");
@@ -75,9 +87,11 @@ useEffect(() => {
           setTokenContr(USDC)
 
         }
+       
+       
       }
     }
-    if (address) {
+    if (address&&!isNaN(Number(usdtBalance?.data?.formatted))  &&!isNaN(Number(usdcBalance?.data?.formatted))) {
       setnetwork()
     }
   } catch (err) {
@@ -119,7 +133,7 @@ useEffect(() => {
   //     uint256 time_to_decision;
   //     string website_url;
   // }
-  const {data, isSuccess,  writeAsync:writeApproval } = useContractWrite({
+  const {data, isSuccess,isError,  writeAsync:writeApproval } = useContractWrite({
     address: `0x${tokenContr}`,
     abi: erc20ABI,
     functionName: 'approve',
@@ -127,7 +141,7 @@ useEffect(() => {
     chainId: polygonMumbai.id
   })
   const [trigger, setTrigger] = useState(false)
-  const {  isLoading,  writeAsync:writeCall} = useContractWrite({
+  const {  isLoading,isSuccess:callSuccess , writeAsync:writeCall} = useContractWrite({
     address: `0x${PRESALE_CONTR}`,
     abi: preSaleAbi.abi,
     functionName: 'preBooking',
@@ -154,6 +168,11 @@ useEffect(() => {
   // useEffect(()=>{
   //   Trigger(trusete);
   // }[isSuccess])
+  useEffect(()=>{
+    if(callSuccess){
+      setTxloading(false);
+    }
+  },[callSuccess])
   useEffect(() => {
     if (trigger && isSuccess && data?.hash) {
       console.log(data?.hash)
@@ -161,7 +180,8 @@ useEffect(() => {
         try {
 
           await writeCall();
-          setTxloading(false);
+
+          // setTxloading(false);
 
 
         } catch (err) {
@@ -180,6 +200,10 @@ useEffect(() => {
   useEffect(() => {
     setTrigger(true);
   }, [isSuccess]);
+  useEffect(()=>{
+    setTxloading(false);
+  },[isError])
+ 
 
   const handleSubmit = async () => {
     try {
@@ -863,7 +887,7 @@ useEffect(() => {
               setFormSubmitted(true)
             }
           }}
-          isDisabled={dataPreebooked==true ? true :formSubmitted ? true : !checked ? !(discord != "" && Twitter != "" && (Commit >= 500 && Commit <= 2500) && (BookAmt > 50)) : !(discord != "" && Twitter != "" && (Commit >= 500 && Commit <= 2500) && (BookAmt > 50) && FundName != "" && investorcommit > 0 && DecisionTime > 0 && url != "")}
+          isDisabled={dataPreebooked==true ? true :formSubmitted ? true : !checked ? !(discord != "" && Twitter != "" && (Commit >= 500 && Commit <= 2500) && (BookAmt >= 50)) : !(discord != "" && Twitter != "" && (Commit >= 500 && Commit <= 2500) && (BookAmt >=50) && FundName != "" && investorcommit > 0 && DecisionTime > 0 && url != "")}
         >Submit
         </Button>
 
