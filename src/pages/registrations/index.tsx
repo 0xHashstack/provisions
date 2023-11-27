@@ -14,7 +14,7 @@ import WalletConnectIcon from '@/assets/walletConnectIcon'
 import MetamaskIcon from '@/assets/metamaskIcon'
 import CoinbaseIcon from '@/assets/coinbaseIcon'
 import BlueInfoIcon from '@/assets/blueinfoIcon'
-import { mainnet, sepolia,goerli, polygon, optimism } from '@wagmi/core/chains'
+import { mainnet, sepolia,goerli, polygon, optimism, polygonMumbai } from '@wagmi/core/chains'
 
 const inter = Inter({ subsets: ['latin'] })
 import { ethers, JsonRpcProvider, JsonRpcApiProvider, BrowserProvider, InfuraProvider } from 'ethers'
@@ -22,57 +22,33 @@ import RedinfoIcon from '@/assets/redinfoIcon'
 export default function Home() {
   const [availableDataLoading, setAvailableDataLoading] = useState(true);
   const { address, isConnecting, isDisconnected } = useAccount();
+
   // const usdtAddressTest="0x65E2fe35C30eC218b46266F89847c63c2eDa7Dc7";
   
   const { connect, connectors, error, isLoading, pendingConnector } =
-    useConnect()
+    useConnect({
+       chainId: process.env.NEXT_PUBLIC_NODE_ENV=='mainnet'? polygon.id:polygonMumbai.id,
+    })
     const chainId = 11155111;
   console.log("dd", address)
-  const [currentAccount, setCurrentAccount] = useState("")
-  const { chain, chains } = useNetwork()
-  const [userBalance, setUserBalance] = useState<any>()
-  const [hasBalance, setHasBalance] = useState(false)
-  // const usdtBalance = useContractRead({
-  //   address:`0x${'65e2fe35c30ec218b46266f89847c63c2eda7dc7'}`,
-  //   abi:contr.genericErc20Abi,
-  //   functionName:'balanceOf',
-  //   chainId:goerli.id,
-  //   args:[address],
 
-
-  
-  // })
-
+  const USDC=process.env.NEXT_PUBLIC_NODE_ENV=='mainnet'?process.env.NEXT_PUBLIC_MC_USDC:process.env.NEXT_PUBLIC_TC_USDC
+  const USDT=process.env.NEXT_PUBLIC_NODE_ENV=='mainnet'?process.env.NEXT_PUBLIC_MC_USDT:process.env.NEXT_PUBLIC_TC_USDT
   const usdtBalance=  useBalance({
     address: address,
-    token:`0x${'E8B3075aDdcFa5fC46b42837d85c4fdcB8786041'}`,
-    chainId:sepolia.id
+    token:`0x${USDT}`,
+    chainId :process.env.NEXT_PUBLIC_NODE_ENV=='mainnet'?polygon.id: polygonMumbai.id
    
-
+  
   })
   const usdcBalance=  useBalance({
     address: address,
-    token:`0x${'E8B3075aDdcFa5fC46b42837d85c4fdcB8786041'}`,
-    chainId:sepolia.id
+    token:`0x${USDC}`,
+    chainId :process.env.NEXT_PUBLIC_NODE_ENV=='mainnet'?polygon.id: polygonMumbai.id
    
-
+  
   })
-  const { data: accessTokenBalance } = useContractRead({
-    address: "0x9FD21bE27A2B059a288229361E2fA632D8D2d074",
-    abi: [
-      {
-        inputs: [{ internalType: "address", name: "owner", type: "address" }],
-        name: "balanceOf",
-        outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-        stateMutability: "view",
-        type: "function",
-      },
-    ],
-    functionName: "balanceOf",
-    args: [address],
-  });
 
-  console.log(accessTokenBalance,"balance")
 
   console.log("balances",usdcBalance?.data?.formatted,usdtBalance?.data?.formatted)
 
@@ -96,13 +72,7 @@ export default function Home() {
       setLoading(false);
     }
   },[address])
-  // useEffect(()=>{
-  //   presale()
-  // },[])
-  // useEffect(() => {
-  //   const interval = setInterval(refresh, 200);
-  //   return () => clearInterval(interval);
-  // }, [refresh]);
+
   const tokenContractAddress="0xdAC17F958D2ee523a2206206994597C13D831ec7"
   // console.log((usdtBalance?.data?.value) , Number(usdcBalance?.data?.formatted) ,address)
   useEffect(() => {
@@ -124,86 +94,7 @@ export default function Home() {
 
 
   }, [address,usdtBalance,usdcBalance])
-  // useEffect(() => {
-  //   // const connectWallet=async()=>{
-  //   //   console.log("Address is ",address,";");
-  //   //   if (address) {
-  //   //     // const accounts: string[] = await window.ethereum.request({
-  //   //     //   method: "eth_requestAccounts",
-  //   //     // });
-  //   //     // setCurrentAccount(accounts[0]);
-  //   //     console.log(currentAccount,accounts);
-
-  //   //     let balance=await provider.getBalance(address)
-  //   //     console.log("balance s",balance>50)
-  //   //     if(balance>0.0048){
-  //   //       router.push("/form");
-  //   //     }
-  //   //   }
-  //   // }
-  //   // alert(status)
-  //   // const storedAccount = localStorage.getItem("account");
-  //   const hasVisited = localStorage.getItem("visited");
-  //   const walletConnected = localStorage.getItem("lastUsedConnector");
-  //   localStorage.setItem("transactionCheck", JSON.stringify([]));
-  //   console.log(walletConnected);
-  //   if (walletConnected == "braavos") {
-  //     // disconnect();
-  //     // connect(connectors[0]);
-  //     if (!address) {
-  //       return;
-  //     } else {
-  //       router.replace("/form");
-  //     }
-  //     // dispatch(setTransactionRefresh("reset"));
-  //   } else if (walletConnected == "argentX") {
-  //     // disconnect();
-  //     // connect(connectors[1]);
-  //     if (!address) {
-  //       return;
-  //     } else {
-  //       router.replace("/form");
-  //     }
-  //     // dispatch(setTransactionRefresh("reset"));
-  //   } else {
-  //     // connectWallet();
-  //     return
-  //   }
-  //   if (walletConnected) {
-  //     // connectWallet()
-  //     localStorage.setItem("connected", walletConnected);
-  //   }
-  //   if (!hasVisited) {
-  //     // Set a local storage item to indicate the user has visited
-  //     localStorage.setItem("visited", "true");
-  //   }
-  //   // if (storedAccount) {
-  //   //   router.push('./market')
-  //   // }
-
-
-  // }, [address])
-  // useEffect(() => {
-  //   // const connectWallet=async()=>{
-  //   //   console.log("Address is ",address,";");
-  //   //   if (address) {
-  //   //     // const accounts: string[] = await window.ethereum.request({
-  //   //     //   method: "eth_requestAccounts",
-  //   //     // });
-  //   //     // setCurrentAccount(accounts[0]);
-  //   //     console.log(currentAccount,accounts);
-
-  //   // if (!isWhiteListed) {
-  //   //   router.replace(whitelistHref);
-  //   // } else if (isWaitListed) {
-  //   //   router.replace(waitlistHref);
-  //   // }
-  //   // {
-  //   //   router.replace(marketHref2);
-  //   // }
-
-  //   // console.log("account home", address, status);
-  // }, []);
+ 
   return (
     <Box
       display="flex"
@@ -265,7 +156,7 @@ export default function Home() {
               <Box pr="3" mt="0.5" cursor="pointer">
                 <BlueInfoIcon />
               </Box>
-              Your wallet should have more than $50 as balance in USDT/USDC.
+              Your wallet should have more than 50  USDT/USDC.
               {/* <Box
                                 py="1"
                                 pl="4"
@@ -302,8 +193,7 @@ export default function Home() {
                 <RedinfoIcon/>
               </Box>
               Your wallet doesn’t have sufficient balance
-              connect wallet which has more than $50 
-              as balance.
+              connect wallet which has more than 50 USDT/USDC.
               {/* <Box
                                 py="1"
                                 pl="4"

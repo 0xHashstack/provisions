@@ -38,6 +38,11 @@ jobs:
           echo 'NEXT_PUBLIC_INFURA_WALLETCONNECT=${{secrets.NEXT_PUBLIC_INFURA_WALLETCONNECT}}' >> .env
           echo 'NEXT_PUBLIC_WALLETCONNECT_PROJECTOR=${{secrets.NEXT_PUBLIC_WALLETCONNECT_PROJECTOR}}' >> .env
           echo 'NEXT_PUBLIC_GOOGLE_PRIVATE_KEY=${{secrets.NEXT_PUBLIC_GOOGLE_PRIVATE_KEY}}' >> .env
+          echo 'NEXT_PUBLIC_NODE_ENV=testnet' >> .env
+          echo 'NEXT_PUBLIC_TC_PRESALE=${{secrets.NEXT_PUBLIC_TC_PRESALE}}' >> .env
+          echo 'NEXT_PUBLIC_TC_USDC=${{secrets.NEXT_PUBLIC_TC_USDC}}' >> .env
+          echo 'NEXT_PUBLIC_TC_USDT=${{secrets.NEXT_PUBLIC_TC_USDT}}' >> .env
+
 
       - name: Build
         run: yarn build

@@ -56,18 +56,23 @@ const ContributorsChart = ({
     return (
         <Box border="1px solid #2B2F35" borderRadius="6px" padding="16px 24px 40px" background="rgba(103, 109, 154, 0.10)" maxWidth="1900px">
             <Box
-                ml="8rem"
+                // ml="8rem"
                 pt="4rem"
                 pb="4rem"
                 display="flex"
-                gap="15rem"
+                gap="10rem"
+                flexDirection={'row'}
+                justifyContent='center'
+                
+                
             >
                 <ApexCharts
                     options={splineChartData.options}
                     series={splineChartData.series}
                     type="donut"
-                    height={550}
-                    width={600}
+                    height={450}
+                    width={500}
+                    
                 />
                 <Box display="flex" flexDirection="column">
                     <Text color="white" mb="2rem">
