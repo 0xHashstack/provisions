@@ -87,6 +87,9 @@ useEffect(() => {
           setTokenContr(USDC)
 
         }
+        else{
+          router.push("/registrations")
+        }
        
        
       }
