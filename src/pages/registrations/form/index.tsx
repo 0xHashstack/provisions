@@ -102,10 +102,10 @@ useEffect(()=>{
         {/* <DetailsForm/> */}
       </HStack>
    
-        <Text color="white" mt="3rem" mb="2rem">
+        {/* <Text color="white" mt="3rem" mb="2rem">
           Tokenomics
         </Text>
-        <ContributorsChart/>
+        <ContributorsChart/> */}
 
         
         </Box>}
