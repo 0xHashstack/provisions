@@ -209,6 +209,7 @@ const DetailsForm = ({ handler }: any) => {
       ? polygon.id
       : polygonMumbai.id,
   });
+  const [declined, setDeclined] = useState(false);
   const { isLoading:approveLoading, isSuccess:approveSuccess } = useWaitForTransaction({
     hash: data?.hash,
   })
@@ -257,6 +258,8 @@ useEffect(()=>{
           commit: Commit,
           bookamt: BookAmt,
           hasInvestor: checked,
+          starknet_address:starknetWallet?starknetWallet:'nil',
+
         }
       )
       .then((response) => {
@@ -274,6 +277,8 @@ useEffect(()=>{
           wallet: address,
           discord: discord,
           twitter: Twitter,
+     
+
           commit: Commit,
           bookamt: BookAmt,
           hasInvestor: checked,
@@ -281,6 +286,7 @@ useEffect(()=>{
           Fundcommit: investorcommit,
           decisiontime: DecisionTime,
           url: url,
+          starknet_address:starknetWallet?starknetWallet:'nil',
         }
       )
       .then((response) => {
@@ -325,45 +331,52 @@ const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoadi
       setTxloading(false);
     }
   }, [callSuccess]);
-  useEffect(() => {
-    if (trigger && isSuccess && data?.hash) {
-      console.log(data?.hash);
-      setTimeout(async () => {
-        try {
-          await writeCall();
-
-          // setTxloading(false);
-        } catch (err) {
-          console.log("Error in writeCall:", err);
-          // Handle the error here, you can set some state or perform other actions
-        }
-      }, 5000);
-      setTrigger(false);
-      setTimeout(() => {
-        setTxloading(false);
-      }, 10000);
-    }
-  }, [trigger, isSuccess]);
   // useEffect(() => {
+  //   if (trigger && isSuccess && data?.hash) {
+  //     console.log(data?.hash);
+  //     setTimeout(async () => {
+  //       try {
+  //         await writeCall();
 
-  //   const performPrebook =async()=>{
-  //     console.log(txLoading,txStatus)
-  //     if ((approveSuccess || !approveLoading) && txStatus===false && !txLoading) {
+  //         // setTxloading(false);
+  //       } catch (err) {
+  //         console.log("Error in writeCall:", err);
+  //         // Handle the error here, you can set some state or perform other actions
+  //       }
+  //     }, 5000);
+  //     setTrigger(false);
+  //     setTimeout(() => {
+  //       setTxloading(false);
+  //     }, 10000);
+  //   }
+  // }, [trigger, isSuccess]);
+  useEffect(() => {
+    const performPrebook =async()=>{
+      console.log((approveSuccess)  && !txLoading)
+      if ((approveSuccess)  && !txLoading) {
 
-      
-  //       await writeCall();
+      console.log("inside")
+      try{
+        await writeCall();
 
-  //       // setTxloading(false);
+      }
+      catch(err){
+        console.log(err);
+        setDeclined(true);
+        setTxloading(false);
+      }
+
+        // setTxloading(false);
     
 
 
    
-  // }}
-  // if ((approveSuccess || !approveLoading) && txStatus===false && !txLoading) {
-  // performPrebook();
-  // }
+  }}
+  if ((approveSuccess || !approveLoading) && txStatus===false && !txLoading && !declined) {
+  performPrebook();
+  }
    
-  // }, [approveSuccess,approveLoading]);
+  }, [approveSuccess]);
 
   useEffect(() => {
     setTrigger(true);
@@ -373,6 +386,8 @@ const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoadi
   }, [isError]);
 
   const handleSubmit = async () => {
+    setDeclined(false);
+
     try {
       setTxloading(true);
    
@@ -420,6 +435,8 @@ const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoadi
 
   const handleInvestorSubmit = async () => {
     setTxloading(true);
+    setDeclined(false);
+
 
     try {
     
