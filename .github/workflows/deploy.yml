@@ -23,10 +23,10 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-southeast-1
-      - name: Use Node.js 16.14.0
+      - name: Use Node.js 18.17.0
         uses: actions/setup-node@v1
         with:
-          node-version: 16.14.0
+          node-version: 18.17.0
       - name: "Setup .env"
         run: |
           touch .env
@@ -36,7 +36,7 @@ jobs:
           echo 'NEXT_PUBLIC_WALLETCONNECT_PROJECTOR=${{secrets.NEXT_PUBLIC_WALLETCONNECT_PROJECTOR}}' >> .env
           echo 'NEXT_PUBLIC_GOOGLE_PRIVATE_KEY=${{secrets.NEXT_PUBLIC_GOOGLE_PRIVATE_KEY}}' >> .env
           echo 'NEXT_PUBLIC_NODE_ENV=mainnet' >> .env
-          echo 'NEXT_PUBLIC_TC_PRESALE=0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359' >> .env
+          echo 'NEXT_PUBLIC_TC_PRESALE=0xcD1946053a091C49e0365a968C2E34b22C00D0Fb' >> .env
           echo 'NEXT_PUBLIC_TC_USDC=0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359' >> .env
           echo 'NEXT_PUBLIC_TC_USDT=0xc2132D05D31c914a87C6611C10748AEb04B58e8F' >> .env
           
