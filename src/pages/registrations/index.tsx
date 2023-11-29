@@ -104,11 +104,9 @@ export default function Home() {
       const connectWallet = async () => {
         if (address) {
   // console.log((usdtBalance?.data?.value) , Number(usdcBalance?.data?.formatted) ,address)
-  console.log(polygon.id,polygonMumbai.id,connector?.chains)
 
-          if ((Number(usdtBalance?.data?.formatted) >  50 || Number(usdcBalance?.data?.formatted) > 50 ) &&((process.env.NEXT_PUBLIC_NODE_ENV=='mainnet' &&connector?.chains[0].id==polygon.id) ||connector?.chains[0].id==polygonMumbai.id ) ) {
+          if (((process.env.NEXT_PUBLIC_NODE_ENV=='mainnet' &&connector?.chains[0].id==polygon.id) ||connector?.chains[0].id==polygonMumbai.id ) ) {
             router.push("/registrations/form");
-            console.log(polygon.id,polygonMumbai.id,connector?.chains)
           }
         }
       }

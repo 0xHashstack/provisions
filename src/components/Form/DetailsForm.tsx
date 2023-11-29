@@ -50,6 +50,7 @@ import ConnectStarknetWalletModal from "../modals/ConnectWalletModal";
 import DollarIcon from "@/assets/dollarIcon";
 import TickCompleteIcon from "@/assets/tickIcon";
 import Link from "next/link";
+import RedinfoIcon from "@/assets/redinfoIcon";
 
 const DetailsForm = ({ handler }: any) => {
   const { address, isConnecting, isDisconnected } = useAccount();
@@ -114,6 +115,7 @@ const DetailsForm = ({ handler }: any) => {
         ? polygon.id
         : polygonMumbai.id,
   });
+  console.log((Number(usdcBalance?.data?.formatted)),"usdcbalance")
   // useEffect(()=>{
   //   if(!isNaN(Number(usdtBalance?.data?.formatted))  &&!isNaN(Number(usdcBalance?.data?.formatted)) &&Number(usdtBalance?.data?.formatted) <  50  && (Number(usdcBalance?.data?.formatted) <  50 )){
   //     console.log(address,Number(usdcBalance?.data?.formatted) )
@@ -144,9 +146,7 @@ const DetailsForm = ({ handler }: any) => {
             setTokenContr(USDC);
             setTokenName('USDC');
 
-          } else {
-            router.push("/registrations");
-          }
+          } 
         }
       };
       if (
@@ -467,13 +467,13 @@ const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoadi
           <Box w="80%" display="flex" flexDirection="column" gap="1" mt="0">
             <Box display="flex">
               <Text
-                color=" var(--neutral, #676D9A)"
+                color="var(--neutral,#676D9A)"
                 fontFamily="Inter"
-                font-size=" 12px"
-                font-style=" normal"
-                font-weight=" 400"
-                line-height=" 12px" /* 100% */
-                letter-spacing=" -0.15px"
+                font-size="12px"
+                font-style="normal"
+                font-weight="400"
+                line-height="12px" /* 100% */
+                letter-spacing="-0.15px"
               >
                 Polygon Wallet Address
               </Text>
@@ -484,8 +484,8 @@ const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoadi
               borderRadius="6px"
               display="flex"
               justifyContent="space-between"
-              border="1px solid #676D9A"
-              background=" var(--surface-of-10, rgba(103, 109, 154, 0.10))"
+              border="1px solid var(--stroke-of-30, rgba(103, 109, 154, 0.30))"
+              background=" var(--surface-of-10, rgba(103, 109, 154, 0.04))"
               color="rgba(240, 240, 245, 0.50)"
               fontFamily="Inter"
               fontSize=" 14px"
@@ -543,12 +543,12 @@ const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoadi
             >
               <Box
                 cursor={"pointer"}
-                width="70%"
+                width="100%"
                 borderRadius="6px"
                 display="flex"
                 justifyContent="space-between"
-                border="1px solid #676D9A"
-                background=" var(--surface-of-10, rgba(103, 109, 154, 0.10))"
+                border="1px solid var(--stroke-of-30, rgba(103, 109, 154, 0.30))"
+                background=" var(--surface-of-10, rgba(103, 109, 154, 0.04))"
                 color="rgba(240, 240, 245, 0.50)"
                 fontFamily=" Inter"
                 fontSize=" 14px"
@@ -605,8 +605,8 @@ const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoadi
               borderRadius="6px"
               display="flex"
               justifyContent="space-between"
-              border="1px solid #676D9A"
-              background=" var(--surface-of-10, rgba(103, 109, 154, 0.10))"
+              border="1px solid var(--stroke-of-30, rgba(103, 109, 154, 0.30))"
+              background=" var(--surface-of-10, rgba(103, 109, 154, 0.04))"
               color="rgba(240, 240, 245, 0.50)"
               fontFamily=" Inter"
               fontSize=" 14px"
@@ -658,8 +658,8 @@ const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoadi
               borderRadius="6px"
               display="flex"
               justifyContent="space-between"
-              border="1px solid #676D9A"
-              background=" var(--surface-of-10, rgba(103, 109, 154, 0.10))"
+              border="1px solid var(--stroke-of-30, rgba(103, 109, 154, 0.30))"
+              background=" var(--surface-of-10, rgba(103, 109, 154, 0.04))"
               color="rgba(240, 240, 245, 0.50)"
               fontFamily=" Inter"
               fontSize=" 14px"
@@ -732,9 +732,9 @@ const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoadi
               border={
                 (Commit > 0 ? Commit < 500 || Commit > 2500 : false)
                   ? "1px solid #CF222E"
-                  : "1px solid #676D9A"
+                  : "1px solid var(--stroke-of-30, rgba(103, 109, 154, 0.30));"
               }
-              background=" var(--surface-of-10, rgba(103, 109, 154, 0.10))"
+              background=" var(--surface-of-10, rgba(103, 109, 154, 0.04))"
               color="rgba(240, 240, 245, 0.50)"
               fontFamily=" Inter"
               fontSize=" 14px"
@@ -759,6 +759,7 @@ const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoadi
                   lineHeight: "20px",
                   letterSpacing: "-0.15px",
                 }}
+                bg="var(--surface-of-10, rgba(103, 109, 154, 0.10))"
                 border="0px"
                 outline="none"
                 type="number"
@@ -810,9 +811,11 @@ const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoadi
               border={
                 BookAmt < 50 && BookAmt != 0
                   ? "1px solid #CF222E"
-                  : "1px solid #676D9A"
+                  : BookAmt==0 ? "1px solid var(--stroke-of-30, rgba(103, 109, 154, 0.30))"
+                  : (Number(usdtBalance?.data?.formatted) < 50 || Number(usdcBalance?.data?.formatted) < 50) ? "1px solid #CF222E"
+                  : "1px solid var(--stroke-of-30, rgba(103, 109, 154, 0.30))"
               }
-              background=" var(--surface-of-10, rgba(103, 109, 154, 0.10))"
+              background=" var(--surface-of-10, rgba(103, 109, 154, 0.04))"
               color="rgba(240, 240, 245, 0.50)"
               fontFamily=" Inter"
               fontSize=" 14px"
@@ -844,8 +847,6 @@ const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoadi
               ></Input>
             </Box>
           </Box>
-
-
 
           <Checkbox
             isChecked={checked}
@@ -904,8 +905,8 @@ const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoadi
                   borderRadius="6px"
                   display="flex"
                   justifyContent="space-between"
-                  border="1px solid #676D9A"
-                  background=" var(--surface-of-10, rgba(103, 109, 154, 0.10))"
+                  border="1px solid var(--stroke-of-30, rgba(103, 109, 154, 0.30));"
+                  background=" var(--surface-of-10, rgba(103, 109, 154, 0.04))"
                   color="rgba(240, 240, 245, 0.50)"
                   fontFamily=" Inter"
                   fontSize=" 14px"
@@ -976,8 +977,8 @@ const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoadi
                   borderRadius="6px"
                   display="flex"
                   justifyContent="space-between"
-                  border="1px solid #676D9A"
-                  background=" var(--surface-of-10, rgba(103, 109, 154, 0.10))"
+                  border="1px solid var(--stroke-of-30, rgba(103, 109, 154, 0.30));"
+                  background=" var(--surface-of-10, rgba(103, 109, 154, 0.04))"
                   color="rgba(240, 240, 245, 0.50)"
                   fontFamily=" Inter"
                   fontSize=" 14px"
@@ -1003,7 +1004,7 @@ const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoadi
                       fontSize: "14px",
                       fontStyle: "normal",
                       fontWeight: "500",
-                      lineHeight: "20px",
+                      lineHeight: "20px" /* 142.857% */,
                       letterSpacing: "-0.15px",
                     }}
                   ></Input>
@@ -1048,8 +1049,8 @@ const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoadi
                   borderRadius="6px"
                   display="flex"
                   justifyContent="space-between"
-                  border="1px solid #676D9A"
-                  background=" var(--surface-of-10, rgba(103, 109, 154, 0.10))"
+                  border="1px solid var(--stroke-of-30, rgba(103, 109, 154, 0.30));"
+                  background=" var(--surface-of-10, rgba(103, 109, 154, 0.04))"
                   color="rgba(240, 240, 245, 0.50)"
                   fontFamily=" Inter"
                   fontSize=" 14px"
@@ -1081,7 +1082,7 @@ const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoadi
                   ></Input>
                 </Box>
               </Box>
-              <Box w="80%" display="flex" flexDirection="column" gap="1" mt="0">
+              <Box w="80%" display="flex" flexDirection="column" gap="1" mt="0" mb="4">
                 <Box display="flex">
                   <Text
                     color=" var(--neutral, #676D9A)"
@@ -1120,8 +1121,8 @@ const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoadi
                   borderRadius="6px"
                   display="flex"
                   justifyContent="space-between"
-                  border="1px solid #676D9A"
-                  background=" var(--surface-of-10, rgba(103, 109, 154, 0.10))"
+                  border="1px solid var(--stroke-of-30, rgba(103, 109, 154, 0.30));"
+                  background=" var(--surface-of-10, rgba(103, 109, 154, 0.04))"
                   color="rgba(240, 240, 245, 0.50)"
                   fontFamily=" Inter"
                   fontSize=" 14px"
@@ -1155,6 +1156,44 @@ const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoadi
               </Box>
             </Box>
           )}
+          {!(Number(usdtBalance?.data?.formatted) > 50 || Number(usdcBalance?.data?.formatted) > 50)} && <Box
+            // display="flex"
+            // justifyContent="left"
+            w="80%"
+            // pb="4"
+            height="64px"
+            display="flex"
+            alignItems="center"
+            mb="1rem"
+          >
+            <Box
+              display="flex"
+              bg="#480C10"
+              color="#F0F0F5"
+              fontSize="14px"
+              p="4"
+              border="1px solid #9B1A23"
+              fontStyle="normal"
+              fontWeight="400"
+              lineHeight="18px"
+              borderRadius="6px"
+            // textAlign="center"
+            >
+              <Box pr="3" mt="0.5" cursor="pointer">
+                <RedinfoIcon/>
+              </Box>
+              Your wallet doesn’t have sufficient balance
+              connect wallet which has more than $50 USDT/USDC as balance.
+              {/* <Box
+                                py="1"
+                                pl="4"
+                                cursor="pointer"
+                                // onClick={handleClick}
+                              >
+                                <TableClose />
+                              </Box> */}
+            </Box>
+          </Box>
           <Button
             
             display=" flex"
@@ -1167,7 +1206,7 @@ const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoadi
             gap=" 8px"
             borderRadius=" 6px"
             border=" 1px solid var(--stroke-of-30, rgba(103, 109, 154, 0.30))"
-            background=" #0969DA"
+            background="#4D59E8"
             color="white"
             isLoading={txLoading || approveLoading || txloading}
             _hover={{ background: "white ", color: "black" }}
@@ -1196,7 +1235,7 @@ const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoadi
                     Twitter != "" &&
                     Commit >= 500 &&
                     Commit <= 2500 &&
-                    BookAmt >= 50
+                    BookAmt >= 50 && !(Number(usdtBalance?.data?.formatted) < 50 || Number(usdcBalance?.data?.formatted) < 50)
                   )
                 : !(
                     discord != "" &&

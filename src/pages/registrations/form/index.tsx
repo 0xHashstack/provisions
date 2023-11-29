@@ -67,8 +67,8 @@ useEffect(()=>{
       />  </Stack> </Box>}
        {render && <Box
         background={`
-                radial-gradient(circle 1800px at top left, rgba(115, 49, 234, 0.15), transparent) top left,
-                radial-gradient(circle 1300px at bottom right, rgba(115, 49, 234, 0.15), transparent) bottom right,
+                radial-gradient(circle 2000px at top left, rgba(115, 49, 234, 0.15), transparent) top left,
+                radial-gradient(circle 1400px at bottom right, rgba(115, 49, 234, 0.15), transparent) bottom right,
                 black
               `}
         color="white"
@@ -87,8 +87,8 @@ useEffect(()=>{
  
         <Text  borderBottom={'thick'}
          color="white" mb="4rem" width={'15%'} display='flex' flexDirection={'row'} justifyContent='begin' >
-                   <Box borderBottomWidth={'thick'} borderBottomColor={'#4D59E8'} p='2'   >
-          Presale Interest form </Box>
+                   <Box borderBottomWidth={"medium"} borderBottomColor={'#4D59E8'} p='2'   >
+          Pre-sale Interest form </Box>
         </Text>
        
         {/* <ContributorsChart/> */}
