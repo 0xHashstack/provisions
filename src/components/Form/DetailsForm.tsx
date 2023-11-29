@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import InfoIcon from "@/assets/infoIcon";
 import { Inter } from "next/font/google";
-
+import contr from '../../abi/ERC20.json'
 import {
   Button,
   Tooltip,
@@ -27,6 +27,7 @@ import {
   erc20ABI,
   useAccount,
   useBalance,
+  useContractInfiniteReads,
   useContractRead,
   useContractWrite,
   useDisconnect,
@@ -41,7 +42,7 @@ import {
   optimism,
   polygonMumbai,
 } from "@wagmi/core/chains";
-import { parseUnits } from "viem";
+import { formatUnits, parseUnits } from "viem";
 import { number } from "starknet";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
@@ -208,6 +209,7 @@ const DetailsForm = ({ handler }: any) => {
       ? polygon.id
       : polygonMumbai.id,
   });
+  const [declined, setDeclined] = useState(false);
   const { isLoading:approveLoading, isSuccess:approveSuccess } = useWaitForTransaction({
     hash: data?.hash,
   })
@@ -245,11 +247,69 @@ const DetailsForm = ({ handler }: any) => {
   // if()
 useEffect(()=>{
   if(txSuccess && !txLoading){
+    if(!checked){
+      axios
+      .post(
+        "https://b1ibz9x1s9.execute-api.ap-southeast-1.amazonaws.com/api/presale/unchecked",
+        {
+          wallet: address,
+          discord: discord,
+          twitter: Twitter,
+          commit: Commit,
+          bookamt: BookAmt,
+          hasInvestor: checked,
+          starknet_address:starknetWallet?starknetWallet:'nil',
+
+        }
+      )
+      .then((response) => {
+        console.log(response, "linked"); // Log the response from the backend.
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+    }
+    else{
+      axios
+      .post(
+        "https://b1ibz9x1s9.execute-api.ap-southeast-1.amazonaws.com/api/presale/checked",
+        {
+          wallet: address,
+          discord: discord,
+          twitter: Twitter,
+     
+
+          commit: Commit,
+          bookamt: BookAmt,
+          hasInvestor: checked,
+          fundname: FundName,
+          Fundcommit: investorcommit,
+          decisiontime: DecisionTime,
+          url: url,
+          starknet_address:starknetWallet?starknetWallet:'nil',
+        }
+      )
+      .then((response) => {
+        console.log(response, "linked"); // Log the response from the backend.
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+    }
     settxStatus(true);
     setTxloading(false);
   }
 
 },[txSuccess]);
+
+const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoading } = useContractRead({
+  address: `0x${tokenContr}`,
+  abi: contr.genericErc20Abi,
+  functionName: 'allowance',
+  args:[wallet, `0x${PRESALE_CONTR}`]
+})
+// console.log(formatUnits(allowanceData,6));
+
  
   useEffect(() => {
     setPrebookSucceeded(dataPreebooked == true);
@@ -271,45 +331,52 @@ useEffect(()=>{
       setTxloading(false);
     }
   }, [callSuccess]);
-  useEffect(() => {
-    if (trigger && isSuccess && data?.hash) {
-      console.log(data?.hash);
-      setTimeout(async () => {
-        try {
-          await writeCall();
-
-          // setTxloading(false);
-        } catch (err) {
-          console.log("Error in writeCall:", err);
-          // Handle the error here, you can set some state or perform other actions
-        }
-      }, 5000);
-      setTrigger(false);
-      setTimeout(() => {
-        setTxloading(false);
-      }, 10000);
-    }
-  }, [trigger, isSuccess]);
   // useEffect(() => {
+  //   if (trigger && isSuccess && data?.hash) {
+  //     console.log(data?.hash);
+  //     setTimeout(async () => {
+  //       try {
+  //         await writeCall();
 
-  //   const performPrebook =async()=>{
-  //     console.log(txLoading,txStatus)
-  //     if ((approveSuccess || !approveLoading) && txStatus===false && !txLoading) {
+  //         // setTxloading(false);
+  //       } catch (err) {
+  //         console.log("Error in writeCall:", err);
+  //         // Handle the error here, you can set some state or perform other actions
+  //       }
+  //     }, 5000);
+  //     setTrigger(false);
+  //     setTimeout(() => {
+  //       setTxloading(false);
+  //     }, 10000);
+  //   }
+  // }, [trigger, isSuccess]);
+  useEffect(() => {
+    const performPrebook =async()=>{
+      console.log((approveSuccess)  && !txLoading)
+      if ((approveSuccess)  && !txLoading) {
 
-      
-  //       await writeCall();
+      console.log("inside")
+      try{
+        await writeCall();
 
-  //       // setTxloading(false);
+      }
+      catch(err){
+        console.log(err);
+        setDeclined(true);
+        setTxloading(false);
+      }
+
+        // setTxloading(false);
     
 
 
    
-  // }}
-  // if ((approveSuccess || !approveLoading) && txStatus===false && !txLoading) {
-  // performPrebook();
-  // }
+  }}
+  if ((approveSuccess || !approveLoading) && txStatus===false && !txLoading && !declined) {
+  performPrebook();
+  }
    
-  // }, [approveSuccess,approveLoading]);
+  }, [approveSuccess]);
 
   useEffect(() => {
     setTrigger(true);
@@ -319,27 +386,20 @@ useEffect(()=>{
   }, [isError]);
 
   const handleSubmit = async () => {
+    setDeclined(false);
+
     try {
       setTxloading(true);
-      axios
-        .post(
-          "https://b1ibz9x1s9.execute-api.ap-southeast-1.amazonaws.com/api/presale/unchecked",
-          {
-            wallet: address,
-            discord: discord,
-            twitter: Twitter,
-            commit: Commit,
-            bookamt: BookAmt,
-            hasInvestor: checked,
-          }
-        )
-        .then((response) => {
-          console.log(response, "linked"); // Log the response from the backend.
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
-      await writeApproval();
+   
+        console.log(Number(formatUnits(allowanceData,6)),Number(BookAmt) );
+        if(Number(formatUnits(allowanceData,6)) >= Number(BookAmt) ){
+          await writeCall();
+
+
+        }
+        else{
+          await writeApproval()
+        }
       // await writeCall();
     } catch (err) {
       console.log(err);
@@ -375,31 +435,19 @@ useEffect(()=>{
 
   const handleInvestorSubmit = async () => {
     setTxloading(true);
+    setDeclined(false);
+
 
     try {
-      axios
-        .post(
-          "https://b1ibz9x1s9.execute-api.ap-southeast-1.amazonaws.com/api/presale/checked",
-          {
-            wallet: address,
-            discord: discord,
-            twitter: Twitter,
-            commit: Commit,
-            bookamt: BookAmt,
-            hasInvestor: checked,
-            fundname: FundName,
-            Fundcommit: investorcommit,
-            decisiontime: DecisionTime,
-            url: url,
-          }
-        )
-        .then((response) => {
-          console.log(response, "linked"); // Log the response from the backend.
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
-      await writeApproval();
+    
+        if(Number(formatUnits(allowanceData,6)) >= Number(BookAmt) ){
+          await writeCall();
+
+
+        }
+        else{
+          await writeApproval()
+        }
     } catch (err) {
       console.log(err);
       setFormSubmitted(false);
@@ -592,14 +640,7 @@ useEffect(()=>{
           </Box>
           <Box w="80%" display="flex" flexDirection="column" gap="1" mt="0">
             <Box display="flex">
-              {/* <Text color= "#676D9A"
-
-fontFamily=" Inter"
-fontSize=" 12px"
-fontStyle=" normal"
-fontWeight=" 400"
-lineHeight=" 12px" 
-letterSpacing="-0.15px" >   */}
+              
               <Text
                 color=" var(--neutral, #676D9A)"
                 font-family=" Inter"
@@ -803,6 +844,8 @@ letterSpacing="-0.15px" >   */}
               ></Input>
             </Box>
           </Box>
+
+
 
           <Checkbox
             isChecked={checked}
@@ -1113,6 +1156,7 @@ letterSpacing="-0.15px" >   */}
             </Box>
           )}
           <Button
+            
             display=" flex"
             mt="2rem"
             width="80%"
@@ -1170,7 +1214,7 @@ letterSpacing="-0.15px" >   */}
             Submit
           </Button>
         </VStack>
-      ) : (
+      ) : ( 
         <HStack
           w="80%"
           h="100%"
