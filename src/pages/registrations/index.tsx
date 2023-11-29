@@ -220,7 +220,7 @@ export default function Home() {
                 <RedinfoIcon/>
               </Box>
               Your wallet doesn’t have sufficient balance
-              connect wallet which has more than 50 USDT/USDC.
+              connect wallet which has more than $50 USDT/USDC.
               {/* <Box
                                 py="1"
                                 pl="4"

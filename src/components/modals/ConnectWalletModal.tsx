@@ -58,7 +58,7 @@ useEffect(()=>{
 },[address])
     return(
         <Box>
-          {!address ?  <Button variant='ghost' _hover={{color:'white'}}  background="transparent"  color={'white'} onClick={onOpen}>Connect</Button>:<Button variant='ghost'  background="transparent"  color={'white'} onClick={disconnect}>Disconnect</Button>}
+          {!address ?  <Button variant='ghost' _hover={{background:'transparent'}}  background="transparent"  color={'white'} onClick={onOpen}>Connect</Button>:<Button variant='ghost' _hover={{background:'transparent'}}   background="transparent"  color={'white'} onClick={disconnect}>Disconnect</Button>}
         <Modal
         isOpen={isOpen}
         onClose={() => {

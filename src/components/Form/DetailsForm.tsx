@@ -302,7 +302,7 @@ const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoadi
   functionName: 'allowance',
   args:[wallet, `0x${PRESALE_CONTR}`]
 })
-console.log(formatUnits(allowanceData,6));
+// console.log(formatUnits(allowanceData,6));
 
  
   useEffect(() => {
@@ -1197,7 +1197,7 @@ console.log(formatUnits(allowanceData,6));
             Submit
           </Button>
         </VStack>
-      ) : (
+      ) : ( 
         <HStack
           w="80%"
           h="100%"
