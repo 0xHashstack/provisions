@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { Inter } from 'next/font/google'
 import { fetchBalance } from '@wagmi/core'
 import { Box, Text, Card, Skeleton, Button } from '@chakra-ui/react'
+import contr from '../../abi/ERC20.json'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { useConnectors } from '@starknet-react/core'
@@ -49,9 +50,31 @@ export default function Home() {
    
   
   })
+  // const usdtBalance=  useContractRead({
+  //   args: ['0x6426114c0C3531D90Ed8B9f7c09A0dc115F4aaee'],
+  //   address:`0x${USDT}`,
+  //   abi:contr.genericErc20Abi,
+
+  //   functionName:'balanceOf',
+  //   chainId :polygon.id
+   
+  
+  // })
+  // https://polygonscan.com/token/0x3c499c542cef5e3811e1192ce70d8cc03d5c3359
+
+// USDC contract used
+  // const usdcBalance=  useContractRead({
+  //   args: ['0x6426114c0C3531D90Ed8B9f7c09A0dc115F4aaee'],
+  //   address:`0x3c499c542cef5e3811e1192ce70d8cc03d5c3359`,
+  //   functionName:'balanceOf',
+  //   abi:contr.genericErc20Abi,
+  //   chainId :polygon.id
+   
+  
+  // })
 
 
-  console.log("balances",usdcBalance?.data?.formatted,usdtBalance?.data?.formatted)
+  console.log("balances",connector?.chains,USDC,usdcBalance?.data,usdtBalance?.data)
 
 
 
