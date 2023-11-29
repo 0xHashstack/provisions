@@ -143,7 +143,7 @@ const lightTheme = extendTheme({
 
 export default function App({ Component, pageProps }: AppProps) {
   const { chains, publicClient } =   configureChains(
-    [polygonMumbai],
+    [polygon,polygonMumbai],
     [publicProvider()],
   )
   const connectors = [
