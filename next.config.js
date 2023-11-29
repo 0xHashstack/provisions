@@ -7,5 +7,5 @@ module.exports = {
   },
   swcMinify: true,
   output: 'export',
-  // trailingSlash: true,
+  trailingSlash: true,
 }

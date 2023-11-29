@@ -82,6 +82,7 @@ useEffect(()=>{
         flexDirection="column"
         minHeight={"100vh"}
         pt="8rem"
+        pb={isLargerThan1280 ? "7rem" : "0rem"}
       >
  
         <Text  borderBottom={'thick'}

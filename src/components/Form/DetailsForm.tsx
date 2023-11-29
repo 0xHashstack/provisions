@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import InfoIcon from "@/assets/infoIcon";
 import { Inter } from "next/font/google";
-
+import contr from '../../abi/ERC20.json'
 import {
   Button,
   Tooltip,
@@ -27,6 +27,7 @@ import {
   erc20ABI,
   useAccount,
   useBalance,
+  useContractInfiniteReads,
   useContractRead,
   useContractWrite,
   useDisconnect,
@@ -41,7 +42,7 @@ import {
   optimism,
   polygonMumbai,
 } from "@wagmi/core/chains";
-import { parseUnits } from "viem";
+import { formatUnits, parseUnits } from "viem";
 import { number } from "starknet";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
@@ -245,11 +246,64 @@ const DetailsForm = ({ handler }: any) => {
   // if()
 useEffect(()=>{
   if(txSuccess && !txLoading){
+    if(!checked){
+      axios
+      .post(
+        "https://b1ibz9x1s9.execute-api.ap-southeast-1.amazonaws.com/api/presale/unchecked",
+        {
+          wallet: address,
+          discord: discord,
+          twitter: Twitter,
+          commit: Commit,
+          bookamt: BookAmt,
+          hasInvestor: checked,
+        }
+      )
+      .then((response) => {
+        console.log(response, "linked"); // Log the response from the backend.
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+    }
+    else{
+      axios
+      .post(
+        "https://b1ibz9x1s9.execute-api.ap-southeast-1.amazonaws.com/api/presale/checked",
+        {
+          wallet: address,
+          discord: discord,
+          twitter: Twitter,
+          commit: Commit,
+          bookamt: BookAmt,
+          hasInvestor: checked,
+          fundname: FundName,
+          Fundcommit: investorcommit,
+          decisiontime: DecisionTime,
+          url: url,
+        }
+      )
+      .then((response) => {
+        console.log(response, "linked"); // Log the response from the backend.
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+    }
     settxStatus(true);
     setTxloading(false);
   }
 
 },[txSuccess]);
+
+const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoading } = useContractRead({
+  address: `0x${tokenContr}`,
+  abi: contr.genericErc20Abi,
+  functionName: 'allowance',
+  args:[wallet, `0x${PRESALE_CONTR}`]
+})
+console.log(formatUnits(allowanceData,6));
+
  
   useEffect(() => {
     setPrebookSucceeded(dataPreebooked == true);
@@ -321,25 +375,16 @@ useEffect(()=>{
   const handleSubmit = async () => {
     try {
       setTxloading(true);
-      axios
-        .post(
-          "https://b1ibz9x1s9.execute-api.ap-southeast-1.amazonaws.com/api/presale/unchecked",
-          {
-            wallet: address,
-            discord: discord,
-            twitter: Twitter,
-            commit: Commit,
-            bookamt: BookAmt,
-            hasInvestor: checked,
-          }
-        )
-        .then((response) => {
-          console.log(response, "linked"); // Log the response from the backend.
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
-      await writeApproval();
+   
+        console.log(Number(formatUnits(allowanceData,6)),Number(BookAmt) );
+        if(Number(formatUnits(allowanceData,6)) >= Number(BookAmt) ){
+          await writeCall();
+
+
+        }
+        else{
+          await writeApproval()
+        }
       // await writeCall();
     } catch (err) {
       console.log(err);
@@ -377,29 +422,15 @@ useEffect(()=>{
     setTxloading(true);
 
     try {
-      axios
-        .post(
-          "https://b1ibz9x1s9.execute-api.ap-southeast-1.amazonaws.com/api/presale/checked",
-          {
-            wallet: address,
-            discord: discord,
-            twitter: Twitter,
-            commit: Commit,
-            bookamt: BookAmt,
-            hasInvestor: checked,
-            fundname: FundName,
-            Fundcommit: investorcommit,
-            decisiontime: DecisionTime,
-            url: url,
-          }
-        )
-        .then((response) => {
-          console.log(response, "linked"); // Log the response from the backend.
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
-      await writeApproval();
+    
+        if(Number(formatUnits(allowanceData,6)) >= Number(BookAmt) ){
+          await writeCall();
+
+
+        }
+        else{
+          await writeApproval()
+        }
     } catch (err) {
       console.log(err);
       setFormSubmitted(false);
@@ -592,14 +623,7 @@ useEffect(()=>{
           </Box>
           <Box w="80%" display="flex" flexDirection="column" gap="1" mt="0">
             <Box display="flex">
-              {/* <Text color= "#676D9A"
-
-fontFamily=" Inter"
-fontSize=" 12px"
-fontStyle=" normal"
-fontWeight=" 400"
-lineHeight=" 12px" 
-letterSpacing="-0.15px" >   */}
+              
               <Text
                 color=" var(--neutral, #676D9A)"
                 font-family=" Inter"
@@ -803,6 +827,8 @@ letterSpacing="-0.15px" >   */}
               ></Input>
             </Box>
           </Box>
+
+
 
           <Checkbox
             isChecked={checked}
@@ -1113,6 +1139,7 @@ letterSpacing="-0.15px" >   */}
             </Box>
           )}
           <Button
+            
             display=" flex"
             mt="2rem"
             width="80%"

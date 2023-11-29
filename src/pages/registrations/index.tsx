@@ -183,7 +183,7 @@ export default function Home() {
               <Box pr="3" mt="0.5" cursor="pointer">
                 <BlueInfoIcon />
               </Box>
-              Your wallet should have more than 50  USDT/USDC.
+              Your wallet should have more than $50 USDT/USDC as balance.
               {/* <Box
                                 py="1"
                                 pl="4"
