@@ -9,8 +9,17 @@ import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
 import { useState } from "react";
+// import starknet
+import {
+  
+  InjectedConnector as StarknetInjector,
+  // StarknetProviderProps,
+} from "@starknet-react/core";
+import { StarknetProviderProps } from "@starknet-react/core";
+
 import { InjectedConnector } from '@wagmi/core/connectors/injected'
 import { mainnet, sepolia,goerli, polygon, optimism, polygonMumbai } from '@wagmi/core/chains'
+import { StarknetProvider } from "@starknet-react/core/dist/providers";
 // const chainsAllowedTestnet= [polygon];
 let chainT=[polygonMumbai];
 let chainM=[polygon]
@@ -137,6 +146,10 @@ export default function App({ Component, pageProps }: AppProps) {
     [polygonMumbai],
     [publicProvider()],
   )
+  const connectors = [
+    new StarknetInjector({ options: { id: "braavos" } }),
+    new StarknetInjector({ options: { id: "argentX" } }),
+  ];
   const projectId=process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECTOR || "";
   const infuraId=process.env.NEXT_PUBLIC_INFURA_WALLETCONNECT || "";
   const config = createConfig(
@@ -193,14 +206,22 @@ export default function App({ Component, pageProps }: AppProps) {
           name="description"
           content="Hashstack provides a permissionless zk-native money market protocol enabling secure under-collateralised loans to the crypto retail. Built on Starknet L2 [announcement], Hashstack leverages the capability of zero-knowledge proofs to provide a cost & capital-efficient lending solution."
         />
+        
         <link rel="shortcut icon" href="/favicon-32x32.png" />
       </Head>
+      
       <ChakraProvider theme={theme}>
+      <StarknetProvider autoConnect={true} connectors={connectors}>
+
           <WagmiConfig config={config}>
             <ConnectKitProvider>
+
               <Component {...pageProps} />
+
             </ConnectKitProvider>
           </WagmiConfig>
+          </StarknetProvider>
+
       </ChakraProvider>
     </>
   );
