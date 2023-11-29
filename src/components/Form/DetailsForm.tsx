@@ -391,8 +391,8 @@ const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoadi
     try {
       setTxloading(true);
    
-        console.log(Number(formatUnits(allowanceData,6)),Number(BookAmt) );
-        if(Number(formatUnits(allowanceData,6)) >= Number(BookAmt) ){
+        // console.log(Number(formatUnits(allowanceData,6)),Number(BookAmt) );
+        if(typeof allowanceData === 'bigint' && allowanceData && Number(formatUnits(allowanceData,6)) >= Number(BookAmt) ){
           await writeCall();
 
 
@@ -440,7 +440,7 @@ const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoadi
 
     try {
     
-        if(Number(formatUnits(allowanceData,6)) >= Number(BookAmt) ){
+        if(typeof allowanceData === 'bigint' && Number(formatUnits(allowanceData,6)) >= Number(BookAmt) ){
           await writeCall();
 
 
