@@ -203,7 +203,10 @@ const DetailsForm = ({ handler }: any) => {
     abi: erc20ABI,
     functionName: "approve",
     args: [`0x${PRESALE_CONTR}`, BigInt(BookAmt * 1000000)],
-    chainId: polygonMumbai.id,
+    chainId:
+    process.env.NEXT_PUBLIC_NODE_ENV == "mainnet"
+      ? polygon.id
+      : polygonMumbai.id,
   });
   const { isLoading:approveLoading, isSuccess:approveSuccess } = useWaitForTransaction({
     hash: data?.hash,
@@ -220,7 +223,10 @@ const DetailsForm = ({ handler }: any) => {
     abi: preSaleAbi.abi,
     functionName: "preBooking",
     args: [BigInt(BookAmt * 1000000), `0x${tokenContr}`],
-    chainId: polygonMumbai.id,
+    chainId:
+    process.env.NEXT_PUBLIC_NODE_ENV == "mainnet"
+      ? polygon.id
+      : polygonMumbai.id,
     onError: (err) => {
       console.log(err);
     },

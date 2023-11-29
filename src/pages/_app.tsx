@@ -159,9 +159,23 @@ export default function App({ Component, pageProps }: AppProps) {
       // Required API Keys
       infuraId: infuraId, // or infuraId
       walletConnectProjectId: projectId,
-      connectors:[
+      connectors:  process.env.NEXT_PUBLIC_NODE_ENV=='mainnet'?[
         new MetaMaskConnector({
-          chains: chains,
+          chains: [polygon],
+      }),
+      new CoinbaseWalletConnector({
+      options: {
+        appName: 'wagmi',
+      },
+    }),
+    new WalletConnectConnector({
+      options: {
+        projectId: projectId,
+      },
+    }),
+      ]: [
+        new MetaMaskConnector({
+          chains: [polygonMumbai],
       }),
       new CoinbaseWalletConnector({
       options: {
