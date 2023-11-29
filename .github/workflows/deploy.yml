@@ -3,7 +3,7 @@ name: Build & deploy [Mainnet]
 on:
   push:
     branches:
-      - mainnet-V1
+      - mainnet
 
 jobs:
   deploy:
