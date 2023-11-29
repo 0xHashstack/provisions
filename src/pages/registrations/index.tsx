@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react'
 import { useConnectors } from '@starknet-react/core'
 import BravosIcon from '@/assets/bravosIcon'
 import { useRouter } from 'next/router'
-import { ConnectKitButton, useModal } from 'connectkit'
+import { ConnectKitButton, ConnectKitProvider, useModal } from 'connectkit'
 import { useAccount, useBalance, useConnect, useContractRead, useNetwork } from "wagmi";
 import WalletConnectIcon from '@/assets/walletConnectIcon'
 import MetamaskIcon from '@/assets/metamaskIcon'
@@ -19,9 +19,10 @@ import { mainnet, sepolia,goerli, polygon, optimism, polygonMumbai } from '@wagm
 const inter = Inter({ subsets: ['latin'] })
 import { ethers, JsonRpcProvider, JsonRpcApiProvider, BrowserProvider, InfuraProvider } from 'ethers'
 import RedinfoIcon from '@/assets/redinfoIcon'
+import process from 'process'
 export default function Home() {
   const [availableDataLoading, setAvailableDataLoading] = useState(true);
-  const { address, isConnecting, isDisconnected } = useAccount();
+  const { address, isConnecting, isDisconnected,connector } = useAccount();
 
   // const usdtAddressTest="0x65E2fe35C30eC218b46266F89847c63c2eDa7Dc7";
   
@@ -80,8 +81,11 @@ export default function Home() {
       const connectWallet = async () => {
         if (address) {
   // console.log((usdtBalance?.data?.value) , Number(usdcBalance?.data?.formatted) ,address)
-          if ((Number(usdtBalance?.data?.formatted) >  50 || Number(usdcBalance?.data?.formatted) > 50)) {
+  console.log(polygon.id,polygonMumbai.id,connector?.chains)
+
+          if ((Number(usdtBalance?.data?.formatted) >  50 || Number(usdcBalance?.data?.formatted) > 50 ) &&((process.env.NEXT_PUBLIC_NODE_ENV=='mainnet' &&connector?.chains[0].id==polygon.id) ||connector?.chains[0].id==polygonMumbai.id ) ) {
             router.push("/registrations/form");
+            console.log(polygon.id,polygonMumbai.id,connector?.chains)
           }
         }
       }
@@ -93,7 +97,7 @@ export default function Home() {
     }
 
 
-  }, [address,usdtBalance,usdcBalance])
+  }, [address,usdtBalance,usdcBalance,connector])
  
   return (
     <Box
