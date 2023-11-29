@@ -88,7 +88,7 @@ useEffect(()=>{
         <Text  borderBottom={'thick'}
          color="white" mb="4rem" width={'15%'} display='flex' flexDirection={'row'} justifyContent='begin' >
                    <Box borderBottomWidth={"medium"} borderBottomColor={'#4D59E8'} p='2'   >
-          Pre-sale Interest form </Box>
+          Contributers Round</Box>
         </Text>
        
         {/* <ContributorsChart/> */}

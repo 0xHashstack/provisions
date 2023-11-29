@@ -115,7 +115,7 @@ const DetailsForm = ({ handler }: any) => {
         ? polygon.id
         : polygonMumbai.id,
   });
-  console.log((Number(usdcBalance?.data?.formatted)),"usdcbalance")
+  // console.log((Number(usdcBalance?.data?.formatted)),"usdcbalance")
   // useEffect(()=>{
   //   if(!isNaN(Number(usdtBalance?.data?.formatted))  &&!isNaN(Number(usdcBalance?.data?.formatted)) &&Number(usdtBalance?.data?.formatted) <  50  && (Number(usdcBalance?.data?.formatted) <  50 )){
   //     console.log(address,Number(usdcBalance?.data?.formatted) )
@@ -453,7 +453,7 @@ const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoadi
       setFormSubmitted(false);
     }
   };
-
+console.log(Number(usdcBalance?.data?.formatted))
   return (
     <>
       {!prebookSucceeded && !txStatus ? (
@@ -811,8 +811,7 @@ const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoadi
               border={
                 BookAmt < 50 && BookAmt != 0
                   ? "1px solid #CF222E"
-                  : BookAmt==0 ? "1px solid var(--stroke-of-30, rgba(103, 109, 154, 0.30))"
-                  : (Number(usdtBalance?.data?.formatted) < 50 || Number(usdcBalance?.data?.formatted) < 50) ? "1px solid #CF222E"
+                 
                   : "1px solid var(--stroke-of-30, rgba(103, 109, 154, 0.30))"
               }
               background=" var(--surface-of-10, rgba(103, 109, 154, 0.04))"
@@ -832,6 +831,7 @@ const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoadi
                 color="white"
                 type="number"
                 border="0px"
+                isDisabled={    Number(usdtBalance?.data?.formatted) <= 50 && Number(usdcBalance?.data?.formatted)<=50}
                 value={BookAmt == 0 ? "" : BookAmt}
                 onChange={handleBookAmtCHnage}
                 placeholder={"50+"}
@@ -1156,7 +1156,7 @@ const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoadi
               </Box>
             </Box>
           )}
-          {!(Number(usdtBalance?.data?.formatted) > 50 || Number(usdcBalance?.data?.formatted) > 50)} && <Box
+          {!(Number(usdtBalance?.data?.formatted) > 50 || Number(usdcBalance?.data?.formatted) > 50) && <Box
             // display="flex"
             // justifyContent="left"
             w="80%"
@@ -1194,6 +1194,7 @@ const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoadi
                               </Box> */}
             </Box>
           </Box>
+}
           <Button
             
             display=" flex"
@@ -1235,14 +1236,15 @@ const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoadi
                     Twitter != "" &&
                     Commit >= 500 &&
                     Commit <= 2500 &&
-                    BookAmt >= 50 && !(Number(usdtBalance?.data?.formatted) < 50 || Number(usdcBalance?.data?.formatted) < 50)
+                    BookAmt >= 50 &&  !( Number(usdtBalance?.data?.formatted) <=50 && Number(usdcBalance?.data?.formatted)<=50)
                   )
                 : !(
                     discord != "" &&
                     Twitter != "" &&
                     Commit >= 500 &&
                     Commit <= 2500 &&
-                    BookAmt >= 50 &&
+                    BookAmt >= 50 &&   !(Number(usdtBalance?.data?.formatted) <=50 && Number(usdcBalance?.data?.formatted)<=50 )&&
+
                     FundName != "" &&
                     investorcommit > 0 &&
                     DecisionTime > 0 &&
@@ -1263,7 +1265,8 @@ const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoadi
         >
           {" "}
           <VStack display="flex" justifyContent="center" alignItems="center">
-            <TickCompleteIcon />
+            <Box mt="2" mb="2"> <TickCompleteIcon /></Box>
+           
             <Text
               color=" var(--white, #FFF)"
               textAlign="center"
