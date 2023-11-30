@@ -218,9 +218,9 @@ const Navbar = () => {
               </Box>
             )}
           </Box>}
-            <Text color="white">
+            {/* <Text color="white">
                 <SettingsLogo/>
-            </Text>
+            </Text> */}
         </HStack>
     </HStack>
   )
