@@ -247,55 +247,6 @@ const DetailsForm = ({ handler }: any) => {
   // if()
 useEffect(()=>{
   if(txSuccess && !txLoading){
-    if(!checked){
-      axios
-      .post(
-        "https://b1ibz9x1s9.execute-api.ap-southeast-1.amazonaws.com/api/presale/unchecked",
-        {
-          wallet: address,
-          discord: discord,
-          twitter: Twitter,
-          commit: Commit,
-          bookamt: BookAmt,
-          hasInvestor: checked,
-          starknet_address:starknetWallet?starknetWallet:'nil',
-
-        }
-      )
-      .then((response) => {
-        console.log(response, "linked"); // Log the response from the backend.
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-    }
-    else{
-      axios
-      .post(
-        "https://b1ibz9x1s9.execute-api.ap-southeast-1.amazonaws.com/api/presale/checked",
-        {
-          wallet: address,
-          discord: discord,
-          twitter: Twitter,
-     
-
-          commit: Commit,
-          bookamt: BookAmt,
-          hasInvestor: checked,
-          fundname: FundName,
-          Fundcommit: investorcommit,
-          decisiontime: DecisionTime,
-          url: url,
-          starknet_address:starknetWallet?starknetWallet:'nil',
-        }
-      )
-      .then((response) => {
-        console.log(response, "linked"); // Log the response from the backend.
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-    }
     settxStatus(true);
     setTxloading(false);
   }
@@ -390,7 +341,25 @@ const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoadi
 
     try {
       setTxloading(true);
-   
+      axios
+      .post(
+        "https://b1ibz9x1s9.execute-api.ap-southeast-1.amazonaws.com/api/presale/unchecked",
+        {
+          wallet: address,
+          discord: discord,
+          twitter: Twitter,
+          commit: Commit,
+          bookamt: BookAmt,
+          hasInvestor: checked,
+          starknet_address:starknetWallet?starknetWallet:'nil',
+        }
+      )
+      .then((response) => {
+        console.log(response, "linked"); // Log the response from the backend.
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
         // console.log(Number(formatUnits(allowanceData,6)),Number(BookAmt) );
         if(typeof allowanceData === 'bigint' && allowanceData && Number(formatUnits(allowanceData,6)) >= Number(BookAmt) ){
           await writeCall();
@@ -436,10 +405,30 @@ const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoadi
   const handleInvestorSubmit = async () => {
     setTxloading(true);
     setDeclined(false);
-
-
     try {
-    
+      axios
+      .post(
+        "https://b1ibz9x1s9.execute-api.ap-southeast-1.amazonaws.com/api/presale/checked",
+        {
+          wallet: address,
+          discord: discord,
+          twitter: Twitter,
+          commit: Commit,
+          bookamt: BookAmt,
+          hasInvestor: checked,
+          fundname: FundName,
+          Fundcommit: investorcommit,
+          decisiontime: DecisionTime,
+          url: url,
+          starknet_address:starknetWallet?starknetWallet:'nil',
+        }
+      )
+      .then((response) => {
+        console.log(response, "linked"); // Log the response from the backend.
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
         if(typeof allowanceData === 'bigint' && Number(formatUnits(allowanceData,6)) >= Number(BookAmt) ){
           await writeCall();
 
@@ -453,7 +442,6 @@ const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoadi
       setFormSubmitted(false);
     }
   };
-console.log(Number(usdcBalance?.data?.formatted))
   return (
     <>
       {!prebookSucceeded && !txStatus ? (
