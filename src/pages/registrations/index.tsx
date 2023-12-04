@@ -181,7 +181,7 @@ export default function Home() {
               <Box pr="3" mt="0.5" cursor="pointer">
                 <BlueInfoIcon />
               </Box>
-              Your wallet should have more than $50 USDT/USDC as balance.
+              Your wallet should have more than $250 USDT/USDC as balance.
               {/* <Box
                                 py="1"
                                 pl="4"
@@ -191,7 +191,7 @@ export default function Home() {
                                 <TableClose />
                               </Box> */}
             </Box>
-          </Box> : address && !(Number(usdtBalance?.data?.formatted) > 50 || Number(usdcBalance?.data?.formatted) > 50) ? <Box
+          </Box> : address && !(Number(usdtBalance?.data?.formatted) > 250 || Number(usdcBalance?.data?.formatted) > 250) ? <Box
             // display="flex"
             // justifyContent="left"
             w="100%"

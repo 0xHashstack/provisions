@@ -247,55 +247,6 @@ const DetailsForm = ({ handler }: any) => {
   // if()
 useEffect(()=>{
   if(txSuccess && !txLoading){
-    if(!checked){
-      axios
-      .post(
-        "https://b1ibz9x1s9.execute-api.ap-southeast-1.amazonaws.com/api/presale/unchecked",
-        {
-          wallet: address,
-          discord: discord,
-          twitter: Twitter,
-          commit: Commit,
-          bookamt: BookAmt,
-          hasInvestor: checked,
-          starknet_address:starknetWallet?starknetWallet:'nil',
-
-        }
-      )
-      .then((response) => {
-        console.log(response, "linked"); // Log the response from the backend.
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-    }
-    else{
-      axios
-      .post(
-        "https://b1ibz9x1s9.execute-api.ap-southeast-1.amazonaws.com/api/presale/checked",
-        {
-          wallet: address,
-          discord: discord,
-          twitter: Twitter,
-     
-
-          commit: Commit,
-          bookamt: BookAmt,
-          hasInvestor: checked,
-          fundname: FundName,
-          Fundcommit: investorcommit,
-          decisiontime: DecisionTime,
-          url: url,
-          starknet_address:starknetWallet?starknetWallet:'nil',
-        }
-      )
-      .then((response) => {
-        console.log(response, "linked"); // Log the response from the backend.
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-    }
     settxStatus(true);
     setTxloading(false);
   }
@@ -390,7 +341,25 @@ const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoadi
 
     try {
       setTxloading(true);
-   
+      axios
+      .post(
+        "https://b1ibz9x1s9.execute-api.ap-southeast-1.amazonaws.com/api/presale/unchecked",
+        {
+          wallet: address,
+          discord: discord,
+          twitter: Twitter,
+          commit: 0,
+          bookamt: BookAmt,
+          hasInvestor: checked,
+          starknet_address:starknetWallet?starknetWallet:'nil',
+        }
+      )
+      .then((response) => {
+        console.log(response, "linked"); // Log the response from the backend.
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
         // console.log(Number(formatUnits(allowanceData,6)),Number(BookAmt) );
         if(typeof allowanceData === 'bigint' && allowanceData && Number(formatUnits(allowanceData,6)) >= Number(BookAmt) ){
           await writeCall();
@@ -436,10 +405,30 @@ const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoadi
   const handleInvestorSubmit = async () => {
     setTxloading(true);
     setDeclined(false);
-
-
     try {
-    
+      axios
+      .post(
+        "https://b1ibz9x1s9.execute-api.ap-southeast-1.amazonaws.com/api/presale/checked",
+        {
+          wallet: address,
+          discord: discord,
+          twitter: Twitter,
+          commit: 0,
+          bookamt: BookAmt,
+          hasInvestor: checked,
+          fundname: FundName,
+          Fundcommit: investorcommit,
+          decisiontime: DecisionTime,
+          url: url,
+          starknet_address:starknetWallet?starknetWallet:'nil',
+        }
+      )
+      .then((response) => {
+        console.log(response, "linked"); // Log the response from the backend.
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
         if(typeof allowanceData === 'bigint' && Number(formatUnits(allowanceData,6)) >= Number(BookAmt) ){
           await writeCall();
 
@@ -453,7 +442,6 @@ const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoadi
       setFormSubmitted(false);
     }
   };
-console.log(Number(usdcBalance?.data?.formatted))
   return (
     <>
       {!prebookSucceeded && !txStatus ? (
@@ -690,84 +678,7 @@ console.log(Number(usdcBalance?.data?.formatted))
               ></Input>
             </Box>
           </Box>
-          <Box w="80%" display="flex" flexDirection="column" gap="1" mt="0">
-            <Box display="flex">
-              <Text
-                color=" var(--neutral, #676D9A)"
-                font-family=" Inter"
-                font-size=" 12px"
-                font-style=" normal"
-                font-weight=" 400"
-                line-height=" 12px" /* 100% */
-                letter-spacing=" -0.15px"
-              >
-                Commitment interest
-              </Text>
-              <Tooltip
-                color="#F0F0F5"
-                hasArrow
-                placement="right-start"
-                boxShadow="dark-lg"
-                label="Amount of money that buyers are willing to pay in advance to secure their allocation of tokens during the pre-sale."
-                bg="#02010F"
-                fontSize={"13px"}
-                fontWeight={"400"}
-                borderRadius={"lg"}
-                padding={"2"}
-                border="1px solid"
-                borderColor="#23233D"
-                arrowShadowColor="#2B2F35"
-                // maxW="222px"
-              >
-                <Box p="1" mt="0.5">
-                  <InfoIcon />
-                </Box>
-              </Tooltip>
-            </Box>
-            <Box
-              width="100%"
-              borderRadius="6px"
-              display="flex"
-              justifyContent="space-between"
-              border={
-                (Commit > 0 ? Commit < 500 || Commit > 2500 : false)
-                  ? "1px solid #CF222E"
-                  : "1px solid var(--stroke-of-30, rgba(103, 109, 154, 0.30));"
-              }
-              background=" var(--surface-of-10, rgba(103, 109, 154, 0.04))"
-              color="rgba(240, 240, 245, 0.50)"
-              fontFamily=" Inter"
-              fontSize=" 14px"
-              fontStyle=" normal"
-              fontWeight=" 500"
-              lineHeight=" 20px" /* 142.857% */
-              letterSpacing=" -0.15px"
-            >
-              <Input
-                _focus={{
-                  outline: "0",
-                  boxShadow: "none",
-                }}
-                color="white"
-                placeholder="minimum $500 & maximum $2500"
-                _placeholder={{
-                  color: "rgba(240, 240, 245, 0.50)",
-                  fontFamily: "Inter",
-                  fontSize: "14px",
-                  fontStyle: "normal",
-                  fontWeight: "500",
-                  lineHeight: "20px",
-                  letterSpacing: "-0.15px",
-                }}
-                bg="var(--surface-of-10, rgba(103, 109, 154, 0.10))"
-                border="0px"
-                outline="none"
-                type="number"
-                value={Commit == 0 ? "" : Commit}
-                onChange={handleCommitChange}
-              ></Input>
-            </Box>
-          </Box>
+
 
           <Box w="80%" display="flex" flexDirection="column" gap="1" mt="0">
             <Box display="flex">
@@ -809,7 +720,7 @@ console.log(Number(usdcBalance?.data?.formatted))
               display="flex"
               justifyContent="space-between"
               border={
-                BookAmt < 50 && BookAmt != 0
+                BookAmt < 250 && BookAmt != 0
                   ? "1px solid #CF222E"
                  
                   : "1px solid var(--stroke-of-30, rgba(103, 109, 154, 0.30))"
@@ -831,10 +742,10 @@ console.log(Number(usdcBalance?.data?.formatted))
                 color="white"
                 type="number"
                 border="0px"
-                isDisabled={    Number(usdtBalance?.data?.formatted) <= 50 && Number(usdcBalance?.data?.formatted)<=50}
+                isDisabled={    Number(usdtBalance?.data?.formatted) < 250 && Number(usdcBalance?.data?.formatted)<250}
                 value={BookAmt == 0 ? "" : BookAmt}
                 onChange={handleBookAmtCHnage}
-                placeholder={"50+"}
+                placeholder={"250+"}
                 _placeholder={{
                   color: "rgba(240, 240, 245, 0.50)",
                   fontFamily: "Inter",
@@ -1156,7 +1067,7 @@ console.log(Number(usdcBalance?.data?.formatted))
               </Box>
             </Box>
           )}
-          {!(Number(usdtBalance?.data?.formatted) > 50 || Number(usdcBalance?.data?.formatted) > 50) && <Box
+          {!(Number(usdtBalance?.data?.formatted) > 250 || Number(usdcBalance?.data?.formatted) > 250) && <Box
             // display="flex"
             // justifyContent="left"
             w="80%"
@@ -1183,7 +1094,7 @@ console.log(Number(usdcBalance?.data?.formatted))
                 <RedinfoIcon/>
               </Box>
               Your wallet doesn’t have sufficient balance
-              connect wallet which has more than $50 USDT/USDC as balance.
+              connect wallet which has more than $250 USDT/USDC as balance.
               {/* <Box
                                 py="1"
                                 pl="4"
@@ -1234,16 +1145,16 @@ console.log(Number(usdcBalance?.data?.formatted))
                 ? !(
                     discord != "" &&
                     Twitter != "" &&
-                    Commit >= 500 &&
-                    Commit <= 2500 &&
-                    BookAmt >= 50 &&  !( Number(usdtBalance?.data?.formatted) <=50 && Number(usdcBalance?.data?.formatted)<=50)
+                    // Commit >= 500 &&
+                    // Commit <= 2500 &&
+                    BookAmt >= 250 &&  !( Number(usdtBalance?.data?.formatted) <=250 && Number(usdcBalance?.data?.formatted)<=250)
                   )
                 : !(
                     discord != "" &&
                     Twitter != "" &&
-                    Commit >= 500 &&
-                    Commit <= 2500 &&
-                    BookAmt >= 50 &&   !(Number(usdtBalance?.data?.formatted) <=50 && Number(usdcBalance?.data?.formatted)<=50 )&&
+                    // Commit >= 500 &&
+                    // Commit <= 2500 &&
+                    BookAmt >= 250 &&   !(Number(usdtBalance?.data?.formatted) <=250 && Number(usdcBalance?.data?.formatted)<=250 )&&
 
                     FundName != "" &&
                     investorcommit > 0 &&
