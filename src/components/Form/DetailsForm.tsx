@@ -51,6 +51,7 @@ import DollarIcon from "@/assets/dollarIcon";
 import TickCompleteIcon from "@/assets/tickIcon";
 import Link from "next/link";
 import RedinfoIcon from "@/assets/redinfoIcon";
+import BlueInfoIcon from "@/assets/blueinfoIcon";
 
 const DetailsForm = ({ handler }: any) => {
   const { address, isConnecting, isDisconnected } = useAccount();
@@ -348,7 +349,7 @@ const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoadi
           wallet: address,
           discord: discord,
           twitter: Twitter,
-          commit: 0,
+          commit: 50,
           bookamt: BookAmt,
           hasInvestor: checked,
           starknet_address:starknetWallet?starknetWallet:'nil',
@@ -413,7 +414,7 @@ const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoadi
           wallet: address,
           discord: discord,
           twitter: Twitter,
-          commit: 0,
+          commit: 50,
           bookamt: BookAmt,
           hasInvestor: checked,
           fundname: FundName,
@@ -1067,7 +1068,7 @@ const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoadi
               </Box>
             </Box>
           )}
-          {!(Number(usdtBalance?.data?.formatted) > 250 || Number(usdcBalance?.data?.formatted) > 250) && <Box
+          <Box
             // display="flex"
             // justifyContent="left"
             w="80%"
@@ -1079,11 +1080,11 @@ const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoadi
           >
             <Box
               display="flex"
-              bg="#480C10"
+              bg="#222766"
               color="#F0F0F5"
-              fontSize="14px"
+              fontSize="12px"
               p="4"
-              border="1px solid #9B1A23"
+              border="1px solid #3841AA"
               fontStyle="normal"
               fontWeight="400"
               lineHeight="18px"
@@ -1091,10 +1092,9 @@ const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoadi
             // textAlign="center"
             >
               <Box pr="3" mt="0.5" cursor="pointer">
-                <RedinfoIcon/>
+                <BlueInfoIcon />
               </Box>
-              Your wallet doesn’t have sufficient balance
-              connect wallet which has more than $250 USDT/USDC as balance.
+              Contributor's round is closed. This form will be re-opened bey very soon, for pre-sale bookings .
               {/* <Box
                                 py="1"
                                 pl="4"
@@ -1105,7 +1105,6 @@ const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoadi
                               </Box> */}
             </Box>
           </Box>
-}
           <Button
             
             display=" flex"
@@ -1137,30 +1136,31 @@ const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoadi
               }
             }}
             isDisabled={
-              dataPreebooked == true
-                ? true
-                : formSubmitted
-                ? true
-                : !checked
-                ? !(
-                    discord != "" &&
-                    Twitter != "" &&
-                    // Commit >= 500 &&
-                    // Commit <= 2500 &&
-                    BookAmt >= 250 &&  !( Number(usdtBalance?.data?.formatted) <=250 && Number(usdcBalance?.data?.formatted)<=250)
-                  )
-                : !(
-                    discord != "" &&
-                    Twitter != "" &&
-                    // Commit >= 500 &&
-                    // Commit <= 2500 &&
-                    BookAmt >= 250 &&   !(Number(usdtBalance?.data?.formatted) <=250 && Number(usdcBalance?.data?.formatted)<=250 )&&
+              true
+              // dataPreebooked == true
+              //   ? true
+              //   : formSubmitted
+              //   ? true
+              //   : !checked
+              //   ? !(
+              //       discord != "" &&
+              //       Twitter != "" &&
+              //       // Commit >= 500 &&
+              //       // Commit <= 2500 &&
+              //       BookAmt >= 250 &&  !( Number(usdtBalance?.data?.formatted) <=250 && Number(usdcBalance?.data?.formatted)<=250)
+              //     )
+              //   : !(
+              //       discord != "" &&
+              //       Twitter != "" &&
+              //       // Commit >= 500 &&
+              //       // Commit <= 2500 &&
+              //       BookAmt >= 250 &&   !(Number(usdtBalance?.data?.formatted) <=250 && Number(usdcBalance?.data?.formatted)<=250 )&&
 
-                    FundName != "" &&
-                    investorcommit > 0 &&
-                    DecisionTime > 0 &&
-                    url != ""
-                  )
+              //       FundName != "" &&
+              //       investorcommit > 0 &&
+              //       DecisionTime > 0 &&
+              //       url != ""
+              //     )
             }
           >
             Submit
@@ -1234,8 +1234,7 @@ const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoadi
                  textTransform="none"
                  borderRadius="8px"
                     >
-                    0x6663184b3521bf1896ba6e1e776ab94
-317204b6
+                     {wallet}
                     </Td>
                   </Tr>
                 </Tbody>
