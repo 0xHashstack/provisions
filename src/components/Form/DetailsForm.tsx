@@ -1094,7 +1094,7 @@ const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoadi
               <Box pr="3" mt="0.5" cursor="pointer">
                 <BlueInfoIcon />
               </Box>
-              Contributor's round is closed. This form will be re-opened bey very soon, for pre-sale bookings .
+              Contributor&aposs round is closed. This form will be re-opened bey very soon, for pre-sale bookings .
               {/* <Box
                                 py="1"
                                 pl="4"
