@@ -1068,47 +1068,7 @@ const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoadi
               </Box>
             </Box>
           )}
-          {!(Number(usdtBalance?.data?.formatted) > 250 || Number(usdcBalance?.data?.formatted) > 250) 
-          // <Box
-          //   // display="flex"
-          //   // justifyContent="left"
-          //   w="80%"
-          //   // pb="4"
-          //   height="64px"
-          //   display="flex"
-          //   alignItems="center"
-          //   mb="1rem"
-          // >
-          //   <Box
-          //     display="flex"
-          //     bg="#480C10"
-          //     color="#F0F0F5"
-          //     fontSize="14px"
-          //     p="4"
-          //     border="1px solid #9B1A23"
-          //     fontStyle="normal"
-          //     fontWeight="400"
-          //     lineHeight="18px"
-          //     borderRadius="6px"
-          //   // textAlign="center"
-          //   >
-          //     <Box pr="3" mt="0.5" cursor="pointer">
-          //       <RedinfoIcon/>
-          //     </Box>
-          //     Your wallet doesn’t have sufficient balance
-          //     connect wallet which has more than $250 USDT/USDC as balance.
-          //     {/* <Box
-          //                       py="1"
-          //                       pl="4"
-          //                       cursor="pointer"
-          //                       // onClick={handleClick}
-          //                     >
-          //                       <TableClose />
-          //                     </Box> */}
-          //   </Box>
-          // </Box>
-}
-<Box
+          <Box
             // display="flex"
             // justifyContent="left"
             w="80%"
