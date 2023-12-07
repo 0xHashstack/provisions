@@ -1274,8 +1274,7 @@ const { data:allowanceData, isError:isAllowanceError, isLoading:isAllowanceLoadi
                  textTransform="none"
                  borderRadius="8px"
                     >
-                    0x6663184b3521bf1896ba6e1e776ab94
-317204b6
+                     {wallet}
                     </Td>
                   </Tr>
                 </Tbody>
