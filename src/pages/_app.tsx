@@ -143,7 +143,7 @@ const lightTheme = extendTheme({
 
 export default function App({ Component, pageProps }: AppProps) {
   const { chains, publicClient } =   configureChains(
-    [polygon,polygonMumbai],
+    [sepolia,mainnet],
     [publicProvider()],
   )
   const connectors = [
@@ -161,7 +161,7 @@ export default function App({ Component, pageProps }: AppProps) {
       walletConnectProjectId: projectId,
       connectors:  process.env.NEXT_PUBLIC_NODE_ENV=='mainnet'?[
         new MetaMaskConnector({
-          chains: [polygon],
+          chains: [sepolia,mainnet],
       }),
       new CoinbaseWalletConnector({
       options: {
@@ -175,7 +175,7 @@ export default function App({ Component, pageProps }: AppProps) {
     }),
       ]: [
         new MetaMaskConnector({
-          chains: [polygonMumbai],
+          chains: [sepolia],
       }),
       new CoinbaseWalletConnector({
       options: {
