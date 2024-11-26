@@ -55,7 +55,7 @@ const EmissionDashboard = () => {
         "Liquidity mining",
       ],
       distributions: [2, 5, 7, 15],
-      totals: [180000000, 4500000000, 630000000, 1350000000],
+      totals: [180000000, 450000000, 630000000, 1350000000],
       criterias: [
         "6 months cliff. 3 months linear release(hourly)",
         "0% unlocked at tge. 12.5% quarterly deployed over 24 months",
@@ -67,14 +67,14 @@ const EmissionDashboard = () => {
       title: "Community",
       subData: ["Community"],
       distributions: [3.3],
-      totals: [29700000000],
+      totals: [297000000],
       criterias: ["3 months cliff, linear release over 24 months"],
     },
     {
       title: "Product development",
       subData: ["Infrastructure fund"],
       distributions: [14],
-      totals: [126000000000],
+      totals: [1260000000],
       criterias: ["9 months cliff, 36 months linear release"],
     },
     {
@@ -120,48 +120,76 @@ const EmissionDashboard = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {data.map((item, index) =>
-              item.subData.map((sub, idx) => (
-                <Box
-                  as="tr"
-                  key={`${index}-${idx}`}
-                  border="1px solid rgba(103, 109, 154, 0.30)" // Full row border
-                  borderRadius="8px" // Rounded corners
-                  display="table-row" // Ensure it behaves as a table row
-                >
-                  {idx === 0 && (
-                    <Td
-                      rowSpan={item.subData.length}
-                      color="#F0F0F5"
-                      fontSize="14px"
-                    >
-                      {item.title}
-                    </Td>
-                  )}
-                  <Td>{sub}</Td>
-                  <Td color="#F0F0F5" fontSize="14px">
-                    {item.distributions[idx]}%
-                  </Td>
-                  <Td color="#F0F0F5" fontSize="14px">
-                    <Text
-                      bg="#BEE3C8"
-                      color="black"
-                      borderRadius="6px"
-                      padding="8px"
-                      width="70px"
-                    >
-                      {numberFormatter(item.totals[idx])}
-                    </Text>
-                  </Td>
-                  <Td>
-                    <Text color="#F0F0F5" fontSize="14px">
-                      {item.criterias[idx]}
-                    </Text>
-                  </Td>
-                </Box>
-              ))
-            )}
-          </Tbody>
+  {data.map((item, index) =>
+    item.subData.map((sub, idx) => (
+      <Box
+        as="tr"
+        key={`${index}-${idx}`}
+        border="1px solid rgba(103, 109, 154, 0.30)" // Full row border
+        borderRadius="8px" // Rounded corners
+        display="table-row" // Ensure it behaves as a table row
+      >
+        {idx === 0 && (
+          <Td
+            rowSpan={item.subData.length}
+            color="#F0F0F5"
+            fontSize="14px"
+            width="200px" // Increased width for better space
+            whiteSpace="normal" // Allows text wrapping
+            wordBreak="break-word" // Break long words if needed
+          >
+            {item.title}
+          </Td>
+        )}
+        <Td
+          width="180px" // Increased width for the "SUB" column
+          whiteSpace="normal" // Allows wrapping
+          wordBreak="break-word" // Breaks long words
+        >
+          {sub}
+        </Td>
+        <Td
+          color="#F0F0F5"
+          fontSize="14px"
+          width="100px"
+          whiteSpace="normal"
+          wordBreak="break-word"
+        >
+          {item.distributions[idx]}%
+        </Td>
+        <Td
+          color="#F0F0F5"
+          fontSize="14px"
+          width="120px"
+          whiteSpace="normal"
+          wordBreak="break-word"
+        >
+          <Text
+            bg="#BEE3C8"
+            color="black"
+            borderRadius="6px"
+            padding="8px"
+            width="100px"
+            textAlign="center"
+          >
+            {numberFormatter(item.totals[idx])}
+          </Text>
+        </Td>
+        <Td
+          width="200px" // Allocated more space to this column
+          whiteSpace="normal"
+          wordBreak="break-word"
+        >
+          <Text color="#F0F0F5" fontSize="14px">
+            {item.criterias[idx]}
+          </Text>
+        </Td>
+      </Box>
+    ))
+  )}
+</Tbody>
+
+
         </Table>
       </TableContainer>
     </Box>

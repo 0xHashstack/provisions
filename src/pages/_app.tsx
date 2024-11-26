@@ -20,6 +20,7 @@ import { StarknetProviderProps } from "@starknet-react/core";
 import { InjectedConnector } from '@wagmi/core/connectors/injected'
 import { mainnet, sepolia,goerli, polygon, optimism, polygonMumbai } from '@wagmi/core/chains'
 import { StarknetProvider } from "@starknet-react/core/dist/providers";
+import Layout from "@/components/toasts";
 // const chainsAllowedTestnet= [polygon];
 let chainT=[polygonMumbai];
 let chainM=[polygon]
@@ -226,7 +227,7 @@ export default function App({ Component, pageProps }: AppProps) {
       
       <ChakraProvider theme={theme}>
       <StarknetProvider autoConnect={true} connectors={connectors}>
-
+        <Layout>
           <WagmiConfig config={config}>
             <ConnectKitProvider>
 
@@ -234,6 +235,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
             </ConnectKitProvider>
           </WagmiConfig>
+        </Layout>
           </StarknetProvider>
 
       </ChakraProvider>

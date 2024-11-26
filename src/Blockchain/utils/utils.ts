@@ -156,6 +156,10 @@ export const weiToEtherNumber = (amount: string, tokenName: any) => {
     return truncatedResult;;
 };
 
+export function processAddress(address: string) {
+    return num.toHex(num.toBigInt(address));
+  }
+
 
 export const parseAmount = (amount: string, decimals = 18, precision = 18) => {
   const factor = BigNumberEther.from("1000000");

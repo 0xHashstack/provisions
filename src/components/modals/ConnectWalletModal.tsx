@@ -34,7 +34,6 @@ const ConnectStarknetWalletModal = ({ buttonText, ...restProps }: any) => {
   // const { data, isLoading, error, refetch } = useBalance({
   //   address
   // })
-  console.log(address);
   const { available, disconnect, connect, connectors, refresh } =
     useConnectors();
 

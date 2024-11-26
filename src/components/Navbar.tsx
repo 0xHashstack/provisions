@@ -1,3 +1,4 @@
+import DiscordLogo from '@/assets/discordLogo'
 import HashstackLogo from '@/assets/hashstacklogo'
 import SettingsLogo from '@/assets/settingsLogo'
 import { HStack,Text,Box, Skeleton } from '@chakra-ui/react'
@@ -65,9 +66,14 @@ const Navbar = () => {
           <Box>
           Need help? Talk to us:
           </Box>
-          <Box>
-            Discord
-          </Box>
+          <Link href="https://discord.gg/FpBhQ7M3d4" target="blank">
+            <Box display="flex" alignItems="center" gap="0.3rem" cursor="pointer">
+              <DiscordLogo/>
+              <Text>
+                Discord
+              </Text>
+            </Box>
+          </Link>
             {/* <Text color="white">
                 Connect Wallet
             </Text> */}

@@ -32,17 +32,16 @@ const EmissionRateChart = () => {
   }, [liquidityProviderChartPeriod]);
   
 const splineColor = [
-  "#804D0F", 
-  "#3B48A8", 
-  "#136B51", 
-  "#1A2683", 
-  "#996B22", 
-  "#0C0C4F",
-  "#FF5733", // Vibrant orange-red
-  "#33FF57", // Bright green
-  "#5733FF", // Bold purple
-  "#FFC300", // Golden yellow
-  "#FF33A1"  // Hot pink
+  "#323FF4", 
+  "#14A262", 
+  "#917AE6", 
+  "#FEEE91", 
+  "#FBAF86", 
+  "#A5D7E8",
+  "#7E8EF1", // Vibrant orange-red
+  "#4E4EDA", // Bright green
+  "#9EDF9C", // Bold purple
+  "#E17FCF", // Golden yellow
 ];
   ////console.log(daiData?.supplyAmounts, "data protocol");
   //  //console.log(new Date("2022-01-01").getTime(),"trial chart data")
