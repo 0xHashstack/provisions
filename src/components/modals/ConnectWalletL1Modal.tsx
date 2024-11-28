@@ -27,7 +27,7 @@ import Image from "next/image";
 
 import { useEffect, useState } from "react";
 import { useAccount, useConnect } from "wagmi";
-import { polygon, polygonMumbai, sepolia } from "viem/chains";
+import { baseSepolia, polygon, polygonMumbai, sepolia } from "viem/chains";
 import MetamaskIcon from "@/assets/metamaskIcon";
 import CoinbaseIcon from "@/assets/coinbaseIcon";
 import WalletConnectIcon from "@/assets/walletConnectIcon";
@@ -38,7 +38,7 @@ const ConnectWalletL1Modal = ({ buttonText, ...restProps }: any) => {
   const {address}=useAccount()
   const { connect, connectors, error, isLoading, pendingConnector } =
     useConnect({
-      chainId: sepolia.id,
+      chainId: baseSepolia.id,
     });
     useEffect(() => {
       if (address) {

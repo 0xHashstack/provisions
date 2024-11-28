@@ -20,6 +20,7 @@ import {
   useContractWrite,
   useAccount as useAccountL1,
   useWaitForTransaction,
+  useDisconnect,
 } from "wagmi";
 import { useRouter } from "next/router";
 import {
@@ -42,14 +43,26 @@ import ccpIcon from "../../assets/ccp.jpg";
 import Image from "next/image";
 import HashTokenIconFloater from "@/assets/hashTokenIconFloater";
 import ConnectStarknetWalletModal from "@/components/modals/ConnectWalletModal";
-import { useAccount,useWaitForTransaction as useWaitForTransactionStarknet } from "@starknet-react/core";
+import {
+  useAccount,
+  useConnectors,
+  useWaitForTransaction as useWaitForTransactionStarknet,
+} from "@starknet-react/core";
 import ConnectWalletL1Modal from "@/components/modals/ConnectWalletL1Modal";
 import STRKLogo from "@/assets/strk";
-import { processAddress } from "@/Blockchain/utils/utils";
+import { parseAmount, processAddress } from "@/Blockchain/utils/utils";
 import WhitetickIcon from "@/assets/whitetickIcon";
 import { toast } from "react-toastify";
 import useClaimL1 from "@/Blockchain/hooks/useClaimL1";
 import useClaimStarknet from "@/Blockchain/hooks/useClaimStarknet";
+import {
+  getuserbeneficiaryTicketsL1,
+  viewTicket,
+} from "@/Blockchain/scripts/claimProxy";
+import numberFormatter from "@/functions/numberFormatter";
+import numberFormatterPercentage from "@/functions/numberFormatterPercentage";
+import ConfirmClaimModal from "@/components/modals/ConfirmClaimModal";
+import { useDrawContext } from "@/context/DrawerContext";
 export default function Provisions() {
   const [isLargerThan2000] = useMediaQuery("(min-width: 2000px)");
   const [isLargerThan1280] = useMediaQuery("(min-width: 1248px)");
@@ -60,6 +73,65 @@ export default function Provisions() {
   const [walletTypeSelected, setwalletTypeSelected] = useState("");
   const [addressInput, setaddressInput] = useState("");
   const [claimAddress, setclaimAddress] = useState("");
+  const [totalClaimableAmount, settotalClaimableAmount] = useState<number>(0)
+  const [currentClaimableAmount, setcurrentClaimableAmount] = useState<number>(0)
+  const [calltransaction, setcalltransaction] = useState(false)
+  const [provisionCategories, setprovisionCategories] = useState([
+    {
+      ticketId: 0,
+      id: "Airdrop 1",
+      claimableAmount: 0,
+      currentClaimableAmount: 0,
+      EmissionRate: 2,
+      ticketType: 3,
+      description:"You should have completed more than five transactions on Hashstack V1 across three months, with $100+ cumulative value and $25 minimum supply/borrow balance.",
+      icon:airdropIcon
+    },
+    {
+      ticketId: 0,
+      id: "CCP",
+      claimableAmount: 0,
+      currentClaimableAmount: 0,
+      EmissionRate: 2,
+      ticketType: 2,
+      description:"You should have generated diverse, original content about Hashstack across multiple platforms, creating at least three distinct pieces in different formats.",
+      icon:ccpIcon
+    },
+    {
+      ticketId: 0,
+      id: "Investors",
+      claimableAmount: 0,
+      currentClaimableAmount: 0,
+      EmissionRate: 2,
+      ticketType: 0,
+      description:"You should have completed more than five transactions on Hashstack V1 across three months, with $100+ cumulative value and $25 minimum supply/borrow balance.",
+      icon:airdropIcon
+    },
+    {
+      ticketId: 0,
+      id: "Others",
+      claimableAmount: 0,
+      currentClaimableAmount: 0,
+      EmissionRate: 2,
+      ticketType: 1,
+      description:"You should have completed more than five transactions on Hashstack V1 across three months, with $100+ cumulative value and $25 minimum supply/borrow balance.",
+      icon:airdropIcon
+    },
+  ]);
+
+  useEffect(()=>{
+    if(addressDetails){
+      let valueTotal=0;
+      let currentClaimbale=0
+      for(var i=0;i<provisionCategories.length;i++){
+        valueTotal+=provisionCategories[i].claimableAmount
+        currentClaimbale+=provisionCategories[i].currentClaimableAmount
+      }
+      setcurrentClaimableAmount(currentClaimbale)
+      settotalClaimableAmount(valueTotal)
+    }
+  },[addressDetails])
+
   const [claimAddressConfirmed, setclaimAddressConfirmed] =
     useState<boolean>(false);
 
@@ -72,7 +144,7 @@ export default function Provisions() {
   }, []);
   const handleSearch = async () => {
     if (addressInput.length === 66 || addressInput.length === 42) {
-      setaddressDetails(1);
+      // setaddressDetails(1);
       setaddressSearched(true);
     } else {
       toast.error("Please enter correct address", {
@@ -86,19 +158,100 @@ export default function Provisions() {
     isSuccessL1,
     isErrorL1,
     writeClaimL1,
-  }=useClaimL1()
+    claimAddressL1,
+    setclaimAddressL1,
+    ticketId,
+    setticketId,
+    errorL1,
+  } = useClaimL1();
+  const { isLoading: approveLoading, isSuccess: approveSuccess } =
+    useWaitForTransaction({
+      hash: dataClaimL1?.hash,
+    });
 
-  const { isLoading:approveLoading, isSuccess:approveSuccess } = useWaitForTransaction({
-    hash: dataClaimL1?.hash,
-  })
+  const handleTransactionl1 = async () => {
+    try {
+      if(ticketId!==0){
+        const res = await writeClaimL1();
+      }
+    } catch (error) {
+      toast.error("Transaction Declined", {
+        position: "bottom-right",
+      });
+      console.log(error, "err l1");
+    }
+  };
+  useEffect(() => {
+    if (approveSuccess && !approveLoading) {
+      toast.success("Successfully claimed HSTK Tokens", {
+        position: "bottom-right",
+      });
+      setcalltransaction(false)
+    }
+  }, [approveSuccess]);
 
   useEffect(()=>{
-    if(approveSuccess){
-      toast.success('Successfully claimed HSTK Tokens',{
-        position:'bottom-right'
-      })
+    if(claimAddress){
+      setclaimAddressL1(claimAddress)
     }
-  },[])
+  },[claimAddress,addressAuthenticated])
+
+  const updateProvisionCategories = (incomingData: any) => {
+    const updatedCategories = provisionCategories.map((category) => {
+      const matchingData = incomingData.find(
+        (data: any, index: number) => Number(data[1]) === category.ticketType
+      );
+
+      if (matchingData) {
+        return {
+          ...category,
+          ticketId: matchingData.ticketId,
+          claimableAmount: parseAmount(matchingData.amount.toString()),
+          currentClaimableAmount: parseAmount(matchingData.balance.toString()),
+        };
+      }
+
+      return category;
+    });
+
+    setprovisionCategories(updatedCategories);
+  };
+  useEffect(() => {
+    if (addressInput.length === 42 && addressSearched) {
+      let arr:any = [];
+      const fetchData = async () => {
+        try {
+          const res = await getuserbeneficiaryTicketsL1(addressInput);
+          const dataTickets = res;
+
+          for (let i = 0; i < dataTickets.length; i++) {
+            arr.push(Number(dataTickets[i]));
+          }
+
+          let arrTicketValues:any = [];
+          if (arr.length > 0) {
+            for (let i = 0; i < arr.length; i++) {
+              const res2 = await viewTicket(arr[i]);
+              const enhancedRes2 = { ...res2, ticketId: arr[i] };
+              arrTicketValues.push(enhancedRes2);
+            }
+
+            if (arrTicketValues.length > 0) {
+              updateProvisionCategories(arrTicketValues);
+            }
+          }
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        } finally {
+          // Ensure addressSearched is set to true after all calls are complete
+          setaddressDetails(provisionCategories)
+          // setaddressSearched(true);
+        }
+      };
+
+      fetchData();
+    }
+  }, [addressInput, addressSearched]);
 
   const {
     rToken,
@@ -114,38 +267,71 @@ export default function Provisions() {
     isIdleStakeRequest,
     isSuccessStakeRequest,
     statusStakeRequest,
-  }=useClaimStarknet()
+  } = useClaimStarknet();
 
-  const {
-    data,
-    error,
-    isLoading,
-    isError,
-    isSuccess,
-  } = useWaitForTransactionStarknet({
-    hash:"",
-    watch: true,
-  });
+  const { data, error, isLoading, isError, isSuccess } =
+    useWaitForTransactionStarknet({
+      hash: "",
+      watch: true,
+    });
 
   const { address: addressL1 } = useAccountL1();
   const { address, account } = useAccount();
+  const { available, disconnect, connectors } = useConnectors();
+  const { disconnect: disconnectL1 } = useDisconnect();
+  const [toastPopupConfimred, settoastPopupConfimred] =
+    useState<boolean>(false);
+  const [loading, setloading] = useState(false);
+  const {userConfirmation,toggleConfirmation  } = useDrawContext();
+  console.log(userConfirmation,'form')
   useEffect(() => {
-    if (address || addressL1) {
-      if (address) {
-        if (address === processAddress(addressInput)) {
-          setaddressAuthenticated(true);
+    if (addressInput) {
+      if (address || addressL1) {
+        if (address) {
+          if (address === processAddress(addressInput)) {
+            setaddressAuthenticated(true);
+          } else {
+            if (loading) {
+              if (!toastPopupConfimred) {
+                toast.error("Please sign in with the correct wallet address", {
+                  position: "bottom-right",
+                });
+                settoastPopupConfimred(true);
+              }
+            }
+          }
         }
-      }
-      if (addressL1) {
-        if (addressL1 === addressInput) {
-          setaddressAuthenticated(true);
+        if (addressL1) {
+          if (addressL1 === addressInput) {
+            setaddressAuthenticated(true);
+          } else {
+            if (loading) {
+              if (!toastPopupConfimred) {
+                toast.error("Please sign in with the correct wallet address", {
+                  position: "bottom-right",
+                });
+                settoastPopupConfimred(true);
+              }
+            }
+          }
         }
       }
     }
   }, [address, addressL1]);
 
   useEffect(() => {
-    console.log(addressInput.length,'value')
+    if (!addressInput) {
+      if (address) {
+        disconnect();
+      }
+      if (addressL1) {
+        disconnectL1();
+      }
+      setloading(true);
+    }
+  }, [loading, address, addressL1]);
+
+  useEffect(() => {
     if (addressInput.length === 66 && address) {
       setwalletTypeSelected("L2");
     } else if (addressInput.length === 42 && addressL1) {
@@ -154,6 +340,42 @@ export default function Provisions() {
       setwalletTypeSelected("");
     }
   }, [addressInput, address, addressL1]);
+
+  useEffect(() => {
+    if (walletTypeSelected === "L1") {
+      if (claimAddress!=='') {
+        if(claimAddress.length===42){
+          setclaimAddressConfirmed(true)
+        }else{
+          setclaimAddressConfirmed(false)
+        }
+      }
+    }else{
+      if (claimAddress!=='') {
+        if(claimAddress.length===66){
+          setclaimAddressConfirmed(true)
+        }else{
+          setclaimAddressConfirmed(false)
+        }
+      }
+    }
+  }, [walletTypeSelected,claimAddress,]);
+
+  useEffect(()=>{
+    if(calltransaction){
+      if(ticketId!==0){
+        handleTransactionl1()
+      }
+    }
+  },[calltransaction,ticketId])
+
+  useEffect(()=>{
+    if(walletTypeSelected==='L1'){
+      if(claimAddress!==''){
+        
+      }
+    }
+  },[walletTypeSelected,claimAddress])
 
   return (
     <Box>
@@ -191,15 +413,15 @@ export default function Provisions() {
           <Box
             position="absolute"
             top={addressAuthenticated ? "6%" : "8%"}
-            left="18%"
+            left="12%"
             transform="rotate(120deg)"
           >
             <HashTokenIconFloater />
           </Box>
           <Box
             position="absolute"
-            top={addressAuthenticated ? "11%" : "13%"}
-            left="24%"
+            top={addressAuthenticated ? "11%" : "15%"}
+            left="10%"
             width="14px"
             height="14px"
             bg="#9780FF"
@@ -207,21 +429,41 @@ export default function Provisions() {
           />
           <Box
             position="absolute"
-            top={addressAuthenticated ? "10%" : "12%"}
-            right="18%"
+            top={addressAuthenticated ? "10%" : "14%"}
+            right="8%"
           >
             <HashTokenIconFloater />
           </Box>
           <Box
             position="absolute"
             top={addressAuthenticated ? "7%" : "9%"}
-            right="24%"
+            right="14%"
             width="14px"
             height="14px"
             bg="#9780FF"
             borderRadius="200px"
           />
-          <Box display="flex" width="100%" mb="0rem">
+          <Box width="100%">
+            <Box width="100%">
+              <Box display="flex" width='100%' justifyContent="center">
+                <Text fontSize="56px">
+                  Hashstack Provisions
+                </Text>
+              </Box>
+              <Box width="100%" display="flex" justifyContent='center'>
+                <Text maxW="1000px" mt="2rem" fontSize="16px" lineHeight="20px" textAlign="center">
+                Hashstack team is excited to introduce the HSTK provisions. Over the 4 past years of our existence, we have been fortunate to have worked with the members of various groups in the form of product users, investors, community contributors who have helped advance Hashstack. Through out this journey, we have incentivised your participation through points, token allocation etc. Provisions page is where you claim them, the HSTK tokens.
+                </Text>
+              </Box>
+              <Box display="flex" width='100%' justifyContent="center">
+                <Text mt="3rem" color="#00D395" _hover={{textDecor:'underline'}} cursor="pointer">
+                  Quick guide to HSTK provisions -{">"}
+                </Text>
+              </Box>
+
+            </Box>
+          </Box>
+          <Box display="flex" width="100%" mb="0rem" mt="3rem">
             <Box
               display="flex"
               flexDirection="column"
@@ -229,13 +471,10 @@ export default function Provisions() {
               justifyContent="center"
               alignItems="center"
             >
-              <Text fontSize="56px" fontWeight="700">
-                Borrow 500% of your
+              <Text fontSize="32px" fontWeight="700">
+                Check Your Eligibility
               </Text>
-              <Text fontSize="56px" fontWeight="700">
-                collateral for liquidity
-              </Text>
-              <Box display="flex" mt="0" background="none" marginTop="0.5rem">
+              <Box display="flex" mt="1rem" background="none">
                 <InputGroup
                   width="650px"
                   mt="0rem"
@@ -254,9 +493,11 @@ export default function Provisions() {
                     placeholder="enter your address"
                     _placeholder={{}}
                     value={addressInput}
+                    ml={"0.4rem"}
+                    isDisabled={true}
                     onChange={(e) => {
-                      setaddressSearched(false);
                       setaddressDetails(null);
+                      setaddressSearched(false)
                       setaddressAuthenticated(false);
                       setaddressInput(e.target.value);
                     }}
@@ -359,37 +600,39 @@ export default function Provisions() {
             >
               <Box
                 display="flex"
-                color="black"
+                color="white"
                 alignItems="center"
                 flexDirection="column"
-                padding="16px"
-                bg="#00CE8A"
+                padding="32px"
+                bg="#120F25"
+                border="1px solid #2C2B48"
                 borderRadius="6px"
                 mt="1rem"
               >
                 <Text fontWeight="600" fontSize="18px">
-                  $44000
+                  ${numberFormatter(totalClaimableAmount)}
                 </Text>
                 <Text>Total Claimable Amount</Text>
               </Box>
               <Box
                 display="flex"
-                color="black"
+                color="white"
                 alignItems="center"
                 flexDirection="column"
-                padding="16px"
-                bg="#9780FF"
+                border="1px solid #2C2B48"
+                padding="32px"
+                bg="#120F25"
                 borderRadius="6px"
                 mt="1rem"
               >
                 <Text fontWeight="600" fontSize="18px">
-                  $44000
+                  ${numberFormatter(currentClaimableAmount)}
                 </Text>
                 <Text>Current Claimable Amount</Text>
               </Box>
             </Box>
           )}
-          {addressAuthenticated && (
+          {addressAuthenticated &&totalClaimableAmount!==0 && (
             <Box
               display="flex"
               justifyContent="center"
@@ -418,11 +661,10 @@ export default function Provisions() {
                   <VerifiedUser />
                   <Text>You&apos;re almost there!</Text>
                 </Box>
-                <Text fontSize="24px" fontWeight="700" mt="0.8rem">
-                  Your wallet is successfully connected—just one more step to
-                  go!
+                <Text fontSize="24px" fontWeight="700" mt="0.8rem" maxW="95%">
+                To claim HSTK tokens on a different account than that is registered with us. 
+                This action is irreversible, and can only be changed once.
                 </Text>
-                <Text>Simply add a claim address where you can claim</Text>
                 <Box
                   display="flex"
                   mt="2.5rem"
@@ -449,7 +691,7 @@ export default function Provisions() {
                     <Text>{walletTypeSelected === "L1" ? "ETH" : "STRK"}</Text>
                     <Box ml="0.4rem" borderLeft="2px solid #3B4080">
                       <Text ml="0.4rem">
-                        {walletTypeSelected==='L1'
+                        {walletTypeSelected === "L1"
                           ? `${addressL1?.substring(
                               0,
                               3
@@ -497,7 +739,7 @@ export default function Provisions() {
                         pl="0.8rem"
                         placeholder="enter your address"
                         value={claimAddress}
-                        isDisabled={claimAddressConfirmed}
+                        // isDisabled={claimAddressConfirmed}
                         onChange={(e) => {
                           setclaimAddress(e.target.value);
                         }}
@@ -507,25 +749,52 @@ export default function Provisions() {
                           boxShadow: "none",
                         }}
                       />
+                      {claimAddressConfirmed?
+                      !userConfirmation?
+                      <ConfirmClaimModal
+                      allocatedAddress={addressInput}
+                      claimAddress={claimAddress}
+                      walletTypeSelected={walletTypeSelected}
+                      buttonText="Confirm"
+                      mr="0.5rem"
+                      bg="none"
+                      border="1px solid white"
+                      borderRadius="6px"
+                      cursor="pointer"
+                      padding="8px"
+                      color="white"
+                      _hover={{ bg: "white", color: "black" }}
+                      />:                      <Button
+                      mr="0.5rem"
+                      bg="none"
+                      border="1px solid white"
+                      color="white"
+                      _hover={{ bg: "white", color: "black" }}
+                      // onClick={() => {
+                      //   setclaimAddressConfirmed(true);
+                      // }}
+                      isDisabled={
+                        userConfirmation
+                      }
+                    >
+                      Confirm
+                    </Button>:
                       <Button
                         mr="0.5rem"
                         bg="none"
                         border="1px solid white"
                         color="white"
                         _hover={{ bg: "white", color: "black" }}
-                        onClick={() => {
-                          setclaimAddressConfirmed(true);
-                        }}
+                        // onClick={() => {
+                        //   setclaimAddressConfirmed(true);
+                        // }}
                         isDisabled={
-                          claimAddressConfirmed === true
-                            ? true
-                            : walletTypeSelected === "L1"
-                            ? claimAddress.length !== 42
-                            : claimAddress.length !== 66
+                          claimAddress===""?true:!claimAddressConfirmed
                         }
                       >
                         Confirm
                       </Button>
+                      }
                     </InputGroup>
                   </Box>
                 </Box>
@@ -539,254 +808,103 @@ export default function Provisions() {
                 >
                   <Box display="flex" gap="0.5rem">
                     <Text>Current Claimable Amount</Text>
-                    <Text>$ 500</Text>
+                    <Text>${numberFormatter(currentClaimableAmount)}</Text>
                   </Box>
                   <Box display="flex" gap="0.5rem" borderLeft="1px solid white">
                     <Text ml="1rem">Total Claimable Amount</Text>
-                    <Text>$ 500</Text>
+                    <Text>${numberFormatter(totalClaimableAmount)}</Text>
                   </Box>
                 </Box>
               </Box>
             </Box>
           )}
-          <Box width="100%" mt="2rem">
+          <Box width="100%" mt="3rem">
             <Box ml="5rem" gap="0">
-              <Box display="flex" gap="0.4rem" fontSize="40px" >Are you eligible for <Text color="#FFD027">HSTK</Text> tokens ?</Box>
+              <Box display="flex" gap="0.4rem" fontSize="40px">
+                Are you eligible for <Text color="#FFD027">HSTK</Text> tokens ?
+              </Box>
             </Box>
-            <Box ml="5rem">
-              <Box display="flex" gap="3rem" mt="1.5rem" alignItems="center">
-                <Box
-                  borderRadius="6px"
-                  border="1px solid #2C2B48"
-                  width="440px"
-                >
-                  <Image src={airdropIcon} alt="" />
-                </Box>
-                <Box display="flex" flexDir="column" gap="0.5rem">
-                  <Text color="#F0F0F5" fontSize="40px" fontWeight="800">
-                    Airdrop 1
-                  </Text>
-                  <Text maxW="500px">
-                  You should have completed more than five transactions on Hashstack V1 across three months, with $100+ cumulative value and $25 minimum supply/borrow balance.
-                  </Text>
-                  {addressDetails && (
-                    <Box display="flex" gap="1.5rem">
-                      <Box>
-                        <Text ml="0.4rem">$987</Text>
-                        <Text ml="0.4rem">Claimable Amount</Text>
-                      </Box>
-                      <Box
-                        height="50px"
-                        borderLeft="2px solid #2C2B48"
-                        borderRadius="6px"
-                      ></Box>
-                      <Box>
-                        <Text>$987</Text>
-                        <Text>Current Claimable Amount</Text>
-                      </Box>
-                      <Box
-                        height="50px"
-                        borderLeft="2px solid #2C2B48"
-                        borderRadius="6px"
-                      ></Box>
-                      <Box>
-                        <Text ml="0.4rem">7%</Text>
-                        <Text ml="0.4rem">Emisiion Rate</Text>
-                      </Box>
-                    </Box>
-                  )}
-                  {addressAuthenticated && (
-                    <Button
-                      bg="none"
-                      border="1px solid #F0F0F5"
-                      color="#F0F0F5"
-                      width="200px"
-                      _hover={{
-                        background: "white",
-                        color: "black",
-                      }}
+            <Box>
+              {provisionCategories.map((catgeory: any, index: number) => (
+                <Box key={index} ml="5rem">
+                  <Box
+                    display="flex"
+                    gap="3rem"
+                    mt="1.5rem"
+                    alignItems="center"
+                  >
+                    <Box
+                      borderRadius="6px"
+                      border="1px solid #2C2B48"
+                      width="360px"
                     >
-                      Claim
-                    </Button>
-                  )}
-                </Box>
-              </Box>
-              <Box height="1px" border="1px solid #2C2B48" mt="1.5rem"></Box>
-              <Box display="flex" gap="3rem" mt="1.5rem" alignItems="center">
-                <Box
-                  borderRadius="6px"
-                  border="1px solid #2C2B48"
-                  width="440px"
-                >
-                  <Image src={ccpIcon} alt="" />
-                </Box>
-                <Box display="flex" flexDir="column" gap="1rem">
-                  <Text color="#F0F0F5" fontSize="40px" fontWeight="800">
-                    CCP
-                  </Text>
-                  <Text maxW="500px">
-                  You should have generated diverse, original content about Hashstack across multiple platforms, creating at least three distinct pieces in different formats
-                  </Text>
-                  {addressDetails && (
-                    <Box display="flex" gap="1.5rem">
-                    <Box>
-                      <Text ml="0.4rem">$987</Text>
-                      <Text ml="0.4rem">Claimable Amount</Text>
+                      <Image src={catgeory.icon} alt="" />
                     </Box>
-                    <Box
-                      height="50px"
-                      borderLeft="2px solid #2C2B48"
-                      borderRadius="6px"
-                    ></Box>
-                    <Box>
-                      <Text>$987</Text>
-                      <Text>Current Claimable Amount</Text>
-                    </Box>
-                    <Box
-                      height="50px"
-                      borderLeft="2px solid #2C2B48"
-                      borderRadius="6px"
-                    ></Box>
-                    <Box>
-                      <Text ml="0.4rem">7%</Text>
-                      <Text ml="0.4rem">Emisiion Rate</Text>
+                    <Box display="flex" flexDir="column">
+                      <Text color="#F0F0F5" fontSize="32px" fontWeight="800">
+                        {catgeory.id}
+                      </Text>
+                      <Text maxW="700px">
+                        {catgeory.description}
+                      </Text>
+                      {addressDetails && (
+                        <Box display="flex" gap="1.5rem" mt="0.4rem">
+                          <Box>
+                            <Text>${numberFormatter(catgeory.claimableAmount)}</Text>
+                            <Text>Claimable Amount</Text>
+                          </Box>
+                          <Box
+                            height="50px"
+                            borderLeft="2px solid #2C2B48"
+                            borderRadius="6px"
+                          ></Box>
+                          <Box>
+                            <Text>${numberFormatter(catgeory.currentClaimableAmount)}</Text>
+                            <Text>Current Claimable Amount</Text>
+                          </Box>
+                          <Box
+                            height="50px"
+                            borderLeft="2px solid #2C2B48"
+                            borderRadius="6px"
+                          ></Box>
+                          <Box>
+                            <Text ml="0.4rem">{numberFormatterPercentage(catgeory.EmissionRate)}%</Text>
+                            <Text ml="0.4rem">Emisiion Rate</Text>
+                          </Box>
+                        </Box>
+                      )}
+                      {addressAuthenticated && (
+                        <Button
+                          bg="none"
+                          border="1px solid #F0F0F5"
+                          color="#F0F0F5"
+                          width="200px"
+                          height="35px"
+                          mt="0.4rem"
+                          _hover={{
+                            background: "white",
+                            color: "black",
+                          }}
+                          isDisabled={catgeory.ticketId===0? catgeory.claimableAmount===0:claimAddress!==""?!userConfirmation: catgeory.currentClaimableAmount===0}
+                          onClick={()=>{
+                            if(catgeory.id==="Investors" || catgeory.id==="Others"){
+                              setticketId(catgeory.ticketId)
+                              setcalltransaction(true)
+                            }
+                          }}
+                        >
+                          Claim
+                        </Button>
+                      )}
                     </Box>
                   </Box>
-                  )}
-                  {addressAuthenticated && (
-                    <Button
-                      bg="none"
-                      border="1px solid #F0F0F5"
-                      color="#F0F0F5"
-                      width="200px"
-                      _hover={{
-                        background: "white",
-                        color: "black",
-                      }}
-                    >
-                      Claim
-                    </Button>
-                  )}
+                  <Box
+                    height="1px"
+                    border="1px solid #2C2B48"
+                    mt="1.5rem"
+                  ></Box>
                 </Box>
-              </Box>
-              <Box height="1px" border="1px solid #2C2B48" mt="1.5rem"></Box>
-              <Box display="flex" gap="3rem" mt="1.5rem" alignItems="center">
-                <Box
-                  borderRadius="6px"
-                  border="1px solid #2C2B48"
-                  width="440px"
-                >
-                  <Image src={airdropIcon} alt="" />
-                </Box>
-                <Box display="flex" flexDir="column" gap="1rem">
-                  <Text color="#F0F0F5" fontSize="40px" fontWeight="800">
-                    Investors
-                  </Text>
-                  <Text maxW="500px">
-                    Lorem ipsum dolor sit amet consectetur. Suscipit lectus
-                    gravida vitae commodo nulla pretium.
-                  </Text>
-                  {addressDetails && (
-                    <Box display="flex" gap="1.5rem">
-                    <Box>
-                      <Text ml="0.4rem">$987</Text>
-                      <Text ml="0.4rem">Claimable Amount</Text>
-                    </Box>
-                    <Box
-                      height="50px"
-                      borderLeft="2px solid #2C2B48"
-                      borderRadius="6px"
-                    ></Box>
-                    <Box>
-                      <Text>$987</Text>
-                      <Text>Current Claimable Amount</Text>
-                    </Box>
-                    <Box
-                      height="50px"
-                      borderLeft="2px solid #2C2B48"
-                      borderRadius="6px"
-                    ></Box>
-                    <Box>
-                      <Text ml="0.4rem">7%</Text>
-                      <Text ml="0.4rem">Emisiion Rate</Text>
-                    </Box>
-                  </Box>
-                  )}
-                  {addressAuthenticated && (
-                    <Button
-                      bg="none"
-                      border="1px solid #F0F0F5"
-                      color="#F0F0F5"
-                      width="200px"
-                      _hover={{
-                        background: "white",
-                        color: "black",
-                      }}
-                    >
-                      Claim
-                    </Button>
-                  )}
-                </Box>
-              </Box>
-              <Box height="1px" border="1px solid #2C2B48" mt="1.5rem"></Box>
-              <Box display="flex" gap="3rem" mt="1.5rem" alignItems="center">
-                <Box
-                  borderRadius="6px"
-                  border="1px solid #2C2B48"
-                  width="440px"
-                >
-                  <Image src={airdropIcon} alt="" />
-                </Box>
-                <Box display="flex" flexDir="column" gap="1rem">
-                  <Text color="#F0F0F5" fontSize="40px" fontWeight="800">
-                    STACK
-                  </Text>
-                  <Text maxW="500px">
-                    Lorem ipsum dolor sit amet consectetur. Suscipit lectus
-                    gravida vitae commodo nulla pretium.
-                  </Text>
-                  {addressDetails && (
-                    <Box display="flex" gap="1.5rem">
-                    <Box>
-                      <Text ml="0.4rem">$987</Text>
-                      <Text ml="0.4rem">Claimable Amount</Text>
-                    </Box>
-                    <Box
-                      height="50px"
-                      borderLeft="2px solid #2C2B48"
-                      borderRadius="6px"
-                    ></Box>
-                    <Box>
-                      <Text>$987</Text>
-                      <Text>Current Claimable Amount</Text>
-                    </Box>
-                    <Box
-                      height="50px"
-                      borderLeft="2px solid #2C2B48"
-                      borderRadius="6px"
-                    ></Box>
-                    <Box>
-                      <Text ml="0.4rem">7%</Text>
-                      <Text ml="0.4rem">Emisiion Rate</Text>
-                    </Box>
-                  </Box>
-                  )}
-                  {addressAuthenticated && (
-                    <Button
-                      bg="none"
-                      border="1px solid #F0F0F5"
-                      color="#F0F0F5"
-                      width="200px"
-                      _hover={{
-                        background: "white",
-                        color: "black",
-                      }}
-                    >
-                      Claim
-                    </Button>
-                  )}
-                </Box>
-              </Box>
+              ))}
             </Box>
           </Box>
 

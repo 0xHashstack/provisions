@@ -16,11 +16,12 @@ import {
   // StarknetProviderProps,
 } from "@starknet-react/core";
 import { StarknetProviderProps } from "@starknet-react/core";
-
+import {DrawerContextProvider} from '../context/DrawerContext'
 import { InjectedConnector } from '@wagmi/core/connectors/injected'
 import { mainnet, sepolia,goerli, polygon, optimism, polygonMumbai } from '@wagmi/core/chains'
 import { StarknetProvider } from "@starknet-react/core/dist/providers";
 import Layout from "@/components/toasts";
+import { baseSepolia } from "viem/chains";
 // const chainsAllowedTestnet= [polygon];
 let chainT=[polygonMumbai];
 let chainM=[polygon]
@@ -144,7 +145,7 @@ const lightTheme = extendTheme({
 
 export default function App({ Component, pageProps }: AppProps) {
   const { chains, publicClient } =   configureChains(
-    [sepolia,mainnet],
+    [baseSepolia,mainnet],
     [publicProvider()],
   )
   const connectors = [
@@ -162,7 +163,7 @@ export default function App({ Component, pageProps }: AppProps) {
       walletConnectProjectId: projectId,
       connectors:  process.env.NEXT_PUBLIC_NODE_ENV=='mainnet'?[
         new MetaMaskConnector({
-          chains: [sepolia,mainnet],
+          chains: [mainnet,baseSepolia],
       }),
       new CoinbaseWalletConnector({
       options: {
@@ -176,7 +177,7 @@ export default function App({ Component, pageProps }: AppProps) {
     }),
       ]: [
         new MetaMaskConnector({
-          chains: [sepolia],
+          chains: [baseSepolia],
       }),
       new CoinbaseWalletConnector({
       options: {
@@ -227,15 +228,17 @@ export default function App({ Component, pageProps }: AppProps) {
       
       <ChakraProvider theme={theme}>
       <StarknetProvider autoConnect={true} connectors={connectors}>
-        <Layout>
-          <WagmiConfig config={config}>
-            <ConnectKitProvider>
+        <DrawerContextProvider>
+          <Layout>
+            <WagmiConfig config={config}>
+              <ConnectKitProvider>
 
-              <Component {...pageProps} />
+                <Component {...pageProps} />
 
-            </ConnectKitProvider>
-          </WagmiConfig>
-        </Layout>
+              </ConnectKitProvider>
+            </WagmiConfig>
+          </Layout>
+        </DrawerContextProvider>
           </StarknetProvider>
 
       </ChakraProvider>
