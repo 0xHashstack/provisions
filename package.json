@@ -20,7 +20,7 @@
     "apexcharts": "^3.44.0",
     "axios": "^1.6.1",
     "connectkit": "^1.5.3",
-    "ethers": "^6.8.1",
+    "ethers": "5.5.1",
     "framer-motion": "^10.16.5",
     "get-starknet-core": "^3.2.0",
     "googleapis": "^128.0.0",

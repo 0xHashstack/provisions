@@ -18,7 +18,6 @@ import BlueInfoIcon from '@/assets/blueinfoIcon'
 import { mainnet, sepolia,goerli, polygon, optimism, polygonMumbai } from '@wagmi/core/chains'
 
 const inter = Inter({ subsets: ['latin'] })
-import { ethers, JsonRpcProvider, JsonRpcApiProvider, BrowserProvider, InfuraProvider } from 'ethers'
 import RedinfoIcon from '@/assets/redinfoIcon'
 import process from 'process'
 export default function Home() {
