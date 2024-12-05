@@ -63,13 +63,13 @@ const Navbar = () => {
         </Box>
       </Box>
         <HStack color="white" mr="1rem">
-          <Box>
+          <Box color="#676D9A">
           Need help? Talk to us:
           </Box>
           <Link href="https://discord.gg/FpBhQ7M3d4" target="blank">
             <Box display="flex" alignItems="center" gap="0.3rem" cursor="pointer">
               <DiscordLogo/>
-              <Text>
+              <Text color="#676D9A">
                 Discord
               </Text>
             </Box>
