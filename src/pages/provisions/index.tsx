@@ -39,6 +39,8 @@ import VerifiedUser from "@/assets/verifiedUser";
 import ETHLogo from "@/assets/eth";
 import Seperator from "@/assets/seperator";
 import airdropIcon from "../../assets/airdrop.jpg";
+import investorIcon from '../../assets/investor.png'
+import othersIcon from '../../assets/others.png'
 import ccpIcon from "../../assets/ccp.jpg";
 import Image from "next/image";
 import HashTokenIconFloater from "@/assets/hashTokenIconFloater";
@@ -63,6 +65,8 @@ import numberFormatter from "@/functions/numberFormatter";
 import numberFormatterPercentage from "@/functions/numberFormatterPercentage";
 import ConfirmClaimModal from "@/components/modals/ConfirmClaimModal";
 import { useDrawContext } from "@/context/DrawerContext";
+import HstkLogo from "@/assets/HstkLogo";
+import VideoLogo from "@/assets/videoLogo";
 export default function Provisions() {
   const [isLargerThan2000] = useMediaQuery("(min-width: 2000px)");
   const [isLargerThan1280] = useMediaQuery("(min-width: 1248px)");
@@ -105,7 +109,7 @@ export default function Provisions() {
       EmissionRate: 2,
       ticketType: 0,
       description:"You should have completed more than five transactions on Hashstack V1 across three months, with $100+ cumulative value and $25 minimum supply/borrow balance.",
-      icon:airdropIcon
+      icon:investorIcon
     },
     {
       ticketId: 0,
@@ -115,7 +119,7 @@ export default function Provisions() {
       EmissionRate: 2,
       ticketType: 1,
       description:"You should have completed more than five transactions on Hashstack V1 across three months, with $100+ cumulative value and $25 minimum supply/borrow balance.",
-      icon:airdropIcon
+      icon:othersIcon
     },
   ]);
 
@@ -412,16 +416,16 @@ export default function Provisions() {
         >
           <Box
             position="absolute"
-            top={addressAuthenticated ? "6%" : "8%"}
-            left="12%"
+            top={addressAuthenticated ? "6%" : "11%"}
+            left="7%"
             transform="rotate(120deg)"
           >
             <HashTokenIconFloater />
           </Box>
           <Box
             position="absolute"
-            top={addressAuthenticated ? "11%" : "15%"}
-            left="10%"
+            top={addressAuthenticated ? "11%" : "18%"}
+            left="18%"
             width="14px"
             height="14px"
             bg="#9780FF"
@@ -429,15 +433,15 @@ export default function Provisions() {
           />
           <Box
             position="absolute"
-            top={addressAuthenticated ? "10%" : "14%"}
-            right="8%"
+            top={addressAuthenticated ? "6%" : "11%"}
+            right="7%"
           >
             <HashTokenIconFloater />
           </Box>
           <Box
             position="absolute"
-            top={addressAuthenticated ? "7%" : "9%"}
-            right="14%"
+            top={addressAuthenticated ? "11%" : "18%"}
+            right="18%"
             width="14px"
             height="14px"
             bg="#9780FF"
@@ -446,18 +450,29 @@ export default function Provisions() {
           <Box width="100%">
             <Box width="100%">
               <Box display="flex" width='100%' justifyContent="center">
-                <Text fontSize="56px">
-                  Hashstack Provisions
+                <Box>
+                  <Box borderRadius="200px" border="10px solid #3B39C9">
+                    <HstkLogo/>
+                  </Box>
+                  <Text fontSize="56px" mt="1rem">
+                    HSTK
                 </Text>
+                  </Box>
               </Box>
+              <Box display="flex" width="100%" justifyContent="center">
+                <Text fontSize="56px" mt="1rem">
+                      Hashstack Provisions
+                  </Text>
+                </Box>
               <Box width="100%" display="flex" justifyContent='center'>
-                <Text maxW="1000px" mt="2rem" fontSize="16px" lineHeight="20px" textAlign="center">
+                <Text maxW="1000px" mt="2rem" fontSize="16px" lineHeight="20px" textAlign="left" color="#F0F0F0">
                 Hashstack team is excited to introduce the HSTK provisions. Over the 4 past years of our existence, we have been fortunate to have worked with the members of various groups in the form of product users, investors, community contributors who have helped advance Hashstack. Through out this journey, we have incentivised your participation through points, token allocation etc. Provisions page is where you claim them, the HSTK tokens.
                 </Text>
               </Box>
-              <Box display="flex" width='100%' justifyContent="center">
-                <Text mt="3rem" color="#00D395" _hover={{textDecor:'underline'}} cursor="pointer">
-                  Quick guide to HSTK provisions -{">"}
+              <Box display="flex" width='100%' justifyContent="center" alignItems="center" mt="3rem" gap="0.5rem" cursor="pointer">
+                <VideoLogo/>
+                <Text color="#00D395" border="2px dotted transparent" _hover={{borderBottom:"2px dotted #00D395"}} cursor="pointer" >
+                  Quick guide to HSTK provisions
                 </Text>
               </Box>
 
@@ -474,7 +489,7 @@ export default function Provisions() {
               <Text fontSize="32px" fontWeight="700">
                 Check Your Eligibility
               </Text>
-              <Box display="flex" mt="1rem" background="none">
+              <Box display="flex" mt="1.5rem" background="none">
                 <InputGroup
                   width="650px"
                   mt="0rem"
@@ -491,7 +506,7 @@ export default function Provisions() {
                     pl="0.5rem"
                     color="black"
                     placeholder="enter your address"
-                    _placeholder={{}}
+                    _placeholder={{color:'#BFBFC7'}}
                     value={addressInput}
                     ml={"0.4rem"}
                     isDisabled={true}
@@ -558,6 +573,7 @@ export default function Provisions() {
                   <Box
                     cursor="pointer"
                     display="flex"
+                    width="300px"
                     justifyContent="center"
                     alignItems="center"
                     paddingLeft="16px"
@@ -582,7 +598,7 @@ export default function Provisions() {
                         mr="0.4rem"
                       />
                     )}
-                    {!addressSearched ? "Search" : "Verifiying"}
+                    {!addressSearched ? "Authenticate" : "Verifiying"}
                   </Box>
                 )}
               </Box>
@@ -830,7 +846,7 @@ export default function Provisions() {
                   <Box
                     display="flex"
                     gap="3rem"
-                    mt="1.5rem"
+                    mt="3rem"
                     alignItems="center"
                   >
                     <Box
