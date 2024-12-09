@@ -61,7 +61,7 @@ export default function Tokenomics() {
           zIndex={1}
           padding="0"
           // mb="4rem"
-          pr="4rem"
+          // pr="4rem"
           pl={isLargerThan2000 ? "6rem" : "4rem"}
           display="flex"
           flexDirection="column"
@@ -80,11 +80,12 @@ export default function Tokenomics() {
           <Box
             display="flex"
             width="100%"
-            justifyContent="space-between"
+            justifyContent="center"
+            gap="14%"
             mb="2rem"
           >
             <Box display="flex" flexDirection="column" gap="1rem" maxW="700px">
-              <Text fontSize="56px" fontWeight="700">Lorem ipsum dolor sit amet</Text>
+              <Text fontSize="52px" fontWeight="700" maxW="400px">Lorem ipsum dolor sit amet</Text>
               <Text maxW="400px">
                 Lorem ipsum dolor sit amet consectetur. Placerat felis sapien
                 nunc maecenas arcu commodo ultricies consectetur. Blandit vitae
@@ -98,7 +99,7 @@ export default function Tokenomics() {
                     <Text mt="0.8rem" fontWeight="700">
                         Store of authority(Governance)
                     </Text>
-                    <Text mt="0.5rem" lineHeight="20px" fontSize="16px">
+                    <Text mt="0.5rem" lineHeight="20px" fontSize="16px" color="#676D9A">
                     To enable decentralised governance.
                     </Text>
                 </Box>
@@ -109,7 +110,7 @@ export default function Tokenomics() {
                     <Text mt="0.8rem" fontWeight="700">
                     Store of authority(Store of value(Utility))
                     </Text>
-                    <Text mt="0.5rem" lineHeight="20px" fontSize="16px">
+                    <Text mt="0.5rem" lineHeight="20px" fontSize="16px" color='#676D9A' maxW="500px">
                     For payment of in-dapp transaction fees, compensating partner projects, KOLs, and community participants who help secure/further the Hashstack ecosystem.
                     </Text>
                 </Box>
@@ -120,7 +121,7 @@ export default function Tokenomics() {
                     <Text mt="0.8rem" fontWeight="700">
                     Unlock liquidator role
                     </Text>
-                    <Text mt="0.5rem" lineHeight="20px" fontSize="16px">
+                    <Text mt="0.5rem" lineHeight="20px" fontSize="16px" color="#676D9A" maxW="500px">
                     Liquidators on Hashstack take the responsibility of repaying the bad debt to the Hashstack protocol, in-exchange for acquiring them at a discount.
                     </Text>
                 </Box>
@@ -132,7 +133,7 @@ export default function Tokenomics() {
               mt="2rem"
             >
               <ContributorsChart />
-              <Box display="flex" flexDirection="column" gap="2rem" mt="1rem">
+              <Box display="flex" flexDirection="column" gap="2rem" mt="3rem">
                 <Box display="flex" gap="1.5rem">
                   <Box
                     display="flex"
@@ -142,7 +143,7 @@ export default function Tokenomics() {
                     <Text ml="0.4rem" fontWeight="700">
                       13.4%
                     </Text>
-                    <Text ml="0.4rem" fontWeight="600">
+                    <Text ml="0.4rem" fontWeight="600" color="#676D9A">
                       Hashstack Investors
                     </Text>
                   </Box>
@@ -154,7 +155,7 @@ export default function Tokenomics() {
                     <Text ml="0.4rem" fontWeight="700">
                       29%
                     </Text>
-                    <Text ml="0.4rem" fontWeight="600">
+                    <Text ml="0.4rem" fontWeight="600" color='#676D9A'>
                       Adoption Incentives
                     </Text>
                   </Box>
@@ -166,7 +167,7 @@ export default function Tokenomics() {
                     <Text ml="0.4rem" fontWeight="700">
                       3.3%
                     </Text>
-                    <Text ml="0.4rem" fontWeight="600">
+                    <Text ml="0.4rem" fontWeight="600" color="#676D9A">
                       Community
                     </Text>
                   </Box>
@@ -180,7 +181,7 @@ export default function Tokenomics() {
                     <Text ml="0.4rem" fontWeight="700">
                       14%
                     </Text>
-                    <Text ml="0.4rem" fontWeight="600">
+                    <Text ml="0.4rem" fontWeight="600" color="#676D9A">
                       Product development
                     </Text>
                   </Box>
@@ -192,7 +193,7 @@ export default function Tokenomics() {
                     <Text ml="0.4rem" fontWeight="700">
                       26%
                     </Text>
-                    <Text ml="0.4rem" fontWeight="600">
+                    <Text ml="0.4rem" fontWeight="600" color="#676D9A">
                       Founder(s) & team
                     </Text>
                   </Box>
@@ -204,7 +205,7 @@ export default function Tokenomics() {
                     <Text ml="0.4rem" fontWeight="700">
                       14.3%
                     </Text>
-                    <Text ml="0.4rem" fontWeight="600">
+                    <Text ml="0.4rem" fontWeight="600" color='#676D9A'>
                       Exchange liquidity
                     </Text>
                   </Box>
@@ -212,16 +213,18 @@ export default function Tokenomics() {
               </Box>
             </Box>
           </Box>
-          <Box>
+          <Box paddingLeft="7rem" paddingRight="7rem" mt="2rem">
             <EmissionDashboard />
           </Box>
           <HStack
-            mt="1rem"
+            mt="3rem"
             w="100%"
             h="30%"
             display="flex"
             justifyContent="space-between"
             alignItems="flex-start"
+            paddingLeft="7rem"
+            paddingRight="7rem"
           >
             <EmissionRateChart />
           </HStack>

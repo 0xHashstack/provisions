@@ -149,7 +149,7 @@ export default function Provisions() {
   const handleSearch = async () => {
     if (addressInput.length === 66 || addressInput.length === 42) {
       // setaddressDetails(1);
-      setaddressSearched(true);
+      // setaddressSearched(true);
     } else {
       toast.error("Please enter correct address", {
         position: toast.POSITION.BOTTOM_RIGHT,
@@ -157,6 +157,7 @@ export default function Provisions() {
       });
     }
   };
+  console.log(addressDetails, "addressDetails");
   const {
     dataClaimL1,
     isSuccessL1,
@@ -221,11 +222,12 @@ export default function Provisions() {
     setprovisionCategories(updatedCategories);
   };
   useEffect(() => {
-    if (addressInput.length === 42 && addressSearched) {
+    if (addressInput.length === 42 && addressAuthenticated) {
       let arr:any = [];
       const fetchData = async () => {
         try {
           const res = await getuserbeneficiaryTicketsL1(addressInput);
+          console.log(res,'request')
           const dataTickets = res;
 
           for (let i = 0; i < dataTickets.length; i++) {
@@ -244,6 +246,7 @@ export default function Provisions() {
               updateProvisionCategories(arrTicketValues);
             }
           }
+          console.log('entry')
         } catch (error) {
           console.error("Error fetching data:", error);
         } finally {
@@ -255,7 +258,9 @@ export default function Provisions() {
 
       fetchData();
     }
-  }, [addressInput, addressSearched]);
+  }, [addressInput, addressAuthenticated]);
+
+  console.log(addressDetails, "addressDetails");
 
   const {
     rToken,
@@ -454,18 +459,18 @@ export default function Provisions() {
                   <Box borderRadius="200px" border="10px solid #3B39C9">
                     <HstkLogo/>
                   </Box>
-                  <Text fontSize="56px" mt="1rem">
+                  <Text fontSize="56px" mt="1rem" fontWeight="700">
                     HSTK
                 </Text>
                   </Box>
               </Box>
               <Box display="flex" width="100%" justifyContent="center">
-                <Text fontSize="56px" mt="1rem">
+                <Text fontSize="44px" mt="1rem">
                       Hashstack Provisions
                   </Text>
                 </Box>
               <Box width="100%" display="flex" justifyContent='center'>
-                <Text maxW="1000px" mt="2rem" fontSize="16px" lineHeight="20px" textAlign="left" color="#F0F0F0">
+                <Text maxW="900px" mt="2rem" fontSize="16px" lineHeight="20px" textAlign="left" color="#F0F0F0">
                 Hashstack team is excited to introduce the HSTK provisions. Over the 4 past years of our existence, we have been fortunate to have worked with the members of various groups in the form of product users, investors, community contributors who have helped advance Hashstack. Through out this journey, we have incentivised your participation through points, token allocation etc. Provisions page is where you claim them, the HSTK tokens.
                 </Text>
               </Box>
@@ -491,7 +496,7 @@ export default function Provisions() {
               </Text>
               <Box display="flex" mt="1.5rem" background="none">
                 <InputGroup
-                  width="650px"
+                  width="600px"
                   mt="0rem"
                   border="1px solid var(--stroke-of-30, rgba(103, 109, 154, 0.30))"
                   borderRight="0px"
@@ -509,7 +514,7 @@ export default function Provisions() {
                     _placeholder={{color:'#BFBFC7'}}
                     value={addressInput}
                     ml={"0.4rem"}
-                    isDisabled={true}
+                    // isDisabled={true}
                     onChange={(e) => {
                       setaddressDetails(null);
                       setaddressSearched(false)
@@ -528,6 +533,7 @@ export default function Provisions() {
                   />
                 </InputGroup>
                 {addressAuthenticated ? (
+                  addressDetails?
                   <Box
                     display="flex"
                     justifyContent="center"
@@ -536,12 +542,27 @@ export default function Provisions() {
                     paddingRight="16px"
                     borderRightRadius="6px"
                     bg="#323FF4"
+                    width="300px"
                     height="50px"
                   >
                     <WhitetickIcon />
-                    <Text ml="0.2rem">Authenticated</Text>
+                    <Text ml="0.4rem">Authenticated</Text>
+                  </Box>:                  <Box
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                    paddingLeft="16px"
+                    width="300px"
+                    paddingRight="16px"
+                    borderRightRadius="6px"
+                    bg="#323FF4"
+                    gap="0.4rem"
+                    height="50px"
+                  >
+                    <Spinner/>
+                    <Text ml="0.2rem">Verifiying</Text>
                   </Box>
-                ) : addressDetails ? (
+                ) : (addressInput.length===66 || addressInput.length===42) ? (
                   addressInput.length === 66 ? (
                     <ConnectStarknetWalletModal
                       cursor="pointer"
@@ -552,6 +573,7 @@ export default function Provisions() {
                       paddingRight="16px"
                       borderRightRadius="6px"
                       bg="#323FF4"
+                      width="300px"
                       buttonText="Authenticate"
                       height="50px"
                     />
@@ -563,6 +585,7 @@ export default function Provisions() {
                       alignItems="center"
                       paddingLeft="16px"
                       paddingRight="16px"
+                      width="300px"
                       borderRightRadius="6px"
                       bg="#323FF4"
                       buttonText="Authenticate"
@@ -580,25 +603,13 @@ export default function Provisions() {
                     paddingRight="16px"
                     borderRightRadius="6px"
                     bg="#323FF4"
-                    onClick={() => {
-                      if (addressInput !== "") {
-                        handleSearch();
+                    onClick={()=>{
+                      if(addressInput.length!==0){
+                        handleSearch()
                       }
-                      // handleSearch()
-                      // handleCopyClick()
                     }}
                   >
-                    {addressSearched && (
-                      <Spinner
-                        thickness="4px"
-                        speed="0.65s"
-                        emptyColor="gray.200"
-                        color="#010409"
-                        size="sm"
-                        mr="0.4rem"
-                      />
-                    )}
-                    {!addressSearched ? "Authenticate" : "Verifiying"}
+                    Authenticate
                   </Box>
                 )}
               </Box>
@@ -619,7 +630,7 @@ export default function Provisions() {
                 color="white"
                 alignItems="center"
                 flexDirection="column"
-                padding="32px"
+                padding="32px 64px"
                 bg="#120F25"
                 border="1px solid #2C2B48"
                 borderRadius="6px"
@@ -628,7 +639,7 @@ export default function Provisions() {
                 <Text fontWeight="600" fontSize="18px">
                   ${numberFormatter(totalClaimableAmount)}
                 </Text>
-                <Text>Total Claimable Amount</Text>
+                <Text color='#676D9A'>Total Claimable Amount</Text>
               </Box>
               <Box
                 display="flex"
@@ -636,7 +647,7 @@ export default function Provisions() {
                 alignItems="center"
                 flexDirection="column"
                 border="1px solid #2C2B48"
-                padding="32px"
+                padding="32px 64px"
                 bg="#120F25"
                 borderRadius="6px"
                 mt="1rem"
@@ -644,7 +655,7 @@ export default function Provisions() {
                 <Text fontWeight="600" fontSize="18px">
                   ${numberFormatter(currentClaimableAmount)}
                 </Text>
-                <Text>Current Claimable Amount</Text>
+                <Text color='#676D9A'>Claimable Amount</Text>
               </Box>
             </Box>
           )}
@@ -653,7 +664,7 @@ export default function Provisions() {
               display="flex"
               justifyContent="center"
               alignItems="center"
-              mt="1.5rem"
+              mt="3rem"
               gap="2rem"
             >
               <Box
@@ -663,7 +674,7 @@ export default function Provisions() {
                 flexDirection="column"
                 bg="#120F25"
                 border="1px solid #2C2B48"
-                width="1000px"
+                width="88%"
               >
                 <Box
                   width="100%"
@@ -677,7 +688,7 @@ export default function Provisions() {
                   <VerifiedUser />
                   <Text>You&apos;re almost there!</Text>
                 </Box>
-                <Text fontSize="24px" fontWeight="700" mt="0.8rem" maxW="95%">
+                <Text fontSize="22px" fontWeight="400" mt="0.8rem" maxW="95%">
                 To claim HSTK tokens on a different account than that is registered with us. 
                 This action is irreversible, and can only be changed once.
                 </Text>
@@ -686,6 +697,7 @@ export default function Provisions() {
                   mt="2.5rem"
                   gap="0.4rem"
                   alignItems="center"
+                  width="100%"
                 >
                   <Box
                     bg="#2B2B4A"
@@ -695,7 +707,8 @@ export default function Provisions() {
                     display="flex"
                     alignItems="center"
                     gap="0.2rem"
-                    width="450px"
+                    // width="450px"
+                    width="50%"
                     height="64px" // Set consistent height
                   >
                     {walletTypeSelected === "L1" ? (
@@ -708,20 +721,11 @@ export default function Provisions() {
                     <Box ml="0.4rem" borderLeft="2px solid #3B4080">
                       <Text ml="0.4rem">
                         {walletTypeSelected === "L1"
-                          ? `${addressL1?.substring(
-                              0,
-                              3
-                            )}...${addressL1?.substring(
-                              addressL1.length - 9,
-                              addressL1.length
-                            )}`
+                          ? `${addressL1}`
                           : `${account?.address.substring(
                               0,
                               3
-                            )}...${account?.address.substring(
-                              account?.address.length - 9,
-                              account?.address.length
-                            )}`}
+                            )}...${account?.address}`}
                       </Text>
                     </Box>
                   </Box>
@@ -730,17 +734,18 @@ export default function Provisions() {
                     justifyContent="center"
                     alignItems="center"
                     height="64px" // Set same height
+                    width="5%"
                   >
                     <Seperator />
                   </Box>
-                  <Box display="flex" mt="0" marginTop="0.5rem" height="64px">
+                  <Box display="flex" mt="0" height="64px" width="50%">
                     {" "}
                     {/* Ensure same height */}
                     <InputGroup
-                      width="450px"
+                      // width="40%"
                       mt="0rem"
                       borderRight="0px"
-                      borderRadius="6px"
+                      borderRadius="8px"
                       bg="#2B2B4A"
                       height="100%" // Match parent height
                       display="flex"
@@ -818,16 +823,16 @@ export default function Provisions() {
                 <Box
                   display="flex"
                   gap="1rem"
-                  mt="1.5rem"
+                  mt="2rem"
                   justifyContent="center"
-                  mr="5.5rem"
+                  // mr="rem"
                 >
                   <Box display="flex" gap="0.5rem">
-                    <Text>Current Claimable Amount</Text>
+                    <Text color='#676D9A'>Currently Claimed</Text>
                     <Text>${numberFormatter(currentClaimableAmount)}</Text>
                   </Box>
                   <Box display="flex" gap="0.5rem" borderLeft="1px solid white">
-                    <Text ml="1rem">Total Claimable Amount</Text>
+                    <Text ml="1rem" color='#676D9A'>Total Claimable Amount</Text>
                     <Text>${numberFormatter(totalClaimableAmount)}</Text>
                   </Box>
                 </Box>
@@ -847,7 +852,7 @@ export default function Provisions() {
                     display="flex"
                     gap="3rem"
                     mt="3rem"
-                    alignItems="center"
+                    // alignItems="center"
                   >
                     <Box
                       borderRadius="6px"
@@ -860,14 +865,14 @@ export default function Provisions() {
                       <Text color="#F0F0F5" fontSize="32px" fontWeight="800">
                         {catgeory.id}
                       </Text>
-                      <Text maxW="700px">
+                      <Text maxW="700px" mt="1rem">
                         {catgeory.description}
                       </Text>
                       {addressDetails && (
-                        <Box display="flex" gap="1.5rem" mt="0.4rem">
+                        <Box display="flex" gap="1.5rem" mt="1.5rem">
                           <Box>
                             <Text>${numberFormatter(catgeory.claimableAmount)}</Text>
-                            <Text>Claimable Amount</Text>
+                            <Text>Tokens</Text>
                           </Box>
                           <Box
                             height="50px"
@@ -876,7 +881,7 @@ export default function Provisions() {
                           ></Box>
                           <Box>
                             <Text>${numberFormatter(catgeory.currentClaimableAmount)}</Text>
-                            <Text>Current Claimable Amount</Text>
+                            <Text>Claimable Amount</Text>
                           </Box>
                           <Box
                             height="50px"
@@ -887,16 +892,19 @@ export default function Provisions() {
                             <Text ml="0.4rem">{numberFormatterPercentage(catgeory.EmissionRate)}%</Text>
                             <Text ml="0.4rem">Emisiion Rate</Text>
                           </Box>
-                        </Box>
-                      )}
-                      {addressAuthenticated && (
+                          <Box
+                            height="50px"
+                            borderLeft="2px solid #2C2B48"
+                            borderRadius="6px"
+                          ></Box>
+                          {addressAuthenticated && (
                         <Button
                           bg="none"
                           border="1px solid #F0F0F5"
                           color="#F0F0F5"
                           width="200px"
-                          height="35px"
-                          mt="0.4rem"
+                          height="50px"
+                          // mt="0.4rem"
                           _hover={{
                             background: "white",
                             color: "black",
@@ -911,6 +919,8 @@ export default function Provisions() {
                         >
                           Claim
                         </Button>
+                      )}
+                        </Box>
                       )}
                     </Box>
                   </Box>
