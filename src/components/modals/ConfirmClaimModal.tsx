@@ -30,6 +30,7 @@ import ETHLogo from "@/assets/eth";
 import STRKLogo from "@/assets/strk";
 import InfoIcon from "@/assets/infoIcon";
 import { useDrawContext } from "@/context/DrawerContext";
+import { toast } from "react-toastify";
 
 const ConfirmClaimModal = ({
   buttonText,
@@ -82,10 +83,11 @@ const ConfirmClaimModal = ({
           onClose();
         }}
         isCentered
+        size={{ width: '200px', height: '100px' }}
         scrollBehavior="inside"
       >
         <ModalOverlay bg="rgba(244, 242, 255, 0.5);" mt="3.8rem" />
-        <ModalContent mt="8rem" bg={"#02010F"} minW="470px">
+        <ModalContent mt="8rem" bg={"#02010F"} maxW={walletTypeSelected==='L1'?"480px": "650px"}>
           <ModalHeader
             mt="1rem"
             fontSize="18px"
@@ -107,7 +109,7 @@ const ConfirmClaimModal = ({
           </ModalHeader>
           <ModalCloseButton color="white" mt="1rem" mr="1rem" />
           {/* <ModalHeader>Borrow</ModalHeader> */}
-          <ModalBody color={"#E6EDF3"}>
+          <ModalBody color={"#E6EDF3"} overflow="hidden">
             {/* <ModalCloseButton mt="1rem" mr="1rem" color="white" /> */}
             {/* <button onClick={onClose}>Cancel</button> */}
             <Box
@@ -223,6 +225,9 @@ const ConfirmClaimModal = ({
                     _hover={{ bg: "none", color: "white" }}
                     onClick={() => {
                       setuserConfirmation(true);
+                      toast.success("Claim address updated successfully",{
+                        position:'bottom-right'
+                      });
                       onClose();
                     }}
                   >

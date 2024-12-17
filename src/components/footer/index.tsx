@@ -27,14 +27,20 @@ const Footer = () => {
           flexDirection="row"
           alignItems='center'
           justifyContent="space-between"
+          position="fixed"
+          bottom="0"
+          zIndex="100"
+          bg="#030111"
           mt="4rem"
           pt="1rem"
           pl="2rem"
           pr="2rem"
+          gap="6rem"
           // pb="1rem"
           width="100%"
+          whiteSpace="nowrap"
         >
-          <Box display="flex" flexDirection="row" gap={isWidthLessThan1350 ?"2rem":"2.5rem"}>
+          <Box display="flex" flexDirection="row" gap={isWidthLessThan1350 ?"2rem":"2.5rem"} mb="0.8rem">
             <Text
               color="#4D59E8"
               fontSize="14px"
@@ -131,7 +137,7 @@ const Footer = () => {
             </Link>
 
           </Box>
-          <Box display="flex" flexDirection="row" gap={isWidthLessThan1350 ?"1.5rem":"2.5rem"}>
+          <Box display="flex" flexDirection="row" gap={isWidthLessThan1350 ?"1.5rem":"2.5rem"} mb="0.8rem">
             {/* <Link href="https://docs.hashstack.finance/hub/" target="_blank">
             <Box
               display="flex"
@@ -176,7 +182,7 @@ const Footer = () => {
                 {dashboardHover == 2 ? <TwitterIconWhite /> : <TwitterIcon />}
             </Box>
               </Link>
-              <Link href="https://discord.gg/FpBhQ7M3d4" target="_blank">
+              <Link href="https://discord.com/invite/VaThqq8vbS" target="_blank">
             <Box
               display="flex"
               width="40px"

@@ -43,7 +43,9 @@ const Navbar = () => {
       height="3.8125rem"
     >
       <Box display="flex" gap="2rem">
-        <Box  ml="1rem" cursor="pointer">
+        <Box  ml="1rem" cursor="pointer" onClick={()=>{
+          router.push('/provisions')
+        }}>
           <HashstackLogo/>
         </Box>
         {!isLessThan1210 &&<Box display="flex" gap="1rem" justifyContent="center" alignItems="center">
@@ -82,7 +84,7 @@ const Navbar = () => {
           <Box color="#676D9A" mr="0.5rem">
           Need help? Talk to us:
           </Box>
-          <Link href="https://discord.gg/FpBhQ7M3d4" target="blank">
+          <Link href="https://discord.com/invite/VaThqq8vbS" target="blank">
             <Box display="flex" alignItems="center" gap="0.3rem" cursor="pointer">
               <DiscordLogo/>
               <Text color="#676D9A">
@@ -456,7 +458,7 @@ const Navbar = () => {
                   Contribute-2-Earn
                 </Text>
               </Box>
-                <DrawerCloseButton position="fixed" bottom="10%" top="77%"  left="45%" width="48px" height="48px" borderRadius="8px" bg="transparent" color="white" mt="5rem"  />
+                <DrawerCloseButton position="fixed" bottom="10%" top="74%"  left="45%" width="48px" height="48px" borderRadius="8px" bg="transparent" color="white"/>
             </DrawerBody>
           </DrawerContent>
         </Drawer>

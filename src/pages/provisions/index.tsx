@@ -59,7 +59,9 @@ import useClaimL1 from "@/Blockchain/hooks/useClaimL1";
 import useClaimStarknet from "@/Blockchain/hooks/useClaimStarknet";
 import {
   getuserbeneficiaryTicketsL1,
+  getuserbeneficiaryTicketsL2,
   viewTicket,
+  viewTicketL2,
 } from "@/Blockchain/scripts/claimProxy";
 import numberFormatter from "@/functions/numberFormatter";
 import numberFormatterPercentage from "@/functions/numberFormatterPercentage";
@@ -68,6 +70,7 @@ import { useDrawContext } from "@/context/DrawerContext";
 import HstkLogo from "@/assets/HstkLogo";
 import VideoLogo from "@/assets/videoLogo";
 import Footer from "@/components/footer";
+import Link from "next/link";
 export default function Provisions() {
   const [isLargerThan2000] = useMediaQuery("(min-width: 2000px)");
   const [isSmallerThan1250] = useMediaQuery("(max-width: 1250px)");
@@ -174,9 +177,31 @@ export default function Provisions() {
     setticketId,
     errorL1,
   } = useClaimL1();
+
+  const {
+    claimAddressL2,
+    setclaimAddressL2,
+    ticketIdL2,
+    setticketIdL2,
+    dataClaimL2,
+    errorClaimL2,
+    resetClaimL2,
+    writeClaimL2,
+    writeAsyncClaimL2,
+    isErrorClaimL2,
+    isIdleClaimL2,
+    isSuccessClaimL2,
+    statusClaimL2,
+  }=useClaimStarknet()
+
   const { isLoading: approveLoading, isSuccess: approveSuccess } =
     useWaitForTransaction({
       hash: dataClaimL1?.hash,
+    });
+    const { data, error, isLoading, isError, isSuccess } =
+    useWaitForTransactionStarknet({
+      hash: dataClaimL2?.transaction_hash,
+      watch: true,
     });
   const errorMessages = {
     ElectionInactive: "Election is Not Active",
@@ -215,6 +240,21 @@ export default function Provisions() {
       console.log(error, "err l1");
     }
   };
+
+  const handleTransactionL2=async()=>{
+    try {
+      if(ticketIdL2!==0){
+        console.log(ticketIdL2,'l2')
+        const res=await writeAsyncClaimL2()
+      }
+    } catch (error) {
+      toast.error(`${ErrorMessage(error)}`, {
+        position: "bottom-right",
+      });
+      console.log(error,'err l2')
+    }
+  }
+
   useEffect(() => {
     if (approveSuccess && !approveLoading) {
       toast.success("Successfully claimed HSTK Tokens", {
@@ -227,6 +267,7 @@ export default function Provisions() {
   useEffect(() => {
     if (claimAddress) {
       setclaimAddressL1(claimAddress);
+      setclaimAddressL2(claimAddress);
     }
   }, [claimAddress, addressAuthenticated]);
 
@@ -234,6 +275,26 @@ export default function Provisions() {
     const updatedCategories = provisionCategories.map((category) => {
       const matchingData = incomingData.find(
         (data: any, index: number) => data.ticketType === category.ticketType
+      );
+
+      if (matchingData) {
+        return {
+          ...category,
+          ticketId: matchingData.ticketId,
+          claimableAmount: parseAmount(matchingData.amount.toString()),
+          currentClaimableAmount: parseAmount(matchingData.balance.toString()),
+        };
+      }
+
+      return category;
+    });
+
+    setprovisionCategories(updatedCategories);
+  };
+  const updateProvisionCategoriesL2 = (incomingData: any) => {
+    const updatedCategories = provisionCategories.map((category) => {
+      const matchingData = incomingData.find(
+        (data: any, index: number) => Number(data.ticket_type) === category.ticketType
       );
 
       if (matchingData) {
@@ -286,9 +347,40 @@ export default function Provisions() {
 
       fetchData();
     }else if(addressInput.length===66 && addressAuthenticated){
+      let arr: any = [];
+      const fetchData = async () => {
+        try {
+          const res = await getuserbeneficiaryTicketsL2(addressInput);
+          const dataTickets = res;
 
+          for (let i = 0; i < dataTickets.length; i++) {
+            arr.push(Number(dataTickets[i]));
+          }
+
+          let arrTicketValues: any = [];
+          if (arr.length > 0) {
+            const promises = arr.map(async (ticketId: any) => {
+              const res2 = await viewTicketL2(ticketId);
+              return { ...res2, ticketId };
+            });
+
+            const arrTicketValues = await Promise.all(promises);
+            if (arrTicketValues.length > 0) {
+              updateProvisionCategoriesL2(arrTicketValues);
+            }
+          }
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        } finally {
+          // Ensure addressSearched is set to true after all calls are complete
+          setaddressDetails(provisionCategories);
+          // setaddressSearched(true);
+        }
+      };
+
+      fetchData();
     }
-  }, [addressInput, addressAuthenticated, approveSuccess]);
+  }, [addressInput, addressAuthenticated, approveSuccess,isSuccess]);
 
   useEffect(() => {
     if (addressDetails) {
@@ -301,29 +393,17 @@ export default function Provisions() {
       setcurrentClaimableAmount(currentClaimbale);
       settotalClaimableAmount(valueTotal);
     }
-  }, [addressDetails, approveSuccess]);
+  }, [addressDetails, approveSuccess,isSuccess]);
 
-  const {
-    rToken,
-    setRToken,
-    rTokenAmount,
-    setRTokenAmount,
-    dataStakeRequest,
-    errorStakeRequest,
-    resetStakeRequest,
-    writeStakeRequest,
-    writeAsyncStakeRequest,
-    isErrorStakeRequest,
-    isIdleStakeRequest,
-    isSuccessStakeRequest,
-    statusStakeRequest,
-  } = useClaimStarknet();
 
-  const { data, error, isLoading, isError, isSuccess } =
-    useWaitForTransactionStarknet({
-      hash: "",
-      watch: true,
-    });
+  useEffect(()=>{
+    if(isSuccess && !isLoading){
+      toast.success('Successfully claimed HSTK Tokens', {
+        position: 'bottom-right'
+      })
+      setcalltransaction(false);
+    }
+  },[isSuccess])
 
   const { address: addressL1 } = useAccountL1();
   const { address, account } = useAccount();
@@ -412,11 +492,15 @@ export default function Provisions() {
 
   useEffect(() => {
     if (calltransaction) {
-      if (ticketId !== 0) {
+      if (ticketId !== 0 && addressL1) {
         handleTransactionl1();
       }
+      if(ticketIdL2!==0 &&address){
+        console.log('entry')
+        handleTransactionL2()
+      }
     }
-  }, [calltransaction, ticketId]);
+  }, [calltransaction, ticketId,ticketIdL2]);
 
   useEffect(() => {
     if (walletTypeSelected === "L1") {
@@ -548,14 +632,16 @@ export default function Provisions() {
                 cursor="pointer"
               >
                 <VideoLogo />
-                <Text
-                  color="#00D395"
-                  border="2px dotted transparent"
-                  _hover={{ borderBottom: "2px dotted #00D395" }}
-                  cursor="pointer"
-                >
-                  Quick guide to HSTK provisions
-                </Text>
+                <Link href="https://app.supademo.com/demo/cm4s4znho01t9ql5jgxg7lhcs" target="_blank">
+                  <Text
+                    color="#00D395"
+                    border="2px dotted transparent"
+                    _hover={{ borderBottom: "2px dotted #00D395" }}
+                    cursor="pointer"
+                  >
+                    Quick guide to HSTK provisions
+                  </Text>
+                </Link>
               </Box>
             </Box>
           </Box>
@@ -874,7 +960,7 @@ export default function Provisions() {
                         pl="0.8rem"
                         placeholder="enter your address"
                         value={claimAddress}
-                        // isDisabled={claimAddressConfirmed}
+                        isDisabled={userConfirmation}
                         onChange={(e) => {
                           setclaimAddress(e.target.value);
                         }}
@@ -1043,6 +1129,7 @@ export default function Provisions() {
                               }
                               onClick={() => {
                                 setticketId(catgeory.ticketId);
+                                setticketIdL2(catgeory.ticketId);
                                 setcalltransaction(true);
                               }}
                             >
@@ -1116,6 +1203,7 @@ export default function Provisions() {
                               }
                               onClick={() => {
                                 setticketId(catgeory.ticketId);
+                                setticketIdL2(catgeory.ticketId);
                                 setcalltransaction(true);
                               }}
                             >
@@ -1140,9 +1228,9 @@ export default function Provisions() {
           Tokenomics
         </Text>
         <ContributorsChart/> */}
-          {!isSmallerThan1250 && <Footer />}
         </Box>
       }
+      {!isSmallerThan1250 && <Footer />}
     </Box>
   );
 }
