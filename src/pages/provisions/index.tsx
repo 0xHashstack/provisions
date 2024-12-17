@@ -115,7 +115,7 @@ export default function Provisions() {
       EmissionRate: 26,
       ticketType: 0,
       description:
-        "You should have completed more than five transactions on Hashstack V1 across three months, with $100+ cumulative value and $25 minimum supply/borrow balance.",
+        "Early private round investors who contributed to our foundational stage are eligible to claim their benefits.",
       icon: investorIcon,
     },
     {
@@ -126,7 +126,7 @@ export default function Provisions() {
       EmissionRate: 11.4,
       ticketType: 1,
       description:
-        "You should have completed more than five transactions on Hashstack V1 across three months, with $100+ cumulative value and $25 minimum supply/borrow balance.",
+        "Key community members who actively promoted our product across various channels qualify for this program.",
       icon: investorIcon,
     },
     {
@@ -137,7 +137,7 @@ export default function Provisions() {
       EmissionRate: 2,
       ticketType: 4,
       description:
-        "You should have completed more than five transactions on Hashstack V1 across three months, with $100+ cumulative value and $25 minimum supply/borrow balance.",
+        "Individuals with previous SAFT allocations or past incentive program eligibility can claim through this section.",
       icon: othersIcon,
     },
   ]);
