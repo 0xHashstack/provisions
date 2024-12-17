@@ -63,7 +63,7 @@ const ContributorsChart = () => {
                   show: true,
                   fontSize: "16px",
                   fontWeight: "bold",
-                  color: "#FFFFFF", // Set the "Total" label text color to white
+                  color: "#676D9A", // Set the "Total" label text color to white
                 },
                 value: {
                   show: true,
@@ -73,12 +73,12 @@ const ContributorsChart = () => {
                 },
                 total: {
                   show: true,
-                  label: "Total",
+                  label: "Total Supply",
                   fontSize: "24px",
                   fontWeight: "bold",
-                  color: "#FFFFFF", // Change the "Total" label color
+                  color: "#676D9A", // Change the "Total" label color
                   formatter: function () {
-                    return "100%"; // Display total percentage in the center
+                    return "100"; // Display total percentage in the center
                   },
                 },
               },

@@ -2,6 +2,7 @@ import Navbar from "@/components/Navbar";
 import ContributorsChart from "@/components/charts/ContributorsChart";
 import {
   Box,
+  Button,
   HStack,
   Spinner,
   Stack,
@@ -23,6 +24,11 @@ import {
 import EmissionRateChart from "@/components/charts/EmissionRateChart";
 import TokenomicsTable from "@/components/EmissionDashboard";
 import EmissionDashboard from "@/components/EmissionDashboard";
+import UniswapLogo from "@/assets/uniswapLogo";
+import LeadingLogo from "@/assets/leadingLogo";
+import EkuboIcon from "@/assets/ekuboIcon";
+import numberFormatter from "@/functions/numberFormatter";
+import Footer from "@/components/footer";
 
 export default function Tokenomics() {
   const [isLargerThan2000] = useMediaQuery("(min-width: 2000px)");
@@ -48,20 +54,20 @@ export default function Tokenomics() {
       >
         <Navbar />
       </Box>
-      { (
+      {
         <Box
-        background={`
+          background={`
           radial-gradient(circle 600px at 30% 10%, rgba(83, 49, 234, 0.2), transparent),
           radial-gradient(circle 600px at bottom right, rgba(83, 49, 234, 0.3), transparent),
           black
         `}
-        backgroundAttachment="fixed"
-        position="relative"
+          backgroundAttachment="fixed"
+          position="relative"
           color="white"
           zIndex={1}
           padding="0"
           // mb="4rem"
-          pr="4rem"
+          // pr="4rem"
           pl={isLargerThan2000 ? "6rem" : "4rem"}
           display="flex"
           flexDirection="column"
@@ -69,70 +75,103 @@ export default function Tokenomics() {
           pt="6rem"
           pb={isLargerThan1280 ? "7rem" : "0rem"}
         >
-          <Text
-            borderBottom={"thick"}
-            color="white"
-            width={"15%"}
-            display="flex"
-            flexDirection={"row"}
-            justifyContent="begin"
-          ></Text>
           <Box
             display="flex"
             width="100%"
-            justifyContent="space-between"
+            justifyContent="center"
+            gap="14%"
             mb="2rem"
           >
             <Box display="flex" flexDirection="column" gap="1rem" maxW="700px">
-              <Text fontSize="56px" fontWeight="700">Lorem ipsum dolor sit amet</Text>
-              <Text maxW="400px">
-                Lorem ipsum dolor sit amet consectetur. Placerat felis sapien
-                nunc maecenas arcu commodo ultricies consectetur. Blandit vitae
-                duis tristique ut sed.
+              <Text fontSize="52px" fontWeight="700" maxW="400px">
+                Hashstack Tokenomics
+              </Text>
+              <Text maxW="500px">
+              The HSTK token serves as the cornerstone of our DeFi ecosystem, built to drive value, incentivize active participation, and generate sustainable economic momentum.
               </Text>
               <Box height="1px" border="1px solid #272943" width="60%"></Box>
               <Box display="flex" flexDirection="column" mt="0.5rem">
-                    <Box borderRadius="500px" bg="#7331EA" width="22px" height="22px" display="flex" justifyContent="center" alignItems="center">
-                        1
-                    </Box>
-                    <Text mt="0.8rem" fontWeight="700">
-                        Store of authority(Governance)
-                    </Text>
-                    <Text mt="0.5rem" lineHeight="20px" fontSize="16px">
-                    To enable decentralised governance.
-                    </Text>
+                <Box
+                  borderRadius="500px"
+                  bg="#7331EA"
+                  width="22px"
+                  height="22px"
+                  display="flex"
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  1
                 </Box>
-                <Box display="flex" flexDirection="column" mt="0.5rem">
-                    <Box borderRadius="500px" bg="#7331EA" width="22px" height="22px" display="flex" justifyContent="center" alignItems="center">
-                        2
-                    </Box>
-                    <Text mt="0.8rem" fontWeight="700">
-                    Store of authority(Store of value(Utility))
-                    </Text>
-                    <Text mt="0.5rem" lineHeight="20px" fontSize="16px">
-                    For payment of in-dapp transaction fees, compensating partner projects, KOLs, and community participants who help secure/further the Hashstack ecosystem.
-                    </Text>
+                <Text mt="0.8rem" fontWeight="700">
+                  Store of authority(Governance)
+                </Text>
+                <Text
+                  mt="0.5rem"
+                  lineHeight="20px"
+                  fontSize="16px"
+                  color="#676D9A"
+                >
+                  To enable decentralised governance.
+                </Text>
+              </Box>
+              <Box display="flex" flexDirection="column" mt="0.5rem">
+                <Box
+                  borderRadius="500px"
+                  bg="#7331EA"
+                  width="22px"
+                  height="22px"
+                  display="flex"
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  2
                 </Box>
-                <Box display="flex" flexDirection="column" mt="0.5rem">
-                    <Box borderRadius="500px" bg="#7331EA" width="22px" height="22px" display="flex" justifyContent="center" alignItems="center">
-                        3
-                    </Box>
-                    <Text mt="0.8rem" fontWeight="700">
-                    Unlock liquidator role
-                    </Text>
-                    <Text mt="0.5rem" lineHeight="20px" fontSize="16px">
-                    Liquidators on Hashstack take the responsibility of repaying the bad debt to the Hashstack protocol, in-exchange for acquiring them at a discount.
-                    </Text>
+                <Text mt="0.8rem" fontWeight="700">
+                  Store of authority(Store of value(Utility))
+                </Text>
+                <Text
+                  mt="0.5rem"
+                  lineHeight="20px"
+                  fontSize="16px"
+                  color="#676D9A"
+                  maxW="500px"
+                >
+                  For payment of in-dapp transaction fees, compensating partner
+                  projects, KOLs, and community participants who help
+                  secure/further the Hashstack ecosystem.
+                </Text>
+              </Box>
+              <Box display="flex" flexDirection="column" mt="0.5rem">
+                <Box
+                  borderRadius="500px"
+                  bg="#7331EA"
+                  width="22px"
+                  height="22px"
+                  display="flex"
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  3
                 </Box>
+                <Text mt="0.8rem" fontWeight="700">
+                  Unlock liquidator role
+                </Text>
+                <Text
+                  mt="0.5rem"
+                  lineHeight="20px"
+                  fontSize="16px"
+                  color="#676D9A"
+                  maxW="500px"
+                >
+                  Liquidators on Hashstack take the responsibility of repaying
+                  the bad debt to the Hashstack protocol, in-exchange for
+                  acquiring them at a discount.
+                </Text>
+              </Box>
             </Box>
-            <Box
-              display="flex"
-              flexDirection="column"
-              gap="0rem"
-              mt="2rem"
-            >
+            <Box display="flex" flexDirection="column" gap="0rem" mt="2rem">
               <ContributorsChart />
-              <Box display="flex" flexDirection="column" gap="2rem" mt="1rem">
+              <Box display="flex" flexDirection="column" gap="2rem" mt="3rem">
                 <Box display="flex" gap="1.5rem">
                   <Box
                     display="flex"
@@ -142,7 +181,7 @@ export default function Tokenomics() {
                     <Text ml="0.4rem" fontWeight="700">
                       13.4%
                     </Text>
-                    <Text ml="0.4rem" fontWeight="600">
+                    <Text ml="0.4rem" fontWeight="600" color="#676D9A">
                       Hashstack Investors
                     </Text>
                   </Box>
@@ -154,7 +193,7 @@ export default function Tokenomics() {
                     <Text ml="0.4rem" fontWeight="700">
                       29%
                     </Text>
-                    <Text ml="0.4rem" fontWeight="600">
+                    <Text ml="0.4rem" fontWeight="600" color="#676D9A">
                       Adoption Incentives
                     </Text>
                   </Box>
@@ -166,7 +205,7 @@ export default function Tokenomics() {
                     <Text ml="0.4rem" fontWeight="700">
                       3.3%
                     </Text>
-                    <Text ml="0.4rem" fontWeight="600">
+                    <Text ml="0.4rem" fontWeight="600" color="#676D9A">
                       Community
                     </Text>
                   </Box>
@@ -180,7 +219,7 @@ export default function Tokenomics() {
                     <Text ml="0.4rem" fontWeight="700">
                       14%
                     </Text>
-                    <Text ml="0.4rem" fontWeight="600">
+                    <Text ml="0.4rem" fontWeight="600" color="#676D9A">
                       Product development
                     </Text>
                   </Box>
@@ -192,7 +231,7 @@ export default function Tokenomics() {
                     <Text ml="0.4rem" fontWeight="700">
                       26%
                     </Text>
-                    <Text ml="0.4rem" fontWeight="600">
+                    <Text ml="0.4rem" fontWeight="600" color="#676D9A">
                       Founder(s) & team
                     </Text>
                   </Box>
@@ -204,7 +243,7 @@ export default function Tokenomics() {
                     <Text ml="0.4rem" fontWeight="700">
                       14.3%
                     </Text>
-                    <Text ml="0.4rem" fontWeight="600">
+                    <Text ml="0.4rem" fontWeight="600" color="#676D9A">
                       Exchange liquidity
                     </Text>
                   </Box>
@@ -212,26 +251,140 @@ export default function Tokenomics() {
               </Box>
             </Box>
           </Box>
-          <Box>
+          <Box paddingLeft="7rem" paddingRight="7rem" mt="2rem">
             <EmissionDashboard />
+            <Box
+              padding="36px"
+              bg="#0C0C1D"
+              mt="2rem"
+              borderRadius="6px"
+              border="1px solid #272943"
+              display="flex"
+              width="100%"
+              gap="2rem"
+            >
+              <Box
+                border="1px solid #272943"
+                borderRadius="6px"
+                padding="28px"
+                display="flex"
+                flexDirection="column"
+                gap="1.5rem"
+                justifyContent="space-between"
+                alignItems="center"
+                width="40%"
+              >
+                <Box
+                  border="1px solid #272943"
+                  borderRadius="6px"
+                  padding="16px 24px"
+                  display="flex"
+                  justifyContent="space-between"
+                  width="100%"
+                  alignItems="center"
+                  cursor="pointer"
+                >
+                  <Box display="flex" alignItems="center" gap="0.8rem">
+                    <UniswapLogo />
+                    <Text fontSize="16px" fontWeight="600">
+                      Uniswap
+                    </Text>
+                  </Box>
+                  <Box>
+                    <LeadingLogo />
+                  </Box>
+                </Box>
+                <Box
+                  border="1px solid #272943"
+                  borderRadius="6px"
+                  padding="16px 24px"
+                  display="flex"
+                  justifyContent="space-between"
+                  alignItems="center"
+                  width="100%"
+                  cursor="pointer"
+                >
+                  <Box display="flex" alignItems="center" gap="0.8rem">
+                    <EkuboIcon />
+                    <Text fontSize="16px" fontWeight="600">
+                      Ekubo
+                    </Text>
+                  </Box>
+                  <Box>
+                    <LeadingLogo />
+                  </Box>
+                </Box>
+              </Box>
+              <Box
+                border="1px solid #272943"
+                borderRadius="6px"
+                padding="28px"
+                display="flex"
+                flexDirection="column"
+                gap="1.5rem"
+                justifyContent="space-between"
+                alignItems="center"
+                width="60%"
+              >
+                <Box display="flex" justifyContent="space-between">
+                  <Text fontSize="16px" maxW="70%">
+                    Lorem ipsum dolor sit amet consectetur. Risus ligula in nibh
+                    mattis senectus. Vel molestie purus
+                  </Text>
+                  <Button variant="link">Earn</Button>
+                </Box>
+                <Box display="flex" gap="1rem" width="100%">
+                  <Box
+                    border="1px solid #272943"
+                    borderRadius="6px"
+                    // bg="#191934"
+                    padding="24px 28px"
+                    width="50%"
+                    display="flex"
+                    flexDirection="column"
+                    gap="0.3rem"
+                  >
+                    <Text>HSTK Price</Text>
+                    <Text color="#676D9A">$ {numberFormatter(23)}</Text>
+                  </Box>
+                  <Box
+                    border="1px solid #272943"
+                    borderRadius="6px"
+                    // bg="#191934"
+                    padding="24px 28px"
+                    display="flex"
+                    flexDirection="column"
+                    gap="0.3rem"
+                    width="50%"
+                  >
+                    <Text>24H Trading Volume</Text>
+                    <Text color="#676D9A">$ {numberFormatter(2000000003)}</Text>
+                  </Box>
+                </Box>
+              </Box>
+            </Box>
           </Box>
+
           <HStack
-            mt="1rem"
+            mt="3rem"
             w="100%"
             h="30%"
             display="flex"
             justifyContent="space-between"
             alignItems="flex-start"
+            paddingLeft="7rem"
+            paddingRight="7rem"
           >
             <EmissionRateChart />
           </HStack>
+          {/* <Footer/> */}
 
           {/* <Text color="white" mt="3rem" mb="2rem">
           Tokenomics
         </Text>
         <ContributorsChart/> */}
         </Box>
-      )}
+      }
     </Box>
   );
 }

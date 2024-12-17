@@ -17,6 +17,12 @@ import React from "react";
 import Image from "next/image";
 import { toast } from "react-toastify";
 import numberFormatter from "@/functions/numberFormatter";
+import HashstackIllustrationTokenomics from "@/assets/hashstackIllustrationTokenomics";
+import AdoptionIncentives from "@/assets/adoptionIncentives";
+import CommunityIncentives from "@/assets/communityIncentives";
+import ProductIncentives from "@/assets/productIncentives";
+import FoundersIncentives from "@/assets/foundersIncentives";
+import ExchangeLiquidity from "@/assets/exchangeLiquidity";
 const EmissionDashboard = () => {
   const tooltips = [
     "",
@@ -29,8 +35,8 @@ const EmissionDashboard = () => {
     "Loan risk metric comparing collateral value to tokenomiced amount to check potential liquidation.",
   ];
   const columnItems = [
-    "ID",
-    "sub",
+    "Category",
+    "Sub",
     "Distribution",
     "Total",
     "Unlock & vesting",
@@ -38,9 +44,10 @@ const EmissionDashboard = () => {
   const data = [
     {
       title: "Hastack Investors",
-      subData: ["Private round", "Public sale"],
+      subData: ["Private round", "Community Partners"],
       distributions: [11.4, 2],
       totals: [1026000000, 180000000],
+      icon: HashstackIllustrationTokenomics,
       criterias: [
         "10% unlocked at tge, 3 months cliff, 15 months linear release.",
         "25% unlocked at tge, 3 months cliff, 6 months linear release(hourly).",
@@ -55,6 +62,7 @@ const EmissionDashboard = () => {
         "Liquidity mining",
       ],
       distributions: [2, 5, 7, 15],
+      icon: AdoptionIncentives,
       totals: [180000000, 450000000, 630000000, 1350000000],
       criterias: [
         "6 months cliff. 3 months linear release(hourly)",
@@ -67,6 +75,7 @@ const EmissionDashboard = () => {
       title: "Community",
       subData: ["Community"],
       distributions: [3.3],
+      icon: CommunityIncentives,
       totals: [297000000],
       criterias: ["3 months cliff, linear release over 24 months"],
     },
@@ -74,6 +83,7 @@ const EmissionDashboard = () => {
       title: "Product development",
       subData: ["Infrastructure fund"],
       distributions: [14],
+      icon: ProductIncentives,
       totals: [1260000000],
       criterias: ["9 months cliff, 36 months linear release"],
     },
@@ -81,6 +91,7 @@ const EmissionDashboard = () => {
       title: "Founder(s) & team",
       subData: ["Team"],
       distributions: [26],
+      icon: FoundersIncentives,
       totals: [2340000000],
       criterias: ["12 months cliff, linear release for 48 months"],
     },
@@ -88,6 +99,7 @@ const EmissionDashboard = () => {
       title: "Exchange liquidity",
       subData: ["Exchange Liquidity"],
       distributions: [14.3],
+      icon: ExchangeLiquidity,
       totals: [1287000000],
       criterias: [
         "25% unlocked within 7 days of tge. 75% linear release over 12 months",
@@ -104,92 +116,102 @@ const EmissionDashboard = () => {
       color="white"
     >
       <TableContainer>
+        <Text fontSize="32px" fontWeight="600" mb="1rem">
+          HSTK Tokenomics
+        </Text>
         <Table variant="unstyled" width="100%">
           <Thead>
             <Tr>
               {columnItems.map((columnItem, index: number) => (
-                <Th
+                <Td
                   key={index}
-                  color="#BDBFC1"
-                  fontSize="sm"
+                  color="#676D9A"
+                  fontSize="16px"
+                  fontWeight="500"
                   textAlign="left"
                 >
                   {columnItem}
-                </Th>
+                </Td>
               ))}
             </Tr>
           </Thead>
           <Tbody>
-  {data.map((item, index) =>
-    item.subData.map((sub, idx) => (
-      <Box
-        as="tr"
-        key={`${index}-${idx}`}
-        border="1px solid rgba(103, 109, 154, 0.30)" // Full row border
-        borderRadius="8px" // Rounded corners
-        display="table-row" // Ensure it behaves as a table row
-      >
-        {idx === 0 && (
-          <Td
-            rowSpan={item.subData.length}
-            color="#F0F0F5"
-            fontSize="14px"
-            width="200px" // Increased width for better space
-            whiteSpace="normal" // Allows text wrapping
-            wordBreak="break-word" // Break long words if needed
-          >
-            {item.title}
-          </Td>
-        )}
-        <Td
-          width="180px" // Increased width for the "SUB" column
-          whiteSpace="normal" // Allows wrapping
-          wordBreak="break-word" // Breaks long words
-        >
-          {sub}
-        </Td>
-        <Td
-          color="#F0F0F5"
-          fontSize="14px"
-          width="100px"
-          whiteSpace="normal"
-          wordBreak="break-word"
-        >
-          {item.distributions[idx]}%
-        </Td>
-        <Td
-          color="#F0F0F5"
-          fontSize="14px"
-          width="120px"
-          whiteSpace="normal"
-          wordBreak="break-word"
-        >
-          <Text
-            bg="#BEE3C8"
-            color="black"
-            borderRadius="6px"
-            padding="8px"
-            width="100px"
-            textAlign="center"
-          >
-            {numberFormatter(item.totals[idx])}
-          </Text>
-        </Td>
-        <Td
-          width="200px" // Allocated more space to this column
-          whiteSpace="normal"
-          wordBreak="break-word"
-        >
-          <Text color="#F0F0F5" fontSize="14px">
-            {item.criterias[idx]}
-          </Text>
-        </Td>
-      </Box>
-    ))
-  )}
-</Tbody>
-
-
+            {data.map((item, index) =>
+              item.subData.map((sub, idx) => (
+                <Box
+                  as="tr"
+                  key={`${index}-${idx}`}
+                  border="1px solid rgba(103, 109, 154, 0.30)" // Full row border
+                  borderRadius="8px" // Rounded corners
+                  color="#F0F0F5"
+                  display="table-row" // Ensure it behaves as a table row
+                >
+                  {idx === 0 && (
+                    <Td
+                      rowSpan={item.subData.length}
+                      color="#F0F0F5"
+                      fontSize="14px"
+                      // display="flex"
+                      // justifyContent="center"
+                      // alignItems="center"
+                      gap="0.5rem"
+                      width="200px" // Increased width for better space
+                      whiteSpace="normal" // Allows text wrapping
+                      wordBreak="break-word" // Break long words if needed
+                    >
+                      <Box
+                        display="flex"
+                        alignItems="center"
+                        gap="0.5rem"
+                        fontSize="16px"
+                      >
+                        {item.icon && <item.icon />}
+                        {item.title}
+                      </Box>
+                    </Td>
+                  )}
+                  <Td
+                    width="180px" // Increased width for the "SUB" column
+                    whiteSpace="normal" // Allows wrapping
+                    wordBreak="break-word" // Breaks long words
+                    fontWeight="300"
+                  >
+                    {sub}
+                  </Td>
+                  <Td
+                    color="#F0F0F5"
+                    fontSize="14px"
+                    width="100px"
+                    whiteSpace="normal"
+                    wordBreak="break-word"
+                    fontWeight="300"
+                  >
+                    {item.distributions[idx]}%
+                  </Td>
+                  <Td
+                    color="#F0F0F5"
+                    fontSize="14px"
+                    width="120px"
+                    whiteSpace="normal"
+                    wordBreak="break-word"
+                    fontWeight="300"
+                  >
+                    {numberFormatter(item.totals[idx])}
+                  </Td>
+                  <Td
+                    width="200px" // Allocated more space to this column
+                    whiteSpace="normal"
+                    wordBreak="break-word"
+                    fontWeight="300"
+                  >
+                    <Text color="#F0F0F5" fontSize="14px">
+                      {item.criterias[idx]}
+                    </Text>
+                  </Td>
+                </Box>
+              ))
+            )}
+          </Tbody>
         </Table>
       </TableContainer>
     </Box>
