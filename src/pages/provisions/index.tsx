@@ -600,7 +600,7 @@ export default function Provisions() {
                     _placeholder={{ color: "#BFBFC7" }}
                     value={addressInput}
                     ml={"0.4rem"}
-                    isDisabled={true}
+                    // isDisabled={true}
                     onChange={(e) => {
                       setaddressDetails(null);
                       setaddressSearched(false);
