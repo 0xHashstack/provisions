@@ -43,7 +43,9 @@ const Navbar = () => {
       height="3.8125rem"
     >
       <Box display="flex" gap="2rem">
-        <Box  ml="1rem" cursor="pointer">
+        <Box  ml="1rem" cursor="pointer" onClick={()=>{
+          router.push('/provisions')
+        }}>
           <HashstackLogo/>
         </Box>
         {!isLessThan1210 &&<Box display="flex" gap="1rem" justifyContent="center" alignItems="center">

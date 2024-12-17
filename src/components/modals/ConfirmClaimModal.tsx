@@ -83,10 +83,11 @@ const ConfirmClaimModal = ({
           onClose();
         }}
         isCentered
+        size={{ width: '200px', height: '100px' }}
         scrollBehavior="inside"
       >
         <ModalOverlay bg="rgba(244, 242, 255, 0.5);" mt="3.8rem" />
-        <ModalContent mt="8rem" bg={"#02010F"} minW="470px">
+        <ModalContent mt="8rem" bg={"#02010F"} maxW={walletTypeSelected==='L1'?"480px": "650px"}>
           <ModalHeader
             mt="1rem"
             fontSize="18px"

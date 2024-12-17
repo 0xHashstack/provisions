@@ -2,7 +2,7 @@ import { ethers } from "ethers";
 import proxyClaimAbi from '../abis/proxyClaimAbil1.json'
 import { claimContractL1, claimContractL2, getProvider } from "../stark-constants";
 import { Contract } from "starknet";
-
+import proxyClaimAbiL2 from '../abis/proxyClaimAbiL2.json'
 export async function getuserbeneficiaryTicketsL1(address:string) {
   try {
     const provider = new ethers.providers.JsonRpcProvider(
@@ -19,8 +19,8 @@ export async function getuserbeneficiaryTicketsL1(address:string) {
 export async function getuserbeneficiaryTicketsL2(address:string) {
   try {
       const provider=getProvider()
-      const claimsContract = new Contract(proxyClaimAbi, claimContractL2, provider);
-      const res:any = await claimsContract.call("myBeneficiaryTickets", [address], {
+      const claimsContract = new Contract(proxyClaimAbiL2, claimContractL2, provider);
+      const res:any = await claimsContract.call("my_beneficiary_tickets", [address], {
       blockIdentifier: "pending",
       });
       return res;
@@ -32,8 +32,8 @@ export async function getuserbeneficiaryTicketsL2(address:string) {
 export async function viewTicketL2(ticket:number) {
   try {
       const provider=getProvider()
-      const claimsContract = new Contract(proxyClaimAbi, claimContractL2, provider);
-      const res:any = await claimsContract.call("viewTicket", [ticket], {
+      const claimsContract = new Contract(proxyClaimAbiL2, claimContractL2, provider);
+      const res:any = await claimsContract.call("view_ticket", [ticket], {
       blockIdentifier: "pending",
       });
       return res;
