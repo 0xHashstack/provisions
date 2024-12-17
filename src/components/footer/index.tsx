@@ -176,7 +176,7 @@ const Footer = () => {
                 {dashboardHover == 2 ? <TwitterIconWhite /> : <TwitterIcon />}
             </Box>
               </Link>
-              <Link href="https://discord.gg/FpBhQ7M3d4" target="_blank">
+              <Link href="https://discord.com/invite/VaThqq8vbS" target="_blank">
             <Box
               display="flex"
               width="40px"

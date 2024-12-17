@@ -68,6 +68,7 @@ import { useDrawContext } from "@/context/DrawerContext";
 import HstkLogo from "@/assets/HstkLogo";
 import VideoLogo from "@/assets/videoLogo";
 import Footer from "@/components/footer";
+import Link from "next/link";
 export default function Provisions() {
   const [isLargerThan2000] = useMediaQuery("(min-width: 2000px)");
   const [isSmallerThan1250] = useMediaQuery("(max-width: 1250px)");
@@ -548,14 +549,16 @@ export default function Provisions() {
                 cursor="pointer"
               >
                 <VideoLogo />
-                <Text
-                  color="#00D395"
-                  border="2px dotted transparent"
-                  _hover={{ borderBottom: "2px dotted #00D395" }}
-                  cursor="pointer"
-                >
-                  Quick guide to HSTK provisions
-                </Text>
+                <Link href="https://app.supademo.com/demo/cm4s4znho01t9ql5jgxg7lhcs" target="_blank">
+                  <Text
+                    color="#00D395"
+                    border="2px dotted transparent"
+                    _hover={{ borderBottom: "2px dotted #00D395" }}
+                    cursor="pointer"
+                  >
+                    Quick guide to HSTK provisions
+                  </Text>
+                </Link>
               </Box>
             </Box>
           </Box>
@@ -874,7 +877,7 @@ export default function Provisions() {
                         pl="0.8rem"
                         placeholder="enter your address"
                         value={claimAddress}
-                        // isDisabled={claimAddressConfirmed}
+                        isDisabled={userConfirmation}
                         onChange={(e) => {
                           setclaimAddress(e.target.value);
                         }}

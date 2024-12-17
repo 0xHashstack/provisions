@@ -169,11 +169,13 @@ export default function App({ Component, pageProps }: AppProps) {
       options: {
         appName: 'wagmi',
       },
+      chains:[mainnet,baseSepolia]
     }),
     new WalletConnectConnector({
       options: {
         projectId: projectId,
       },
+      chains:[baseSepolia]
     }),
       ]: [
         new MetaMaskConnector({
@@ -183,11 +185,13 @@ export default function App({ Component, pageProps }: AppProps) {
       options: {
         appName: 'wagmi',
       },
+      chains:[baseSepolia]
     }),
     new WalletConnectConnector({
       options: {
         projectId: projectId,
       },
+      chains:[baseSepolia]
     }),
       ],
 
