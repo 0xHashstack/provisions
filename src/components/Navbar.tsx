@@ -16,7 +16,7 @@ const Navbar = () => {
   const{address}=useAccount();
   const {disconnect} = useDisconnect();
   const [isLessThan1210] = useMediaQuery("(max-width: 1210px)");
-  const [isLessThan500] = useMediaQuery("(max-width: 500px)");
+  const [isLessThan700] = useMediaQuery("(max-width: 700px)");
   const router = useRouter()
   useEffect(()=>{
     if(address){
@@ -50,14 +50,14 @@ const Navbar = () => {
           <Box cursor="pointer" onClick={()=>{
             router.push('/provisions')
           }}>
-            <Text color={router.pathname==='/provisions'? "#00D395":"#676D9A"}>
+            <Text color={router.pathname==='/provisions'? "#4D59E8":"#676D9A"}>
               Provisions
             </Text>
           </Box>
           <Box cursor="pointer" onClick={()=>{
             router.push('/tokenomics')
           }}>
-            <Text color={router.pathname==='/tokenomics'? "#00D395":"#676D9A"}>
+            <Text color={router.pathname==='/tokenomics'? "#4D59E8":"#676D9A"}>
               Tokenomics
             </Text>
           </Box>
@@ -74,12 +74,12 @@ const Navbar = () => {
           <Image
             src="/hamburgerIcon.svg"
             alt="picture of author"
-          width={40}
-          height={40}
+          width={isLessThan700?30: 40}
+          height={isLessThan700?30: 40}
           />
         </Box>}
         {!isLessThan1210 &&<HStack color="white" mr="1rem">
-          <Box color="#676D9A">
+          <Box color="#676D9A" mr="0.5rem">
           Need help? Talk to us:
           </Box>
           <Link href="https://discord.gg/FpBhQ7M3d4" target="blank">
@@ -113,7 +113,7 @@ const Navbar = () => {
           //   <Box
           //     // backgroundColor="#2DA44E"
           //     display="flex"
-          //     border="1px solid var(--secondary, #00D395)"
+          //     border="1px solid var(--secondary, #4D59E8)"
           //     borderRadius="6px"
           //     flexDirection="row"
           //     paddingY="6px"
@@ -289,7 +289,7 @@ const Navbar = () => {
                   {/* {isLessThan500 ? <HashstackLogoMobile /> : <HashstackLogo />} */}
                 </Box>
                 <Text
-                  color="#00D395"
+                  color={router.pathname==='/provisions'? "#4D59E8":"#fff"}
                   fontSize="14px"
                   fontStyle="normal"
                   fontWeight="500"
@@ -303,8 +303,32 @@ const Navbar = () => {
                   mt="2rem"
                   border="1px solid rgb(26, 26, 31)"
                   mb="0rem"
+                  onClick={()=>{
+                    router.push('/provisions')
+                  }}
                 >
-                  Home
+                  Provisions
+                </Text>
+                <Text
+                  color={router.pathname==='/tokenomics'? "#4D59E8":"#fff"}
+                  fontSize="14px"
+                  fontStyle="normal"
+                  fontWeight="500"
+                  width="100%"
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  lineHeight="20px"
+                  cursor="pointer"
+                  height="64px"
+                  // mt="2rem"
+                  border="1px solid rgb(26, 26, 31)"
+                  mb="0rem"
+                  onClick={()=>{
+                    router.push('/tokenomics')
+                  }}
+                >
+                  Tokenomics
                 </Text>
                 <Text
                   color="#fff"
@@ -431,8 +455,8 @@ const Navbar = () => {
                 >
                   Contribute-2-Earn
                 </Text>
-                <DrawerCloseButton width="48px" height="48px" borderRadius="8px" bg="rgba(255, 255, 255, 0.04)" mt="5rem"  />
               </Box>
+                <DrawerCloseButton position="fixed" bottom="10%" top="77%"  left="45%" width="48px" height="48px" borderRadius="8px" bg="transparent" color="white" mt="5rem"  />
             </DrawerBody>
           </DrawerContent>
         </Drawer>

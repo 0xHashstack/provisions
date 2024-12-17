@@ -44,7 +44,7 @@ const EmissionDashboard = () => {
   const data = [
     {
       title: "Hastack Investors",
-      subData: ["Private round", "Public sale"],
+      subData: ["Private round", "Community Partners"],
       distributions: [11.4, 2],
       totals: [1026000000, 180000000],
       icon: HashstackIllustrationTokenomics,
@@ -143,6 +143,7 @@ const EmissionDashboard = () => {
                   key={`${index}-${idx}`}
                   border="1px solid rgba(103, 109, 154, 0.30)" // Full row border
                   borderRadius="8px" // Rounded corners
+                  color="#F0F0F5"
                   display="table-row" // Ensure it behaves as a table row
                 >
                   {idx === 0 && (
@@ -173,6 +174,7 @@ const EmissionDashboard = () => {
                     width="180px" // Increased width for the "SUB" column
                     whiteSpace="normal" // Allows wrapping
                     wordBreak="break-word" // Breaks long words
+                    fontWeight="300"
                   >
                     {sub}
                   </Td>
@@ -182,6 +184,7 @@ const EmissionDashboard = () => {
                     width="100px"
                     whiteSpace="normal"
                     wordBreak="break-word"
+                    fontWeight="300"
                   >
                     {item.distributions[idx]}%
                   </Td>
@@ -191,6 +194,7 @@ const EmissionDashboard = () => {
                     width="120px"
                     whiteSpace="normal"
                     wordBreak="break-word"
+                    fontWeight="300"
                   >
                     {numberFormatter(item.totals[idx])}
                   </Td>
@@ -198,6 +202,7 @@ const EmissionDashboard = () => {
                     width="200px" // Allocated more space to this column
                     whiteSpace="normal"
                     wordBreak="break-word"
+                    fontWeight="300"
                   >
                     <Text color="#F0F0F5" fontSize="14px">
                       {item.criterias[idx]}

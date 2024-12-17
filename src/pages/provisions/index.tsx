@@ -39,8 +39,8 @@ import VerifiedUser from "@/assets/verifiedUser";
 import ETHLogo from "@/assets/eth";
 import Seperator from "@/assets/seperator";
 import airdropIcon from "../../assets/airdrop.jpg";
-import investorIcon from '../../assets/investor.png'
-import othersIcon from '../../assets/others.png'
+import investorIcon from "../../assets/investor.png";
+import othersIcon from "../../assets/others.png";
 import ccpIcon from "../../assets/ccp.jpg";
 import Image from "next/image";
 import HashTokenIconFloater from "@/assets/hashTokenIconFloater";
@@ -67,9 +67,12 @@ import ConfirmClaimModal from "@/components/modals/ConfirmClaimModal";
 import { useDrawContext } from "@/context/DrawerContext";
 import HstkLogo from "@/assets/HstkLogo";
 import VideoLogo from "@/assets/videoLogo";
+import Footer from "@/components/footer";
 export default function Provisions() {
   const [isLargerThan2000] = useMediaQuery("(min-width: 2000px)");
-  const [isLargerThan1280] = useMediaQuery("(min-width: 1248px)");
+  const [isSmallerThan1250] = useMediaQuery("(max-width: 1250px)");
+  const [isSmallerThan1000] = useMediaQuery("(max-width: 1000px)");
+  const [isSmallerThan700] = useMediaQuery("(max-width: 700px)");
   const [addressSearched, setaddressSearched] = useState<boolean>(false);
   const [addressDetails, setaddressDetails] = useState<any>();
   const [addressAuthenticated, setaddressAuthenticated] =
@@ -77,39 +80,54 @@ export default function Provisions() {
   const [walletTypeSelected, setwalletTypeSelected] = useState("");
   const [addressInput, setaddressInput] = useState("");
   const [claimAddress, setclaimAddress] = useState("");
-  const [totalClaimableAmount, settotalClaimableAmount] = useState<number>(0)
-  const [currentClaimableAmount, setcurrentClaimableAmount] = useState<number>(0)
-  const [calltransaction, setcalltransaction] = useState(false)
+  const [totalClaimableAmount, settotalClaimableAmount] = useState<number>(0);
+  const [currentClaimableAmount, setcurrentClaimableAmount] =
+    useState<number>(0);
+  const [calltransaction, setcalltransaction] = useState(false);
   const [provisionCategories, setprovisionCategories] = useState([
     {
       ticketId: 0,
       id: "Airdrop 1",
       claimableAmount: 0,
       currentClaimableAmount: 0,
-      EmissionRate: 2,
-      ticketType: 3,
-      description:"You should have completed more than five transactions on Hashstack V1 across three months, with $100+ cumulative value and $25 minimum supply/borrow balance.",
-      icon:airdropIcon
+      EmissionRate: 22,
+      ticketType: 2,
+      description:
+        "You should have completed more than five transactions on Hashstack V1 across three months, with $100+ cumulative value and $25 minimum supply/borrow balance.",
+      icon: airdropIcon,
     },
     {
       ticketId: 0,
       id: "CCP",
       claimableAmount: 0,
       currentClaimableAmount: 0,
-      EmissionRate: 2,
-      ticketType: 2,
-      description:"You should have generated diverse, original content about Hashstack across multiple platforms, creating at least three distinct pieces in different formats.",
-      icon:ccpIcon
+      EmissionRate: 4.7,
+      ticketType: 3,
+      description:
+        "You should have generated diverse, original content about Hashstack across multiple platforms, creating at least three distinct pieces in different formats.",
+      icon: ccpIcon,
     },
     {
       ticketId: 0,
       id: "Investors",
       claimableAmount: 0,
       currentClaimableAmount: 0,
-      EmissionRate: 2,
+      EmissionRate: 26,
       ticketType: 0,
-      description:"You should have completed more than five transactions on Hashstack V1 across three months, with $100+ cumulative value and $25 minimum supply/borrow balance.",
-      icon:investorIcon
+      description:
+        "You should have completed more than five transactions on Hashstack V1 across three months, with $100+ cumulative value and $25 minimum supply/borrow balance.",
+      icon: investorIcon,
+    },
+    {
+      ticketId: 0,
+      id: "Community partners",
+      claimableAmount: 0,
+      currentClaimableAmount: 0,
+      EmissionRate: 11.4,
+      ticketType: 1,
+      description:
+        "You should have completed more than five transactions on Hashstack V1 across three months, with $100+ cumulative value and $25 minimum supply/borrow balance.",
+      icon: investorIcon,
     },
     {
       ticketId: 0,
@@ -117,24 +135,12 @@ export default function Provisions() {
       claimableAmount: 0,
       currentClaimableAmount: 0,
       EmissionRate: 2,
-      ticketType: 1,
-      description:"You should have completed more than five transactions on Hashstack V1 across three months, with $100+ cumulative value and $25 minimum supply/borrow balance.",
-      icon:othersIcon
+      ticketType: 4,
+      description:
+        "You should have completed more than five transactions on Hashstack V1 across three months, with $100+ cumulative value and $25 minimum supply/borrow balance.",
+      icon: othersIcon,
     },
   ]);
-
-  useEffect(()=>{
-    if(addressDetails){
-      let valueTotal=0;
-      let currentClaimbale=0
-      for(var i=0;i<provisionCategories.length;i++){
-        valueTotal+=provisionCategories[i].claimableAmount
-        currentClaimbale+=provisionCategories[i].currentClaimableAmount
-      }
-      setcurrentClaimableAmount(currentClaimbale)
-      settotalClaimableAmount(valueTotal)
-    }
-  },[addressDetails])
 
   const [claimAddressConfirmed, setclaimAddressConfirmed] =
     useState<boolean>(false);
@@ -157,7 +163,6 @@ export default function Provisions() {
       });
     }
   };
-  console.log(addressDetails, "addressDetails");
   const {
     dataClaimL1,
     isSuccessL1,
@@ -173,14 +178,38 @@ export default function Provisions() {
     useWaitForTransaction({
       hash: dataClaimL1?.hash,
     });
+  const errorMessages = {
+    ElectionInactive: "Election is Not Active",
+    OwnerPermissioned: "Must be Owner of Election",
+    AlreadyVoted: "Vote Already Casted",
+    GetVotes: "Error in Getting Voted",
+    ElectionIncomplete: "Election is still Active",
+    OnlyOwner: "Must be Owner of Election",
+    NotEnoughBalance: "Link Tokens exhausted",
+    VoteInputLength: "Incorrect Length of Vote ",
+    IncorrectCredits: " Incorrect Credits Given",
+    NoCandidates: "No Candidates to Vote",
+    ChainMismatchError: "Switch to Mainnet!",
+    NothingToClaim:
+      "You have currently claimed the full amount. Please wait for the cliff period to end before claiming any additional funds.",
+  };
 
+  const ErrorMessage = (error: any) => {
+    console.log("Error : ", error);
+    for (const [key, message] of Object.entries(errorMessages)) {
+      if (error.message.includes(key)) {
+        return message;
+      }
+    }
+    return "Something went wrong. Please try again.";
+  };
   const handleTransactionl1 = async () => {
     try {
-      if(ticketId!==0){
+      if (ticketId !== 0) {
         const res = await writeClaimL1();
       }
     } catch (error) {
-      toast.error("Transaction Declined", {
+      toast.error(`${ErrorMessage(error)}`, {
         position: "bottom-right",
       });
       console.log(error, "err l1");
@@ -191,20 +220,20 @@ export default function Provisions() {
       toast.success("Successfully claimed HSTK Tokens", {
         position: "bottom-right",
       });
-      setcalltransaction(false)
+      setcalltransaction(false);
     }
   }, [approveSuccess]);
 
-  useEffect(()=>{
-    if(claimAddress){
-      setclaimAddressL1(claimAddress)
+  useEffect(() => {
+    if (claimAddress) {
+      setclaimAddressL1(claimAddress);
     }
-  },[claimAddress,addressAuthenticated])
+  }, [claimAddress, addressAuthenticated]);
 
   const updateProvisionCategories = (incomingData: any) => {
     const updatedCategories = provisionCategories.map((category) => {
       const matchingData = incomingData.find(
-        (data: any, index: number) => Number(data[1]) === category.ticketType
+        (data: any, index: number) => data.ticketType === category.ticketType
       );
 
       if (matchingData) {
@@ -223,44 +252,56 @@ export default function Provisions() {
   };
   useEffect(() => {
     if (addressInput.length === 42 && addressAuthenticated) {
-      let arr:any = [];
+      let arr: any = [];
       const fetchData = async () => {
         try {
           const res = await getuserbeneficiaryTicketsL1(addressInput);
-          console.log(res,'request')
           const dataTickets = res;
 
           for (let i = 0; i < dataTickets.length; i++) {
             arr.push(Number(dataTickets[i]));
           }
 
-          let arrTicketValues:any = [];
+          let arrTicketValues: any = [];
           if (arr.length > 0) {
-            for (let i = 0; i < arr.length; i++) {
-              const res2 = await viewTicket(arr[i]);
-              const enhancedRes2 = { ...res2, ticketId: arr[i] };
-              arrTicketValues.push(enhancedRes2);
-            }
+            const promises = arr.map(async (ticketId: any) => {
+              const res2 = await viewTicket(ticketId);
+              return { ...res2, ticketId };
+            });
+
+            const arrTicketValues = await Promise.all(promises);
 
             if (arrTicketValues.length > 0) {
               updateProvisionCategories(arrTicketValues);
             }
           }
-          console.log('entry')
         } catch (error) {
           console.error("Error fetching data:", error);
         } finally {
           // Ensure addressSearched is set to true after all calls are complete
-          setaddressDetails(provisionCategories)
+          setaddressDetails(provisionCategories);
           // setaddressSearched(true);
         }
       };
 
       fetchData();
-    }
-  }, [addressInput, addressAuthenticated]);
+    }else if(addressInput.length===66 && addressAuthenticated){
 
-  console.log(addressDetails, "addressDetails");
+    }
+  }, [addressInput, addressAuthenticated, approveSuccess]);
+
+  useEffect(() => {
+    if (addressDetails) {
+      let valueTotal = 0;
+      let currentClaimbale = 0;
+      for (var i = 0; i < provisionCategories.length; i++) {
+        valueTotal += provisionCategories[i].claimableAmount;
+        currentClaimbale += provisionCategories[i].currentClaimableAmount;
+      }
+      setcurrentClaimableAmount(currentClaimbale);
+      settotalClaimableAmount(valueTotal);
+    }
+  }, [addressDetails, approveSuccess]);
 
   const {
     rToken,
@@ -291,8 +332,7 @@ export default function Provisions() {
   const [toastPopupConfimred, settoastPopupConfimred] =
     useState<boolean>(false);
   const [loading, setloading] = useState(false);
-  const {userConfirmation,toggleConfirmation  } = useDrawContext();
-  console.log(userConfirmation,'form')
+  const { userConfirmation, toggleConfirmation } = useDrawContext();
   useEffect(() => {
     if (addressInput) {
       if (address || addressL1) {
@@ -352,39 +392,38 @@ export default function Provisions() {
 
   useEffect(() => {
     if (walletTypeSelected === "L1") {
-      if (claimAddress!=='') {
-        if(claimAddress.length===42){
-          setclaimAddressConfirmed(true)
-        }else{
-          setclaimAddressConfirmed(false)
+      if (claimAddress !== "") {
+        if (claimAddress.length === 42) {
+          setclaimAddressConfirmed(true);
+        } else {
+          setclaimAddressConfirmed(false);
         }
       }
-    }else{
-      if (claimAddress!=='') {
-        if(claimAddress.length===66){
-          setclaimAddressConfirmed(true)
-        }else{
-          setclaimAddressConfirmed(false)
+    } else {
+      if (claimAddress !== "") {
+        if (claimAddress.length === 66) {
+          setclaimAddressConfirmed(true);
+        } else {
+          setclaimAddressConfirmed(false);
         }
       }
     }
-  }, [walletTypeSelected,claimAddress,]);
+  }, [walletTypeSelected, claimAddress]);
 
-  useEffect(()=>{
-    if(calltransaction){
-      if(ticketId!==0){
-        handleTransactionl1()
+  useEffect(() => {
+    if (calltransaction) {
+      if (ticketId !== 0) {
+        handleTransactionl1();
       }
     }
-  },[calltransaction,ticketId])
+  }, [calltransaction, ticketId]);
 
-  useEffect(()=>{
-    if(walletTypeSelected==='L1'){
-      if(claimAddress!==''){
-        
+  useEffect(() => {
+    if (walletTypeSelected === "L1") {
+      if (claimAddress !== "") {
       }
     }
-  },[walletTypeSelected,claimAddress])
+  }, [walletTypeSelected, claimAddress]);
 
   return (
     <Box>
@@ -411,26 +450,26 @@ export default function Provisions() {
           color="white"
           zIndex={1}
           padding="0"
-          pr="4rem"
-          pl={isLargerThan2000 ? "6rem" : "4rem"}
+          pr={isSmallerThan1250 ? "1rem" : "4rem"}
+          pl={isLargerThan2000 ? "6rem" : isSmallerThan1250 ? "0rem" : "4rem"}
           display="flex"
           flexDirection="column"
           minHeight="100vh"
           pt="6rem"
-          pb={isLargerThan1280 ? "7rem" : "0rem"}
+          pb={"7rem"}
         >
           <Box
             position="absolute"
-            top={addressAuthenticated ? "6%" : "11%"}
-            left="7%"
+            top={isSmallerThan700?addressAuthenticated?"3%": "5%": addressAuthenticated ? "6%" : "11%"}
+            left={isSmallerThan700?"4%": "7%"}
             transform="rotate(120deg)"
           >
             <HashTokenIconFloater />
           </Box>
           <Box
             position="absolute"
-            top={addressAuthenticated ? "11%" : "18%"}
-            left="18%"
+            top={isSmallerThan700?addressAuthenticated?"7%": "9%": addressAuthenticated ? "11%" : "16%"}
+            left={"18%"}
             width="14px"
             height="14px"
             bg="#9780FF"
@@ -438,14 +477,14 @@ export default function Provisions() {
           />
           <Box
             position="absolute"
-            top={addressAuthenticated ? "6%" : "11%"}
-            right="7%"
+            top={isSmallerThan700?addressAuthenticated?"3%":"5%": addressAuthenticated ? "6%" : "11%"}
+            right={isSmallerThan700?"5%": "7%"}
           >
             <HashTokenIconFloater />
           </Box>
           <Box
             position="absolute"
-            top={addressAuthenticated ? "11%" : "18%"}
+            top={isSmallerThan700?addressAuthenticated?"7%": "9%": addressAuthenticated ? "11%" : "16%"}
             right="18%"
             width="14px"
             height="14px"
@@ -454,33 +493,70 @@ export default function Provisions() {
           />
           <Box width="100%">
             <Box width="100%">
-              <Box display="flex" width='100%' justifyContent="center">
-                <Box>
-                  <Box borderRadius="200px" border="10px solid #3B39C9">
-                    <HstkLogo/>
-                  </Box>
-                  <Text fontSize="56px" mt="1rem" fontWeight="700">
-                    HSTK
-                </Text>
-                  </Box>
-              </Box>
               <Box display="flex" width="100%" justifyContent="center">
-                <Text fontSize="44px" mt="1rem">
-                      Hashstack Provisions
+                <Box display="flex" flexDirection="column" alignItems="center">
+                  <Box borderRadius="200px" border="10px solid #3B39C9">
+                    <HstkLogo />
+                  </Box>
+                  <Text
+                    fontSize={isSmallerThan700 ? "36px" : "56px"}
+                    mt="1rem"
+                    fontWeight="700"
+                  >
+                    HSTK
                   </Text>
                 </Box>
-              <Box width="100%" display="flex" justifyContent='center'>
-                <Text maxW="900px" mt="2rem" fontSize="16px" lineHeight="20px" textAlign="left" color="#F0F0F0">
-                Hashstack team is excited to introduce the HSTK provisions. Over the 4 past years of our existence, we have been fortunate to have worked with the members of various groups in the form of product users, investors, community contributors who have helped advance Hashstack. Through out this journey, we have incentivised your participation through points, token allocation etc. Provisions page is where you claim them, the HSTK tokens.
+              </Box>
+              <Box display="flex" width="100%" justifyContent="center">
+                <Text fontSize={isSmallerThan700 ? "28px" : "44px"} mt="1rem">
+                  Hashstack Provisions
                 </Text>
               </Box>
-              <Box display="flex" width='100%' justifyContent="center" alignItems="center" mt="3rem" gap="0.5rem" cursor="pointer">
-                <VideoLogo/>
-                <Text color="#00D395" border="2px dotted transparent" _hover={{borderBottom:"2px dotted #00D395"}} cursor="pointer" >
+              <Box width="100%" display="flex" justifyContent="center">
+                <Text
+                  maxW="900px"
+                  mt="2rem"
+                  fontSize={
+                    isSmallerThan700
+                      ? "12px"
+                      : isSmallerThan1250
+                      ? "14px"
+                      : "16px"
+                  }
+                  lineHeight="20px"
+                  textAlign="left"
+                  color="#F0F0F0"
+                  ml={isSmallerThan1000 ? "2rem" : "0"}
+                >
+                  Hashstack team is excited to introduce the HSTK provisions.
+                  Over the 4 past years of our existence, we have been fortunate
+                  to have worked with the members of various groups in the form
+                  of product users, investors, community contributors who have
+                  helped advance Hashstack. Through out this journey, we have
+                  incentivised your participation through points, token
+                  allocation etc. Provisions page is where you claim them, the
+                  HSTK tokens.
+                </Text>
+              </Box>
+              <Box
+                display="flex"
+                width="100%"
+                justifyContent="center"
+                alignItems="center"
+                mt="3rem"
+                gap="0.5rem"
+                cursor="pointer"
+              >
+                <VideoLogo />
+                <Text
+                  color="#00D395"
+                  border="2px dotted transparent"
+                  _hover={{ borderBottom: "2px dotted #00D395" }}
+                  cursor="pointer"
+                >
                   Quick guide to HSTK provisions
                 </Text>
               </Box>
-
             </Box>
           </Box>
           <Box display="flex" width="100%" mb="0rem" mt="3rem">
@@ -491,18 +567,28 @@ export default function Provisions() {
               justifyContent="center"
               alignItems="center"
             >
-              <Text fontSize="32px" fontWeight="700">
+              <Text
+                fontSize={isSmallerThan700 ? "20px" : "32px"}
+                fontWeight="700"
+              >
                 Check Your Eligibility
               </Text>
               <Box display="flex" mt="1.5rem" background="none">
                 <InputGroup
-                  width="600px"
+                  width={
+                    isSmallerThan700
+                      ? "60%"
+                      : isSmallerThan1000
+                      ? "400px"
+                      : "600px"
+                  }
                   mt="0rem"
                   border="1px solid var(--stroke-of-30, rgba(103, 109, 154, 0.30))"
                   borderRight="0px"
                   borderRadius="6px 0px 0px 6px"
                   height="50px"
                   bg="white"
+                  ml={isSmallerThan700?"2rem":"0rem"}
                 >
                   <Input
                     fontSize="16px"
@@ -511,13 +597,13 @@ export default function Provisions() {
                     pl="0.5rem"
                     color="black"
                     placeholder="enter your address"
-                    _placeholder={{color:'#BFBFC7'}}
+                    _placeholder={{ color: "#BFBFC7" }}
                     value={addressInput}
                     ml={"0.4rem"}
-                    // isDisabled={true}
+                    isDisabled={true}
                     onChange={(e) => {
                       setaddressDetails(null);
-                      setaddressSearched(false)
+                      setaddressSearched(false);
                       setaddressAuthenticated(false);
                       setaddressInput(e.target.value);
                     }}
@@ -533,36 +619,39 @@ export default function Provisions() {
                   />
                 </InputGroup>
                 {addressAuthenticated ? (
-                  addressDetails?
-                  <Box
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                    paddingLeft="16px"
-                    paddingRight="16px"
-                    borderRightRadius="6px"
-                    bg="#323FF4"
-                    width="300px"
-                    height="50px"
-                  >
-                    <WhitetickIcon />
-                    <Text ml="0.4rem">Authenticated</Text>
-                  </Box>:                  <Box
-                    display="flex"
-                    justifyContent="center"
-                    alignItems="center"
-                    paddingLeft="16px"
-                    width="300px"
-                    paddingRight="16px"
-                    borderRightRadius="6px"
-                    bg="#323FF4"
-                    gap="0.4rem"
-                    height="50px"
-                  >
-                    <Spinner/>
-                    <Text ml="0.2rem">Verifiying</Text>
-                  </Box>
-                ) : (addressInput.length===66 || addressInput.length===42) ? (
+                  addressDetails ? (
+                    <Box
+                      display="flex"
+                      justifyContent="center"
+                      alignItems="center"
+                      paddingLeft="16px"
+                      paddingRight="16px"
+                      borderRightRadius="6px"
+                      bg="#323FF4"
+                      width={isSmallerThan1000 ? "200px" : "300px"}
+                      height="50px"
+                    >
+                      <WhitetickIcon />
+                      <Text ml="0.4rem">Authenticated</Text>
+                    </Box>
+                  ) : (
+                    <Box
+                      display="flex"
+                      justifyContent="center"
+                      alignItems="center"
+                      paddingLeft="16px"
+                      width={isSmallerThan1000 ? "200px" : "300px"}
+                      paddingRight="16px"
+                      borderRightRadius="6px"
+                      bg="#323FF4"
+                      gap="0.4rem"
+                      height="50px"
+                    >
+                      <Spinner />
+                      <Text ml="0.2rem">Verifiying</Text>
+                    </Box>
+                  )
+                ) : addressInput.length === 66 || addressInput.length === 42 ? (
                   addressInput.length === 66 ? (
                     <ConnectStarknetWalletModal
                       cursor="pointer"
@@ -573,7 +662,7 @@ export default function Provisions() {
                       paddingRight="16px"
                       borderRightRadius="6px"
                       bg="#323FF4"
-                      width="300px"
+                      width={isSmallerThan1000 ? "200px" : "300px"}
                       buttonText="Authenticate"
                       height="50px"
                     />
@@ -585,7 +674,7 @@ export default function Provisions() {
                       alignItems="center"
                       paddingLeft="16px"
                       paddingRight="16px"
-                      width="300px"
+                      width={isSmallerThan1000 ? "200px" : "300px"}
                       borderRightRadius="6px"
                       bg="#323FF4"
                       buttonText="Authenticate"
@@ -596,16 +685,16 @@ export default function Provisions() {
                   <Box
                     cursor="pointer"
                     display="flex"
-                    width="300px"
+                    width={isSmallerThan1000 ? "200px" : "300px"}
                     justifyContent="center"
                     alignItems="center"
                     paddingLeft="16px"
                     paddingRight="16px"
                     borderRightRadius="6px"
                     bg="#323FF4"
-                    onClick={()=>{
-                      if(addressInput.length!==0){
-                        handleSearch()
+                    onClick={() => {
+                      if (addressInput.length !== 0) {
+                        handleSearch();
                       }
                     }}
                   >
@@ -623,23 +712,23 @@ export default function Provisions() {
               alignItems="center"
               textAlign="center"
               mt="1rem"
-              gap="2rem"
+              gap={isSmallerThan700?"1rem": "2rem"}
             >
               <Box
                 display="flex"
                 color="white"
                 alignItems="center"
                 flexDirection="column"
-                padding="32px 64px"
+                padding={isSmallerThan700?"16px 32px": "32px 64px"}
                 bg="#120F25"
                 border="1px solid #2C2B48"
                 borderRadius="6px"
                 mt="1rem"
               >
-                <Text fontWeight="600" fontSize="18px">
-                  ${numberFormatter(totalClaimableAmount)}
+                <Text whiteSpace="nowrap" fontWeight="600" fontSize="18px">
+                  {numberFormatter(totalClaimableAmount)} HSTK
                 </Text>
-                <Text color='#676D9A'>Total Claimable Amount</Text>
+                <Text whiteSpace="nowrap" color="#676D9A">Tokens</Text>
               </Box>
               <Box
                 display="flex"
@@ -647,22 +736,22 @@ export default function Provisions() {
                 alignItems="center"
                 flexDirection="column"
                 border="1px solid #2C2B48"
-                padding="32px 64px"
+                padding={isSmallerThan700?"16px 32px": "32px 64px"}
                 bg="#120F25"
                 borderRadius="6px"
                 mt="1rem"
               >
-                <Text fontWeight="600" fontSize="18px">
-                  ${numberFormatter(currentClaimableAmount)}
+                <Text whiteSpace="nowrap" fontWeight="600" fontSize="18px">
+                  {numberFormatter(currentClaimableAmount)} HSTK
                 </Text>
-                <Text color='#676D9A'>Claimable Amount</Text>
+                <Text whiteSpace="nowrap" color="#676D9A">Claimable Tokens</Text>
               </Box>
             </Box>
           )}
-          {addressAuthenticated &&totalClaimableAmount!==0 && (
+          {addressAuthenticated && totalClaimableAmount !== 0 && (
             <Box
               display="flex"
-              justifyContent="center"
+              justifyContent={"center"}
               alignItems="center"
               mt="3rem"
               gap="2rem"
@@ -688,15 +777,28 @@ export default function Provisions() {
                   <VerifiedUser />
                   <Text>You&apos;re almost there!</Text>
                 </Box>
-                <Text fontSize="22px" fontWeight="400" mt="0.8rem" maxW="95%">
-                To claim HSTK tokens on a different account than that is registered with us. 
-                This action is irreversible, and can only be changed once.
+                <Text
+                  fontSize={
+                    isSmallerThan700
+                      ? "14px"
+                      : isSmallerThan1250
+                      ? "18px"
+                      : "22px"
+                  }
+                  fontWeight="400"
+                  mt="0.8rem"
+                  maxW="95%"
+                >
+                  To claim HSTK tokens on a different account than that is
+                  registered with us. This action is irreversible, and can only
+                  be changed once.
                 </Text>
                 <Box
                   display="flex"
                   mt="2.5rem"
                   gap="0.4rem"
                   alignItems="center"
+                  flexDirection={isSmallerThan700 ? "column" : "row"}
                   width="100%"
                 >
                   <Box
@@ -708,7 +810,7 @@ export default function Provisions() {
                     alignItems="center"
                     gap="0.2rem"
                     // width="450px"
-                    width="50%"
+                    width={isSmallerThan700 ? "100%" : "50%"}
                     height="64px" // Set consistent height
                   >
                     {walletTypeSelected === "L1" ? (
@@ -721,11 +823,16 @@ export default function Provisions() {
                     <Box ml="0.4rem" borderLeft="2px solid #3B4080">
                       <Text ml="0.4rem">
                         {walletTypeSelected === "L1"
-                          ? `${addressL1}`
+                          ? `${addressL1?.substring(
+                              0,
+                              3
+                            )}...${addressL1?.substring(addressL1.length - 9)}`
                           : `${account?.address.substring(
                               0,
                               3
-                            )}...${account?.address}`}
+                            )}...${account?.address.substring(
+                              account.address.length - 9
+                            )}`}
                       </Text>
                     </Box>
                   </Box>
@@ -734,11 +841,18 @@ export default function Provisions() {
                     justifyContent="center"
                     alignItems="center"
                     height="64px" // Set same height
-                    width="5%"
+                    width={isSmallerThan700 ? "10%" : "5%"}
+                    transform={isSmallerThan700 ? "rotate(90deg)" : ""} // Rotate the content by 90 degrees
                   >
                     <Seperator />
                   </Box>
-                  <Box display="flex" mt="0" height="64px" width="50%">
+
+                  <Box
+                    display="flex"
+                    mt="0"
+                    height="64px"
+                    width={isSmallerThan700 ? "100%" : "50%"}
+                  >
                     {" "}
                     {/* Ensure same height */}
                     <InputGroup
@@ -770,52 +884,54 @@ export default function Provisions() {
                           boxShadow: "none",
                         }}
                       />
-                      {claimAddressConfirmed?
-                      !userConfirmation?
-                      <ConfirmClaimModal
-                      allocatedAddress={addressInput}
-                      claimAddress={claimAddress}
-                      walletTypeSelected={walletTypeSelected}
-                      buttonText="Confirm"
-                      mr="0.5rem"
-                      bg="none"
-                      border="1px solid white"
-                      borderRadius="6px"
-                      cursor="pointer"
-                      padding="8px"
-                      color="white"
-                      _hover={{ bg: "white", color: "black" }}
-                      />:                      <Button
-                      mr="0.5rem"
-                      bg="none"
-                      border="1px solid white"
-                      color="white"
-                      _hover={{ bg: "white", color: "black" }}
-                      // onClick={() => {
-                      //   setclaimAddressConfirmed(true);
-                      // }}
-                      isDisabled={
-                        userConfirmation
-                      }
-                    >
-                      Confirm
-                    </Button>:
-                      <Button
-                        mr="0.5rem"
-                        bg="none"
-                        border="1px solid white"
-                        color="white"
-                        _hover={{ bg: "white", color: "black" }}
-                        // onClick={() => {
-                        //   setclaimAddressConfirmed(true);
-                        // }}
-                        isDisabled={
-                          claimAddress===""?true:!claimAddressConfirmed
-                        }
-                      >
-                        Confirm
-                      </Button>
-                      }
+                      {claimAddressConfirmed ? (
+                        !userConfirmation ? (
+                          <ConfirmClaimModal
+                            allocatedAddress={addressInput}
+                            claimAddress={claimAddress}
+                            walletTypeSelected={walletTypeSelected}
+                            buttonText="Confirm"
+                            mr="0.5rem"
+                            bg="none"
+                            border="1px solid white"
+                            borderRadius="6px"
+                            cursor="pointer"
+                            padding="8px"
+                            color="white"
+                            _hover={{ bg: "white", color: "black" }}
+                          />
+                        ) : (
+                          <Button
+                            mr="0.5rem"
+                            bg="none"
+                            border="1px solid white"
+                            color="white"
+                            _hover={{ bg: "white", color: "black" }}
+                            // onClick={() => {
+                            //   setclaimAddressConfirmed(true);
+                            // }}
+                            isDisabled={userConfirmation}
+                          >
+                            Confirm
+                          </Button>
+                        )
+                      ) : (
+                        <Button
+                          mr="0.5rem"
+                          bg="none"
+                          border="1px solid white"
+                          color="white"
+                          _hover={{ bg: "white", color: "black" }}
+                          // onClick={() => {
+                          //   setclaimAddressConfirmed(true);
+                          // }}
+                          isDisabled={
+                            claimAddress === "" ? true : !claimAddressConfirmed
+                          }
+                        >
+                          Confirm
+                        </Button>
+                      )}
                     </InputGroup>
                   </Box>
                 </Box>
@@ -825,101 +941,187 @@ export default function Provisions() {
                   gap="1rem"
                   mt="2rem"
                   justifyContent="center"
-                  // mr="rem"
+                  alignItems={isSmallerThan700 ? "center" : ""}
+                  flexDirection={isSmallerThan700 ? "column" : "row"}
+                  mr={isSmallerThan700?"2rem": "4.5rem"}
                 >
                   <Box display="flex" gap="0.5rem">
-                    <Text color='#676D9A'>Currently Claimed</Text>
-                    <Text>${numberFormatter(currentClaimableAmount)}</Text>
+                    <Text color="#676D9A" whiteSpace="nowrap">Currently Claimed</Text>
+                    <Text whiteSpace="nowrap">
+                      {numberFormatter(
+                        totalClaimableAmount - currentClaimableAmount
+                      )}{" "}
+                      HSTK
+                    </Text>
                   </Box>
-                  <Box display="flex" gap="0.5rem" borderLeft="1px solid white">
-                    <Text ml="1rem" color='#676D9A'>Total Claimable Amount</Text>
-                    <Text>${numberFormatter(totalClaimableAmount)}</Text>
+                  <Box display="flex" gap="0.5rem" borderLeft={isSmallerThan700?"": "1px solid white"}>
+                    <Text ml="1rem" color="#676D9A" whiteSpace="nowrap">
+                      Tokens
+                    </Text>
+                    <Text whiteSpace="nowrap">{numberFormatter(totalClaimableAmount)} HSTK</Text>
                   </Box>
                 </Box>
               </Box>
             </Box>
           )}
           <Box width="100%" mt="3rem">
-            <Box ml="5rem" gap="0">
-              <Box display="flex" gap="0.4rem" fontSize="40px">
+            <Box ml={isSmallerThan1250 ? "2rem" : "5rem"} gap="0">
+              <Box
+                display="flex"
+                gap="0.4rem"
+                fontSize={isSmallerThan700?"20px": isSmallerThan1250 ? "28px" : "40px"}
+                whiteSpace="nowrap"
+              >
                 Are you eligible for <Text color="#FFD027">HSTK</Text> tokens ?
               </Box>
             </Box>
             <Box>
               {provisionCategories.map((catgeory: any, index: number) => (
-                <Box key={index} ml="5rem">
+                <Box key={index} ml={isSmallerThan1250 ? "2rem" : "5rem"}>
                   <Box
                     display="flex"
-                    gap="3rem"
-                    mt="3rem"
+                    gap={isSmallerThan700 ? "2rem" : "3rem"}
+                    mt={"3rem"}
+                    flexDirection={isSmallerThan700 ? "column" : "row"}
+                    // alignItems="stretch"
                     // alignItems="center"
                   >
                     <Box
                       borderRadius="6px"
                       border="1px solid #2C2B48"
-                      width="360px"
+                      width={
+                        isSmallerThan700
+                          ? "100%"
+                          : isSmallerThan1250
+                          ? "300px"
+                          : "360px"
+                      }
+                      height="100%" // Optional: adjust based on your layout needs
+                      display="flex" // Optional: helps if you want the image centered inside the box
+                      justifyContent="center" // Optional: centers the image horizontally
+                      alignItems="center" // Optional: centers the image vertically
                     >
-                      <Image src={catgeory.icon} alt="" />
+                      <Image
+                        src={catgeory.icon}
+                        alt=""
+                        style={{
+                          width: "100%", // Ensures the image takes full width of the Box
+                          height: "100%", // Ensures the image takes full height of the Box
+                          objectFit: "contain", // Keeps the aspect ratio intact while filling the box
+                        }}
+                      />
                     </Box>
+
                     <Box display="flex" flexDir="column">
-                      <Text color="#F0F0F5" fontSize="32px" fontWeight="800">
+                      <Text
+                        color="#F0F0F5"
+                        fontSize={isSmallerThan1250 ? "22px" : "32px"}
+                        fontWeight="800"
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="space-between"
+                      >
                         {catgeory.id}
+                        {addressAuthenticated &&isSmallerThan700 && (
+                            <Button
+                              bg="none"
+                              border="1px solid #F0F0F5"
+                              color="#F0F0F5"
+                              width="20%"
+                              height="35px"
+                              // mt="0.4rem"
+                              _hover={{
+                                background: "white",
+                                color: "black",
+                              }}
+                              isDisabled={
+                                catgeory.ticketId === 0
+                                  ? catgeory.claimableAmount === 0
+                                  : claimAddress !== ""
+                                  ? !userConfirmation
+                                  : catgeory.currentClaimableAmount === 0
+                              }
+                              onClick={() => {
+                                setticketId(catgeory.ticketId);
+                                setcalltransaction(true);
+                              }}
+                            >
+                              Claim
+                            </Button>
+                          )}
                       </Text>
-                      <Text maxW="700px" mt="1rem">
+                      <Text
+                        maxW="700px"
+                        mt={isSmallerThan700?"1.5rem": isSmallerThan1250 ? "0.5rem" : "1rem"}
+                        fontSize={isSmallerThan1250 ? "14px" : "16px"}
+                      >
                         {catgeory.description}
                       </Text>
                       {addressDetails && (
                         <Box display="flex" gap="1.5rem" mt="1.5rem">
-                          <Box>
-                            <Text>${numberFormatter(catgeory.claimableAmount)}</Text>
-                            <Text>Tokens</Text>
+                          <Box fontSize={isSmallerThan700?"12px":isSmallerThan1250 ? "14px" : "16px"}>
+                            <Text>
+                              {numberFormatter(catgeory.claimableAmount)}
+                            </Text>
+                            <Text whiteSpace="nowrap">Tokens</Text>
                           </Box>
                           <Box
                             height="50px"
                             borderLeft="2px solid #2C2B48"
                             borderRadius="6px"
                           ></Box>
-                          <Box>
-                            <Text>${numberFormatter(catgeory.currentClaimableAmount)}</Text>
-                            <Text>Claimable Amount</Text>
+                          <Box fontSize={isSmallerThan700?"12px":isSmallerThan1250 ? "14px" : "16px"}>
+                            <Text>
+                              {numberFormatter(catgeory.currentClaimableAmount)}
+                            </Text>
+                            <Text whiteSpace="nowrap">Claimable Tokens</Text>
                           </Box>
                           <Box
                             height="50px"
                             borderLeft="2px solid #2C2B48"
                             borderRadius="6px"
                           ></Box>
-                          <Box>
-                            <Text ml="0.4rem">{numberFormatterPercentage(catgeory.EmissionRate)}%</Text>
-                            <Text ml="0.4rem">Emisiion Rate</Text>
+                          <Box fontSize={isSmallerThan700?"12px": isSmallerThan1250 ? "14px" : "16px"}>
+                            <Text ml="0.4rem">
+                              {numberFormatterPercentage(catgeory.EmissionRate)}
+                              %
+                            </Text>
+                            <Text ml="0.4rem" whiteSpace="nowrap">
+                              Emisiion Rate
+                            </Text>
                           </Box>
-                          <Box
+                          {!isSmallerThan700 &&<Box
                             height="50px"
                             borderLeft="2px solid #2C2B48"
                             borderRadius="6px"
-                          ></Box>
-                          {addressAuthenticated && (
-                        <Button
-                          bg="none"
-                          border="1px solid #F0F0F5"
-                          color="#F0F0F5"
-                          width="200px"
-                          height="50px"
-                          // mt="0.4rem"
-                          _hover={{
-                            background: "white",
-                            color: "black",
-                          }}
-                          isDisabled={catgeory.ticketId===0? catgeory.claimableAmount===0:claimAddress!==""?!userConfirmation: catgeory.currentClaimableAmount===0}
-                          onClick={()=>{
-                            if(catgeory.id==="Investors" || catgeory.id==="Others"){
-                              setticketId(catgeory.ticketId)
-                              setcalltransaction(true)
-                            }
-                          }}
-                        >
-                          Claim
-                        </Button>
-                      )}
+                          ></Box>}
+                          {addressAuthenticated &&!isSmallerThan700 && (
+                            <Button
+                              bg="none"
+                              border="1px solid #F0F0F5"
+                              color="#F0F0F5"
+                              width="20%"
+                              height="50px"
+                              // mt="0.4rem"
+                              _hover={{
+                                background: "white",
+                                color: "black",
+                              }}
+                              isDisabled={
+                                catgeory.ticketId === 0
+                                  ? catgeory.claimableAmount === 0
+                                  : claimAddress !== ""
+                                  ? !userConfirmation
+                                  : catgeory.currentClaimableAmount === 0
+                              }
+                              onClick={() => {
+                                setticketId(catgeory.ticketId);
+                                setcalltransaction(true);
+                              }}
+                            >
+                              Claim
+                            </Button>
+                          )}
                         </Box>
                       )}
                     </Box>
@@ -928,16 +1130,17 @@ export default function Provisions() {
                     height="1px"
                     border="1px solid #2C2B48"
                     mt="1.5rem"
+                    width={isSmallerThan700 ? "100%" : "80%"}
                   ></Box>
                 </Box>
               ))}
             </Box>
           </Box>
-
           {/* <Text color="white" mt="3rem" mb="2rem">
           Tokenomics
         </Text>
         <ContributorsChart/> */}
+          {!isSmallerThan1250 && <Footer />}
         </Box>
       }
     </Box>

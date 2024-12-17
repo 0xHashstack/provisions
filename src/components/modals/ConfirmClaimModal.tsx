@@ -41,7 +41,8 @@ const ConfirmClaimModal = ({
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [availableDataLoading, setAvailableDataLoading] = useState(true);
   const { account, address, status, isConnected } = useAccount();
-  const {userConfirmation,toggleConfirmation ,setuserConfirmation } = useDrawContext();
+  const { userConfirmation, toggleConfirmation, setuserConfirmation } =
+    useDrawContext();
   // const { data, isLoading, error, refetch } = useBalance({
   //   address
   // })
@@ -96,15 +97,13 @@ const ConfirmClaimModal = ({
             gap="0.5rem"
             alignItems="center"
           >
-            <Text>Network</Text>
+            <Text color="#676D9A">Network:</Text>
             {walletTypeSelected === "L1" ? (
               <ETHLogo width={18} height={18} />
             ) : (
               <STRKLogo width={18} height={18} />
             )}
-            <Text>
-              {walletTypeSelected==="L1"?"Ethereum":"Starknet"}
-            </Text>
+            <Text>{walletTypeSelected === "L1" ? "Ethereum" : "Starknet"}</Text>
           </ModalHeader>
           <ModalCloseButton color="white" mt="1rem" mr="1rem" />
           {/* <ModalHeader>Borrow</ModalHeader> */}
@@ -188,23 +187,47 @@ const ConfirmClaimModal = ({
                   <Box mt="0.2rem">
                     <InfoIcon />
                   </Box>
-                  <Text color="white" fontSize="14px">
+                  <Text color="#676D9A" fontSize="14px">
                     Claim addresses is where you receive your HSTK tokens. You
                     can only update it once.
                   </Text>
                 </Box>
-                <Box mt="1rem" display="flex" justifyContent="space-between" width="100%" pl="0.5rem">
-                        <Button color="white" bg="#34345680" width="40%" border="1px solid #34345699" borderRadius="6px" _hover={{bg:"#34345680",color:"white"}} onClick={()=>{
-                          onClose()
-                        }}>
-                          Cancel
-                        </Button>
-                        <Button  width="40%" border="1px solid white" bg="none" color="white" borderRadius="6px" _hover={{bg:"none",color:"white"}} onClick={()=>{
-                          setuserConfirmation(true)
-                          onClose()
-                        }}>
-                          Confirm
-                        </Button>
+                <Box
+                  mt="2rem"
+                  display="flex"
+                  alignItems="flex-end"
+                  justifyContent="flex-end"
+                  gap="1rem"
+                  width="100%"
+                  pl="0.5rem"
+                >
+                  <Button
+                    width="30%"
+                    color="white"
+                    bg="#34345680"
+                    border="1px solid #34345699"
+                    borderRadius="6px"
+                    _hover={{ bg: "#34345680", color: "white" }}
+                    onClick={() => {
+                      onClose();
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    width="30%"
+                    border="1px solid white"
+                    bg="none"
+                    color="white"
+                    borderRadius="6px"
+                    _hover={{ bg: "none", color: "white" }}
+                    onClick={() => {
+                      setuserConfirmation(true);
+                      onClose();
+                    }}
+                  >
+                    Confirm
+                  </Button>
                 </Box>
               </Box>
               {/* </PageCard> */}
