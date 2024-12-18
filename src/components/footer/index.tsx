@@ -141,7 +141,7 @@ const Footer = () => {
           pl="1rem"
           pr="4rem"
           onClick={() => {
-            router.push('/v1/protocol-metrics')
+            // router.push('/v1/protocol-metrics')
           }}
           onMouseOver={() => {
             slider.current?.animator.stop()
@@ -164,29 +164,19 @@ const Footer = () => {
             _hover={{ textDecoration: 'underline' }}
           >
             Total Reserves:
-            <Tooltip
-              hasArrow
-              arrowShadowColor="#2B2F35"
-              placement="bottom"
-              boxShadow="dark-lg"
-              label="Click here for protocol metrics."
-              bg="#02010F"
-              fontSize={'13px'}
-              fontWeight={'400'}
-              borderRadius={'lg'}
-              padding={'2'}
-              color="#F0F0F5"
-              border="1px solid"
-              borderColor="#23233D"
-            >
-              <Text
+              {protocolReserves?.totalReserves?<Text
                 color="#B0F1DE"
                 ml="3"
                 _hover={{ textDecoration: 'underline' }}
               >
                 ${numberFormatter(protocolReserves?.totalReserves)}
-              </Text>
-            </Tooltip>
+              </Text>:                  <Skeleton
+                    width="3rem"
+                    height="0.8rem"
+                    startColor="#101216"
+                    endColor="#2B2F35"
+                    borderRadius="6px"
+                  />}
           </Box>
           <Box
             className="keen-slider__slide number-slide1 text_nowrap"
@@ -196,29 +186,19 @@ const Footer = () => {
             _hover={{ textDecoration: 'underline' }}
           >
             Availables Reserves:
-            <Tooltip
-              hasArrow
-              arrowShadowColor="#2B2F35"
-              placement="bottom"
-              boxShadow="dark-lg"
-              label="Click here for protocol metrics."
-              bg="#02010F"
-              fontSize={'13px'}
-              fontWeight={'400'}
-              borderRadius={'lg'}
-              padding={'2'}
-              color="#F0F0F5"
-              border="1px solid"
-              borderColor="#23233D"
-            >
-              <Text
+              {protocolReserves?.availableReserves?<Text
                 color="#B0F1DE"
                 ml="3"
                 _hover={{ textDecoration: 'underline' }}
               >
                 ${numberFormatter(protocolReserves?.availableReserves)}
-              </Text>
-            </Tooltip>
+              </Text>:                  <Skeleton
+                    width="3rem"
+                    height="0.8rem"
+                    startColor="#101216"
+                    endColor="#2B2F35"
+                    borderRadius="6px"
+                  />}
           </Box>
 
           <Box
@@ -229,29 +209,19 @@ const Footer = () => {
             _hover={{ textDecoration: 'underline' }}
           >
             Average Asset Utilisation:
-            <Tooltip
-              hasArrow
-              arrowShadowColor="#2B2F35"
-              placement="bottom"
-              boxShadow="dark-lg"
-              label="Click here for protocol metrics."
-              bg="#02010F"
-              fontSize={'13px'}
-              fontWeight={'400'}
-              borderRadius={'lg'}
-              padding={'2'}
-              color="#F0F0F5"
-              border="1px solid"
-              borderColor="#23233D"
-            >
-              <Text
+              {protocolReserves?.avgAssetUtilisation?<Text
                 color="#B0F1DE"
                 ml="3"
                 _hover={{ textDecoration: 'underline' }}
               >
                 {numberFormatter(protocolReserves?.avgAssetUtilisation)}%
-              </Text>
-            </Tooltip>
+              </Text>:<Skeleton
+                    width="3rem"
+                    height="0.8rem"
+                    startColor="#101216"
+                    endColor="#2B2F35"
+                    borderRadius="6px"
+                  />}
           </Box>
           <Box
             className="keen-slider__slide number-slide3 text_nowrap"
@@ -261,29 +231,19 @@ const Footer = () => {
             _hover={{ textDecoration: 'underline' }}
           >
             Total Reserves:
-            <Tooltip
-              hasArrow
-              arrowShadowColor="#2B2F35"
-              placement="bottom"
-              boxShadow="dark-lg"
-              label="Click here for protocol metrics."
-              bg="#02010F"
-              fontSize={'13px'}
-              fontWeight={'400'}
-              borderRadius={'lg'}
-              padding={'2'}
-              color="#F0F0F5"
-              border="1px solid"
-              borderColor="#23233D"
-            >
-              <Text
+              {protocolReserves?.totalReserves?<Text
                 color="#B0F1DE"
                 ml="3"
                 _hover={{ textDecoration: 'underline' }}
               >
                 ${numberFormatter(protocolReserves?.totalReserves)}
-              </Text>
-            </Tooltip>
+              </Text>:                  <Skeleton
+                    width="3rem"
+                    height="0.8rem"
+                    startColor="#101216"
+                    endColor="#2B2F35"
+                    borderRadius="6px"
+                  />}
           </Box>
           <Box
             className="keen-slider__slide number-slide1 text_nowrap"
@@ -293,29 +253,19 @@ const Footer = () => {
             _hover={{ textDecoration: 'underline' }}
           >
             Availables Reserves:
-            <Tooltip
-              hasArrow
-              arrowShadowColor="#2B2F35"
-              placement="bottom"
-              boxShadow="dark-lg"
-              label="Click here for protocol metrics."
-              bg="#02010F"
-              fontSize={'13px'}
-              fontWeight={'400'}
-              borderRadius={'lg'}
-              padding={'2'}
-              color="#F0F0F5"
-              border="1px solid"
-              borderColor="#23233D"
-            >
-              <Text
+              {protocolReserves?.availableReserves?<Text
                 color="#B0F1DE"
                 ml="3"
                 _hover={{ textDecoration: 'underline' }}
               >
                 ${numberFormatter(protocolReserves?.availableReserves)}
-              </Text>
-            </Tooltip>
+              </Text>:                  <Skeleton
+                    width="3rem"
+                    height="0.8rem"
+                    startColor="#101216"
+                    endColor="#2B2F35"
+                    borderRadius="6px"
+                  />}
           </Box>
 
           <Box
@@ -326,29 +276,19 @@ const Footer = () => {
             _hover={{ textDecoration: 'underline' }}
           >
             Average Asset Utilisation:
-            <Tooltip
-              hasArrow
-              arrowShadowColor="#2B2F35"
-              placement="bottom"
-              boxShadow="dark-lg"
-              label="Click here for protocol metrics."
-              bg="#02010F"
-              fontSize={'13px'}
-              fontWeight={'400'}
-              borderRadius={'lg'}
-              padding={'2'}
-              color="#F0F0F5"
-              border="1px solid"
-              borderColor="#23233D"
-            >
-              <Text
+              {protocolReserves?.avgAssetUtilisation?<Text
                 color="#B0F1DE"
                 ml="3"
                 _hover={{ textDecoration: 'underline' }}
               >
-                %
-              </Text>
-            </Tooltip>
+                {numberFormatter(protocolReserves?.avgAssetUtilisation)}%
+              </Text>:<Skeleton
+                    width="3rem"
+                    height="0.8rem"
+                    startColor="#101216"
+                    endColor="#2B2F35"
+                    borderRadius="6px"
+                  />}
           </Box>
         </HStack>
 

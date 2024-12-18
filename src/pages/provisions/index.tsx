@@ -138,7 +138,7 @@ export default function Provisions() {
       id: "Others",
       claimableAmount: 0,
       currentClaimableAmount: 0,
-      EmissionRate: 2,
+      EmissionRate: 41.06,
       ticketType: 4,
       description:
         "Individuals with previous SAFT allocations or past incentive program eligibility can claim through this section.",
