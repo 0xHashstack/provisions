@@ -14,7 +14,7 @@ const ContributorsChart = () => {
     "#FFD347",
   ];
   const splineChartData: any = {
-    series: [13.4, 29, 3.3, 14, 26, 14.3],
+    series: [18, 24.4, 3.3, 14, 26, 14.3],
     options: {
       chart: {
         type: "donut",

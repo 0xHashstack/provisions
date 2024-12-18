@@ -179,7 +179,7 @@ export default function Tokenomics() {
                     borderLeft="4px solid #3E7CFF"
                   >
                     <Text ml="0.4rem" fontWeight="700">
-                      13.4%
+                      18%
                     </Text>
                     <Text ml="0.4rem" fontWeight="600" color="#676D9A">
                       Hashstack Investors
@@ -191,7 +191,7 @@ export default function Tokenomics() {
                     borderLeft="4px solid #00D395"
                   >
                     <Text ml="0.4rem" fontWeight="700">
-                      29%
+                      24.4%
                     </Text>
                     <Text ml="0.4rem" fontWeight="600" color="#676D9A">
                       Adoption Incentives
@@ -376,7 +376,7 @@ export default function Tokenomics() {
           >
             <EmissionRateChart />
           </HStack>
-          {/* <Footer/> */}
+          <Footer/>
 
           {/* <Text color="white" mt="3rem" mb="2rem">
           Tokenomics
