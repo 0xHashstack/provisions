@@ -326,10 +326,9 @@ export default function Tokenomics() {
                 alignItems="center"
                 width="60%"
               >
-                <Box display="flex" justifyContent="space-between">
+                <Box display="flex" width="100%" justifyContent="space-between">
                   <Text fontSize="16px" maxW="70%">
-                    Lorem ipsum dolor sit amet consectetur. Risus ligula in nibh
-                    mattis senectus. Vel molestie purus
+                  Check out our liquidity pools on uniswap and ekubo, start earning!
                   </Text>
                   <Button variant="link">Earn</Button>
                 </Box>

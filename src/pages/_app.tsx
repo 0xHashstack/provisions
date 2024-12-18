@@ -175,7 +175,7 @@ export default function App({ Component, pageProps }: AppProps) {
       options: {
         projectId: projectId,
       },
-      chains:[baseSepolia]
+      chains:[mainnet,baseSepolia]
     }),
       ]: [
         new MetaMaskConnector({

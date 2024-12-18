@@ -42,6 +42,7 @@ import airdropIcon from "../../assets/airdrop.jpg";
 import investorIcon from "../../assets/investor.png";
 import othersIcon from "../../assets/others.png";
 import ccpIcon from "../../assets/ccp.jpg";
+import kolIcon from "../../assets/kols.png";
 import Image from "next/image";
 import HashTokenIconFloater from "@/assets/hashTokenIconFloater";
 import ConnectStarknetWalletModal from "@/components/modals/ConnectWalletModal";
@@ -93,7 +94,7 @@ export default function Provisions() {
       id: "Airdrop 1",
       claimableAmount: 0,
       currentClaimableAmount: 0,
-      EmissionRate: 22,
+      EmissionRate: 27.37,
       ticketType: 2,
       description:
         "You should have completed more than five transactions on Hashstack V1 across three months, with $100+ cumulative value and $25 minimum supply/borrow balance.",
@@ -115,7 +116,7 @@ export default function Provisions() {
       id: "Investors",
       claimableAmount: 0,
       currentClaimableAmount: 0,
-      EmissionRate: 26,
+      EmissionRate: 41.06,
       ticketType: 0,
       description:
         "Early private round investors who contributed to our foundational stage are eligible to claim their benefits.",
@@ -126,11 +127,11 @@ export default function Provisions() {
       id: "Community partners",
       claimableAmount: 0,
       currentClaimableAmount: 0,
-      EmissionRate: 11.4,
+      EmissionRate: 41.06,
       ticketType: 1,
       description:
         "Key community members who actively promoted our product across various channels qualify for this program.",
-      icon: investorIcon,
+      icon: kolIcon,
     },
     {
       ticketId: 0,
@@ -192,13 +193,13 @@ export default function Provisions() {
     isIdleClaimL2,
     isSuccessClaimL2,
     statusClaimL2,
-  }=useClaimStarknet()
+  } = useClaimStarknet();
 
   const { isLoading: approveLoading, isSuccess: approveSuccess } =
     useWaitForTransaction({
       hash: dataClaimL1?.hash,
     });
-    const { data, error, isLoading, isError, isSuccess } =
+  const { data, error, isLoading, isError, isSuccess } =
     useWaitForTransactionStarknet({
       hash: dataClaimL2?.transaction_hash,
       watch: true,
@@ -241,19 +242,19 @@ export default function Provisions() {
     }
   };
 
-  const handleTransactionL2=async()=>{
+  const handleTransactionL2 = async () => {
     try {
-      if(ticketIdL2!==0){
-        console.log(ticketIdL2,'l2')
-        const res=await writeAsyncClaimL2()
+      if (ticketIdL2 !== 0) {
+        console.log(ticketIdL2, "l2");
+        const res = await writeAsyncClaimL2();
       }
     } catch (error) {
       toast.error(`${ErrorMessage(error)}`, {
         position: "bottom-right",
       });
-      console.log(error,'err l2')
+      console.log(error, "err l2");
     }
-  }
+  };
 
   useEffect(() => {
     if (approveSuccess && !approveLoading) {
@@ -294,7 +295,8 @@ export default function Provisions() {
   const updateProvisionCategoriesL2 = (incomingData: any) => {
     const updatedCategories = provisionCategories.map((category) => {
       const matchingData = incomingData.find(
-        (data: any, index: number) => Number(data.ticket_type) === category.ticketType
+        (data: any, index: number) =>
+          Number(data.ticket_type) === category.ticketType
       );
 
       if (matchingData) {
@@ -346,7 +348,7 @@ export default function Provisions() {
       };
 
       fetchData();
-    }else if(addressInput.length===66 && addressAuthenticated){
+    } else if (addressInput.length === 66 && addressAuthenticated) {
       let arr: any = [];
       const fetchData = async () => {
         try {
@@ -380,7 +382,7 @@ export default function Provisions() {
 
       fetchData();
     }
-  }, [addressInput, addressAuthenticated, approveSuccess,isSuccess]);
+  }, [addressInput, addressAuthenticated, approveSuccess, isSuccess]);
 
   useEffect(() => {
     if (addressDetails) {
@@ -393,17 +395,16 @@ export default function Provisions() {
       setcurrentClaimableAmount(currentClaimbale);
       settotalClaimableAmount(valueTotal);
     }
-  }, [addressDetails, approveSuccess,isSuccess]);
+  }, [addressDetails, approveSuccess, isSuccess]);
 
-
-  useEffect(()=>{
-    if(isSuccess && !isLoading){
-      toast.success('Successfully claimed HSTK Tokens', {
-        position: 'bottom-right'
-      })
+  useEffect(() => {
+    if (isSuccess && !isLoading) {
+      toast.success("Successfully claimed HSTK Tokens", {
+        position: "bottom-right",
+      });
       setcalltransaction(false);
     }
-  },[isSuccess])
+  }, [isSuccess]);
 
   const { address: addressL1 } = useAccountL1();
   const { address, account } = useAccount();
@@ -495,12 +496,12 @@ export default function Provisions() {
       if (ticketId !== 0 && addressL1) {
         handleTransactionl1();
       }
-      if(ticketIdL2!==0 &&address){
-        console.log('entry')
-        handleTransactionL2()
+      if (ticketIdL2 !== 0 && address) {
+        console.log("entry");
+        handleTransactionL2();
       }
     }
-  }, [calltransaction, ticketId,ticketIdL2]);
+  }, [calltransaction, ticketId, ticketIdL2]);
 
   useEffect(() => {
     if (walletTypeSelected === "L1") {
@@ -544,15 +545,31 @@ export default function Provisions() {
         >
           <Box
             position="absolute"
-            top={isSmallerThan700?addressAuthenticated?"3%": "5%": addressAuthenticated ? "6%" : "11%"}
-            left={isSmallerThan700?"4%": "7%"}
+            top={
+              isSmallerThan700
+                ? addressAuthenticated
+                  ? "3%"
+                  : "5%"
+                : addressAuthenticated
+                ? "6%"
+                : "11%"
+            }
+            left={isSmallerThan700 ? "4%" : "7%"}
             transform="rotate(120deg)"
           >
             <HashTokenIconFloater />
           </Box>
           <Box
             position="absolute"
-            top={isSmallerThan700?addressAuthenticated?"7%": "9%": addressAuthenticated ? "11%" : "16%"}
+            top={
+              isSmallerThan700
+                ? addressAuthenticated
+                  ? "7%"
+                  : "9%"
+                : addressAuthenticated
+                ? "11%"
+                : "16%"
+            }
             left={"18%"}
             width="14px"
             height="14px"
@@ -561,14 +578,30 @@ export default function Provisions() {
           />
           <Box
             position="absolute"
-            top={isSmallerThan700?addressAuthenticated?"3%":"5%": addressAuthenticated ? "6%" : "11%"}
-            right={isSmallerThan700?"5%": "7%"}
+            top={
+              isSmallerThan700
+                ? addressAuthenticated
+                  ? "3%"
+                  : "5%"
+                : addressAuthenticated
+                ? "6%"
+                : "11%"
+            }
+            right={isSmallerThan700 ? "5%" : "7%"}
           >
             <HashTokenIconFloater />
           </Box>
           <Box
             position="absolute"
-            top={isSmallerThan700?addressAuthenticated?"7%": "9%": addressAuthenticated ? "11%" : "16%"}
+            top={
+              isSmallerThan700
+                ? addressAuthenticated
+                  ? "7%"
+                  : "9%"
+                : addressAuthenticated
+                ? "11%"
+                : "16%"
+            }
             right="18%"
             width="14px"
             height="14px"
@@ -632,7 +665,10 @@ export default function Provisions() {
                 cursor="pointer"
               >
                 <VideoLogo />
-                <Link href="https://app.supademo.com/demo/cm4s4znho01t9ql5jgxg7lhcs" target="_blank">
+                <Link
+                  href="https://app.supademo.com/demo/cm4ts6m8j0qfh6gs8dm50znl7"
+                  target="_blank"
+                >
                   <Text
                     color="#00D395"
                     border="2px dotted transparent"
@@ -674,7 +710,7 @@ export default function Provisions() {
                   borderRadius="6px 0px 0px 6px"
                   height="50px"
                   bg="white"
-                  ml={isSmallerThan700?"2rem":"0rem"}
+                  ml={isSmallerThan700 ? "2rem" : "0rem"}
                 >
                   <Input
                     fontSize="16px"
@@ -798,14 +834,14 @@ export default function Provisions() {
               alignItems="center"
               textAlign="center"
               mt="1rem"
-              gap={isSmallerThan700?"1rem": "2rem"}
+              gap={isSmallerThan700 ? "1rem" : "2rem"}
             >
               <Box
                 display="flex"
                 color="white"
                 alignItems="center"
                 flexDirection="column"
-                padding={isSmallerThan700?"16px 32px": "32px 64px"}
+                padding={isSmallerThan700 ? "16px 32px" : "32px 64px"}
                 bg="#120F25"
                 border="1px solid #2C2B48"
                 borderRadius="6px"
@@ -814,7 +850,9 @@ export default function Provisions() {
                 <Text whiteSpace="nowrap" fontWeight="600" fontSize="18px">
                   {numberFormatter(totalClaimableAmount)} HSTK
                 </Text>
-                <Text whiteSpace="nowrap" color="#676D9A">Tokens</Text>
+                <Text whiteSpace="nowrap" color="#676D9A">
+                  Tokens
+                </Text>
               </Box>
               <Box
                 display="flex"
@@ -822,7 +860,7 @@ export default function Provisions() {
                 alignItems="center"
                 flexDirection="column"
                 border="1px solid #2C2B48"
-                padding={isSmallerThan700?"16px 32px": "32px 64px"}
+                padding={isSmallerThan700 ? "16px 32px" : "32px 64px"}
                 bg="#120F25"
                 borderRadius="6px"
                 mt="1rem"
@@ -830,7 +868,9 @@ export default function Provisions() {
                 <Text whiteSpace="nowrap" fontWeight="600" fontSize="18px">
                   {numberFormatter(currentClaimableAmount)} HSTK
                 </Text>
-                <Text whiteSpace="nowrap" color="#676D9A">Claimable Tokens</Text>
+                <Text whiteSpace="nowrap" color="#676D9A">
+                  Claimable Tokens
+                </Text>
               </Box>
             </Box>
           )}
@@ -1029,10 +1069,12 @@ export default function Provisions() {
                   justifyContent="center"
                   alignItems={isSmallerThan700 ? "center" : ""}
                   flexDirection={isSmallerThan700 ? "column" : "row"}
-                  mr={isSmallerThan700?"2rem": "4.5rem"}
+                  mr={isSmallerThan700 ? "2rem" : "4.5rem"}
                 >
                   <Box display="flex" gap="0.5rem">
-                    <Text color="#676D9A" whiteSpace="nowrap">Currently Claimed</Text>
+                    <Text color="#676D9A" whiteSpace="nowrap">
+                      Currently Claimed
+                    </Text>
                     <Text whiteSpace="nowrap">
                       {numberFormatter(
                         totalClaimableAmount - currentClaimableAmount
@@ -1040,11 +1082,17 @@ export default function Provisions() {
                       HSTK
                     </Text>
                   </Box>
-                  <Box display="flex" gap="0.5rem" borderLeft={isSmallerThan700?"": "1px solid white"}>
+                  <Box
+                    display="flex"
+                    gap="0.5rem"
+                    borderLeft={isSmallerThan700 ? "" : "1px solid white"}
+                  >
                     <Text ml="1rem" color="#676D9A" whiteSpace="nowrap">
                       Tokens
                     </Text>
-                    <Text whiteSpace="nowrap">{numberFormatter(totalClaimableAmount)} HSTK</Text>
+                    <Text whiteSpace="nowrap">
+                      {numberFormatter(totalClaimableAmount)} HSTK
+                    </Text>
                   </Box>
                 </Box>
               </Box>
@@ -1055,7 +1103,13 @@ export default function Provisions() {
               <Box
                 display="flex"
                 gap="0.4rem"
-                fontSize={isSmallerThan700?"20px": isSmallerThan1250 ? "28px" : "40px"}
+                fontSize={
+                  isSmallerThan700
+                    ? "20px"
+                    : isSmallerThan1250
+                    ? "28px"
+                    : "40px"
+                }
                 whiteSpace="nowrap"
               >
                 Are you eligible for <Text color="#FFD027">HSTK</Text> tokens ?
@@ -1099,54 +1153,108 @@ export default function Provisions() {
                     </Box>
 
                     <Box display="flex" flexDir="column">
-                      <Text
+                      <Box
                         color="#F0F0F5"
                         fontSize={isSmallerThan1250 ? "22px" : "32px"}
                         fontWeight="800"
                         display="flex"
                         alignItems="center"
-                        justifyContent="space-between"
+                        justifyContent={isSmallerThan700 ? "space-between" : ""}
                       >
                         {catgeory.id}
-                        {addressAuthenticated &&isSmallerThan700 && (
-                            <Button
-                              bg="none"
-                              border="1px solid #F0F0F5"
-                              color="#F0F0F5"
-                              width="20%"
-                              height="35px"
-                              // mt="0.4rem"
-                              _hover={{
-                                background: "white",
-                                color: "black",
-                              }}
-                              isDisabled={
-                                catgeory.ticketId === 0
-                                  ? catgeory.claimableAmount === 0
-                                  : claimAddress !== ""
-                                  ? !userConfirmation
-                                  : catgeory.currentClaimableAmount === 0
-                              }
-                              onClick={() => {
-                                setticketId(catgeory.ticketId);
-                                setticketIdL2(catgeory.ticketId);
-                                setcalltransaction(true);
-                              }}
-                            >
-                              Claim
-                            </Button>
-                          )}
-                      </Text>
+                        {
+                          <Box
+  display="inline-flex"
+  alignItems="center"
+  justifyContent="center"
+  ml="1rem"
+  px="3"
+  py="1"
+  bg={
+    catgeory.id === "Investors" || catgeory.id === "Community partners"
+      ? "#F7BB5B"
+      : "#3E415C"
+  } // Dark gray background
+  color={catgeory.id === "Investors" || catgeory.id === "Community partners"?"black":"white"}
+  fontWeight="bold"
+  fontSize="sm"
+  borderRadius="8px"
+  position="relative"
+  _before={{
+    content: `""`,
+    position: "absolute",
+    left: "-10px", // Adjust arrow position
+    width: "0",
+    height: "0",
+    borderTop: "14px solid transparent", // Arrow top
+    borderBottom: "14px solid transparent", // Arrow bottom
+    borderRight:
+      catgeory.id === "Investors" || catgeory.id === "Community partners"
+        ? "14px solid #F7BB5B" // Arrow color matches ACTIVE background
+        : "14px solid #3E415C", // Default arrow color
+  }}
+>
+  <Text>
+    {catgeory.id === "Investors" || catgeory.id === "Community partners"
+      ? "ACTIVE"
+      : "20/12/2024"}
+  </Text>
+</Box>
+
+                        }
+                        {addressAuthenticated && isSmallerThan700 && (
+                          <Button
+                            bg="none"
+                            border="1px solid #F0F0F5"
+                            color="#F0F0F5"
+                            width="20%"
+                            height="35px"
+                            // mt="0.4rem"
+                            _hover={{
+                              background: "white",
+                              color: "black",
+                            }}
+                            isDisabled={
+                              catgeory.ticketId === 0
+                                ? catgeory.claimableAmount === 0
+                                : claimAddress !== ""
+                                ? !userConfirmation
+                                : catgeory.currentClaimableAmount === 0
+                            }
+                            onClick={() => {
+                              setticketId(catgeory.ticketId);
+                              setticketIdL2(catgeory.ticketId);
+                              setcalltransaction(true);
+                            }}
+                          >
+                            Claim
+                          </Button>
+                        )}
+                      </Box>
                       <Text
                         maxW="700px"
-                        mt={isSmallerThan700?"1.5rem": isSmallerThan1250 ? "0.5rem" : "1rem"}
+                        mt={
+                          isSmallerThan700
+                            ? "1.5rem"
+                            : isSmallerThan1250
+                            ? "0.5rem"
+                            : "1rem"
+                        }
                         fontSize={isSmallerThan1250 ? "14px" : "16px"}
                       >
                         {catgeory.description}
                       </Text>
                       {addressDetails && (
                         <Box display="flex" gap="1.5rem" mt="1.5rem">
-                          <Box fontSize={isSmallerThan700?"12px":isSmallerThan1250 ? "14px" : "16px"}>
+                          <Box
+                            fontSize={
+                              isSmallerThan700
+                                ? "12px"
+                                : isSmallerThan1250
+                                ? "14px"
+                                : "16px"
+                            }
+                          >
                             <Text>
                               {numberFormatter(catgeory.claimableAmount)}
                             </Text>
@@ -1157,7 +1265,15 @@ export default function Provisions() {
                             borderLeft="2px solid #2C2B48"
                             borderRadius="6px"
                           ></Box>
-                          <Box fontSize={isSmallerThan700?"12px":isSmallerThan1250 ? "14px" : "16px"}>
+                          <Box
+                            fontSize={
+                              isSmallerThan700
+                                ? "12px"
+                                : isSmallerThan1250
+                                ? "14px"
+                                : "16px"
+                            }
+                          >
                             <Text>
                               {numberFormatter(catgeory.currentClaimableAmount)}
                             </Text>
@@ -1168,7 +1284,15 @@ export default function Provisions() {
                             borderLeft="2px solid #2C2B48"
                             borderRadius="6px"
                           ></Box>
-                          <Box fontSize={isSmallerThan700?"12px": isSmallerThan1250 ? "14px" : "16px"}>
+                          <Box
+                            fontSize={
+                              isSmallerThan700
+                                ? "12px"
+                                : isSmallerThan1250
+                                ? "14px"
+                                : "16px"
+                            }
+                          >
                             <Text ml="0.4rem">
                               {numberFormatterPercentage(catgeory.EmissionRate)}
                               %
@@ -1177,12 +1301,14 @@ export default function Provisions() {
                               Emisiion Rate
                             </Text>
                           </Box>
-                          {!isSmallerThan700 &&<Box
-                            height="50px"
-                            borderLeft="2px solid #2C2B48"
-                            borderRadius="6px"
-                          ></Box>}
-                          {addressAuthenticated &&!isSmallerThan700 && (
+                          {!isSmallerThan700 && (
+                            <Box
+                              height="50px"
+                              borderLeft="2px solid #2C2B48"
+                              borderRadius="6px"
+                            ></Box>
+                          )}
+                          {addressAuthenticated && !isSmallerThan700 && (
                             <Button
                               bg="none"
                               border="1px solid #F0F0F5"
