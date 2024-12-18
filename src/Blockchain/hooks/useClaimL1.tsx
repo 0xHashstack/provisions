@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { erc20ABI, useAccount, useContractWrite } from "wagmi";
 import proxyClaimAbi from '../abis/proxyClaimAbil1.json'
-import { baseSepolia } from "viem/chains";
+import { baseSepolia, mainnet } from "viem/chains";
 import { claimContractL1 } from "../stark-constants";
 import { AnyCnameRecord } from "dns";
 const useClaimL1 = () => {
   const [claimAddressL1, setclaimAddressL1] = useState<string>("")
   const [ticketId, setticketId] = useState<number>(0)
   const {address}=useAccount()
+  console.log(mainnet.id,claimContractL1,'id')
   const {
     data: dataClaimL1,
     isSuccess: isSuccessL1,
@@ -19,7 +20,7 @@ const useClaimL1 = () => {
     abi: proxyClaimAbi,
     functionName: "claimTicket",
     args: [BigInt(ticketId),claimAddressL1===""?address:claimAddressL1],
-    chainId: baseSepolia.id,
+    // chainId: process.env.NEXT_PUBLIC_NODE_ENV==='testnet'? baseSepolia.id:mainnet.id,
     onError:(err)=>{
       console.log(err,'error l1')
     }
