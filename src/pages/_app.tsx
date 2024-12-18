@@ -145,7 +145,7 @@ const lightTheme = extendTheme({
 
 export default function App({ Component, pageProps }: AppProps) {
   const { chains, publicClient } =   configureChains(
-    [baseSepolia,mainnet],
+    [mainnet],
     [publicProvider()],
   )
   const connectors = [
@@ -153,7 +153,7 @@ export default function App({ Component, pageProps }: AppProps) {
     new StarknetInjector({ options: { id: "argentX" } }),
   ];
   const projectId=process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECTOR || "";
-  const infuraId=process.env.NEXT_PUBLIC_INFURA_WALLETCONNECT || "";
+  const infuraId=process.env.NEXT_PUBLIC_INFURA_MAINNET || "";
   const config = createConfig(
     getDefaultConfig(
       {
@@ -161,37 +161,21 @@ export default function App({ Component, pageProps }: AppProps) {
       // Required API Keys
       infuraId: infuraId, // or infuraId
       walletConnectProjectId: projectId,
-      connectors:  process.env.NEXT_PUBLIC_NODE_ENV=='mainnet'?[
+      connectors:  [
         new MetaMaskConnector({
-          chains: [mainnet,baseSepolia],
+          chains: [mainnet],
       }),
       new CoinbaseWalletConnector({
       options: {
         appName: 'wagmi',
       },
-      chains:[mainnet,baseSepolia]
+      chains:[mainnet]
     }),
     new WalletConnectConnector({
       options: {
         projectId: projectId,
       },
-      chains:[mainnet,baseSepolia]
-    }),
-      ]: [
-        new MetaMaskConnector({
-          chains: [baseSepolia],
-      }),
-      new CoinbaseWalletConnector({
-      options: {
-        appName: 'wagmi',
-      },
-      chains:[baseSepolia]
-    }),
-    new WalletConnectConnector({
-      options: {
-        projectId: projectId,
-      },
-      chains:[baseSepolia]
+      chains:[mainnet]
     }),
       ],
 
