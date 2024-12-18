@@ -6,7 +6,7 @@ import proxyClaimAbiL2 from '../abis/proxyClaimAbiL2.json'
 export async function getuserbeneficiaryTicketsL1(address:string) {
   try {
     const provider = new ethers.providers.JsonRpcProvider(
-      process.env.NEXT_PUBLIC_INFURA_TESTNET_BASE
+      process.env.NEXT_PUBLIC_NODE_ENV==="testnet"? process.env.NEXT_PUBLIC_INFURA_TESTNET_BASE:process.env.NEXT_PUBLIC_INFURA_MAINNET
     );
     const contract = new ethers.Contract(claimContractL1, proxyClaimAbi, provider);
     const storedData = await contract.myBeneficiaryTickets(address);
@@ -46,7 +46,7 @@ export async function viewTicketL2(ticket:number) {
 export async function viewTicket(ticket:number) {
     try {
       const provider = new ethers.providers.JsonRpcProvider(
-        process.env.NEXT_PUBLIC_INFURA_TESTNET_BASE
+        process.env.NEXT_PUBLIC_NODE_ENV==="testnet"? process.env.NEXT_PUBLIC_INFURA_TESTNET_BASE:process.env.NEXT_PUBLIC_INFURA_MAINNET
       );
       const contract = new ethers.Contract(claimContractL1, proxyClaimAbi, provider);
       const storedData = await contract.viewTicket(ticket);

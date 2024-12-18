@@ -6,7 +6,6 @@ const useClaimStarknet = () => {
   const [claimAddressL2, setclaimAddressL2] = useState<string>("")
   const [ticketIdL2, setticketIdL2] = useState<number>(0)
   const { address: owner } = useAccount();
-  console.log(claimAddressL2,'params')
   // const provider=getProvider();
   // const claimContract = new Contract(proxyClaimAbi, claimAddressL2, provider)
   // const call = claimContract.populate('claim', {amount:strkAmount, proof: proof})

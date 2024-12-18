@@ -41,7 +41,6 @@ const splineColor = [
   "#7E8EF1", // Vibrant orange-red
   "#4E4EDA", // Bright green
   "#9EDF9C", // Bold purple
-  "#E17FCF", // Golden yellow
 ];
   ////console.log(daiData?.supplyAmounts, "data protocol");
   //  //console.log(new Date("2022-01-01").getTime(),"trial chart data")
@@ -52,7 +51,7 @@ const splineColor = [
     let newData: any = [];
     let newCategories: any = [];
 
-    const startDate = new Date("2024-12-01").getTime();
+    const startDate = new Date("2024-12-18").getTime();
     const months = Array.from({ length: 61 }, (_, i) => {
       const date = new Date(startDate);
       date.setMonth(date.getMonth() + i);

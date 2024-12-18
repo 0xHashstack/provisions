@@ -333,7 +333,6 @@ export default function Provisions() {
             });
 
             const arrTicketValues = await Promise.all(promises);
-
             if (arrTicketValues.length > 0) {
               updateProvisionCategories(arrTicketValues);
             }
