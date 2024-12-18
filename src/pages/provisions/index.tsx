@@ -1054,12 +1054,12 @@ export default function Provisions() {
                             </Text>
                             <Text whiteSpace="nowrap">Claimable Tokens</Text>
                           </Box>
-                          <Box
+                          {/* <Box
                             height="50px"
                             borderLeft="2px solid #2C2B48"
                             borderRadius="6px"
-                          ></Box>
-                          <Box
+                          ></Box> */}
+                          {/* <Box
                             fontSize={
                               isSmallerThan700
                                 ? "12px"
@@ -1075,7 +1075,7 @@ export default function Provisions() {
                             <Text ml="0.4rem" whiteSpace="nowrap">
                               Emisiion Rate
                             </Text>
-                          </Box>
+                          </Box> */}
                           {!isSmallerThan700 && (
                             <Box
                               height="50px"
