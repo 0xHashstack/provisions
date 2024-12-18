@@ -29,6 +29,7 @@ import LeadingLogo from "@/assets/leadingLogo";
 import EkuboIcon from "@/assets/ekuboIcon";
 import numberFormatter from "@/functions/numberFormatter";
 import Footer from "@/components/footer";
+import Link from "next/link";
 
 export default function Tokenomics() {
   const [isLargerThan2000] = useMediaQuery("(min-width: 2000px)");
@@ -41,6 +42,7 @@ export default function Tokenomics() {
       setRender(true);
     }, 2000);
   }, []);
+  const router=useRouter()
   return (
     <Box>
       <Box
@@ -274,26 +276,28 @@ export default function Tokenomics() {
                 alignItems="center"
                 width="40%"
               >
-                <Box
-                  border="1px solid #272943"
-                  borderRadius="6px"
-                  padding="16px 24px"
-                  display="flex"
-                  justifyContent="space-between"
-                  width="100%"
-                  alignItems="center"
-                  cursor="pointer"
-                >
-                  <Box display="flex" alignItems="center" gap="0.8rem">
-                    <UniswapLogo />
-                    <Text fontSize="16px" fontWeight="600">
-                      Uniswap
-                    </Text>
+                <Link style={{width:"100%"}} href="https://app.uniswap.org/swap?chain=mainnet&inputCurrency=0xf38774a034f5f533d7f9e2ba6b7f3a7542714fa9&outputCurrency=0xdac17f958d2ee523a2206206994597c13d831ec7" target="_blank">
+                  <Box
+                    border="1px solid #272943"
+                    borderRadius="6px"
+                    padding="16px 24px"
+                    display="flex"
+                    justifyContent="space-between"
+                    width="100%"
+                    alignItems="center"
+                    cursor="pointer"
+                  >
+                    <Box display="flex" alignItems="center" gap="0.8rem">
+                      <UniswapLogo />
+                      <Text fontSize="16px" fontWeight="600">
+                        Uniswap
+                      </Text>
+                    </Box>
+                    <Box>
+                      <LeadingLogo />
+                    </Box>
                   </Box>
-                  <Box>
-                    <LeadingLogo />
-                  </Box>
-                </Box>
+                </Link>
                 <Box
                   border="1px solid #272943"
                   borderRadius="6px"
@@ -330,7 +334,9 @@ export default function Tokenomics() {
                   <Text fontSize="16px" maxW="70%">
                   Check out our liquidity pools on uniswap and ekubo, start earning!
                   </Text>
-                  <Button variant="link">Earn</Button>
+                  <Button onClick={()=>{
+                    router.push('/provisions')
+                  }} variant="link">Earn</Button>
                 </Box>
                 <Box display="flex" gap="1rem" width="100%">
                   <Box
@@ -344,7 +350,7 @@ export default function Tokenomics() {
                     gap="0.3rem"
                   >
                     <Text>HSTK Price</Text>
-                    <Text color="#676D9A">$ {numberFormatter(23)}</Text>
+                    <Text color="#676D9A">NA</Text>
                   </Box>
                   <Box
                     border="1px solid #272943"
@@ -357,7 +363,7 @@ export default function Tokenomics() {
                     width="50%"
                   >
                     <Text>24H Trading Volume</Text>
-                    <Text color="#676D9A">$ {numberFormatter(2000000003)}</Text>
+                    <Text color="#676D9A">NA</Text>
                   </Box>
                 </Box>
               </Box>
