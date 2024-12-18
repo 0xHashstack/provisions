@@ -44,30 +44,27 @@ const EmissionDashboard = () => {
   const data = [
     {
       title: "Hastack Investors",
-      subData: ["Private round", "Community Partners"],
-      distributions: [11.4, 2],
-      totals: [1026000000, 180000000],
+      subData: ["Private round"],
+      distributions: [18],
+      totals: [1620000000],
       icon: HashstackIllustrationTokenomics,
       criterias: [
         "10% unlocked at tge, 3 months cliff, 15 months linear release.",
-        "25% unlocked at tge, 3 months cliff, 6 months linear release(hourly).",
       ],
     },
     {
       title: "Adoption Incentives",
       subData: [
         "Airdrop",
-        "Grants - Build on Hashstack",
         "Integration Incentives",
         "Liquidity mining",
       ],
-      distributions: [2, 5, 7, 15],
+      distributions: [2.4, 7, 15],
       icon: AdoptionIncentives,
-      totals: [180000000, 450000000, 630000000, 1350000000],
+      totals: [216000000, 630000000, 1350000000],
       criterias: [
-        "6 months cliff. 3 months linear release(hourly)",
+        "6 months cliff. 3 months linear release",
         "0% unlocked at tge. 12.5% quarterly deployed over 24 months",
-        "0% unlocked at tge. 60% linearly deployed in year 1, 24% in year 2. 16% in year 3",
         "60% dripped over 24 months after lockdrop. Equally distributed to supply/borrow. 40% non-linearly dripped over 20 months.",
       ],
     },
