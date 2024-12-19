@@ -445,26 +445,28 @@ export default function Tokenomics() {
                     </Box>
                   </Box>
                 </Link>
-                <Box
-                  border="1px solid #272943"
-                  borderRadius="6px"
-                  padding="16px 24px"
-                  display="flex"
-                  justifyContent="space-between"
-                  alignItems="center"
-                  width="100%"
-                  cursor="pointer"
-                >
-                  <Box display="flex" alignItems="center" gap="0.8rem">
-                    <EkuboIcon />
-                    <Text fontSize={isSmallerThan500?"12px": "16px"} fontWeight="600">
-                      Ekubo
-                    </Text>
+                <Link href="https://app.ekubo.org/?inputCurrency=HSTK&amount=1&outputCurrency=USDT" target="_blank" style={{width:"100%"}}>
+                  <Box
+                    border="1px solid #272943"
+                    borderRadius="6px"
+                    padding="16px 24px"
+                    display="flex"
+                    justifyContent="space-between"
+                    alignItems="center"
+                    width="100%"
+                    cursor="pointer"
+                  >
+                    <Box display="flex" alignItems="center" gap="0.8rem">
+                      <EkuboIcon />
+                      <Text fontSize={isSmallerThan500?"12px": "16px"} fontWeight="600">
+                        Ekubo
+                      </Text>
+                    </Box>
+                    <Box ml="0.5rem">
+                      <LeadingLogo />
+                    </Box>
                   </Box>
-                  <Box ml="0.5rem">
-                    <LeadingLogo />
-                  </Box>
-                </Box>
+                </Link>
               </Box>
               <Box
                 border="1px solid #272943"
