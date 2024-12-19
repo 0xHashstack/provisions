@@ -383,7 +383,7 @@ export default function Tokenomics() {
                     gap="0.3rem"
                   >
                     <Text>HSTK Price</Text>
-                    {tokenPrice?<Text color="#676D9A">{numberFormatter(tokenPrice)}</Text>:<Skeleton
+                    {tokenPrice?<Text color="#676D9A">NA</Text>:<Skeleton
                     width="3rem"
                     height="0.8rem"
                     startColor="#101216"
