@@ -81,7 +81,7 @@ const Navbar = () => {
           />
         </Box>}
         {!isLessThan1210 &&<HStack color="white" mr="1rem">
-          <Box color="#676D9A" mr="0.5rem">
+          <Box color="#676D9A">
           Need help? Talk to us:
           </Box>
           <Link href="https://discord.com/invite/VaThqq8vbS" target="blank">
@@ -390,75 +390,13 @@ const Navbar = () => {
                   border="1px solid rgb(26, 26, 31)"
                   margin="0"
                   onClick={() => {
-                    router.push('https://docs.hashstack.finance/developers/supply-and-borrow/borrow/use-cases')
+                    router.push('https://app.hashstack.finance/')
                   }}
                 >
-                  Use-cases
-                </Text>
-                <Text
-                  color="#fff"
-                  fontSize="14px"
-                  fontStyle="normal"
-                  fontWeight="500"
-                  lineHeight="20px"
-                  cursor="pointer"
-                  width="100%"
-                  textAlign="center"
-                  height="64px"
-                  display="flex"
-                  alignItems="center"
-                  justifyContent="center"
-                  border="1px solid rgb(26, 26, 31)"
-                  margin="0"
-                >
-                  HASH token
-                </Text>
-                <Text
-                  color="#fff"
-                  fontSize="14px"
-                  fontStyle="normal"
-                  fontWeight="500"
-                  lineHeight="20px"
-                  cursor="pointer"
-                  width="100%"
-                  textAlign="center"
-                  height="64px"
-                  display="flex"
-                  alignItems="center"
-                  justifyContent="center"
-                  border="1px solid rgb(26, 26, 31)"
-                  margin="0"
-                  onClick={() => {
-                    router.push('https://app.hashstack.finance/v1/airdrop_leaderboard')
-                  }}
-                >
-                  Airdrop Leaderboard
-                </Text>
-                <Box>
-                </Box>
-                <Text
-                  color="#fff"
-                  fontSize="14px"
-                  fontStyle="normal"
-                  fontWeight="500"
-                  lineHeight="20px"
-                  cursor="pointer"
-                  width="100%"
-                  textAlign="center"
-                  height="64px"
-                  display="flex"
-                  alignItems="center"
-                  justifyContent="center"
-                  border="1px solid rgb(26, 26, 31)"
-                  margin="0"
-                  onClick={() => {
-                    router.push('https://hashstack.finance/c2e')
-                  }}
-                >
-                  Contribute-2-Earn
+                  Go to App
                 </Text>
               </Box>
-                <DrawerCloseButton position="fixed" bottom="10%" top="74%"  left="45%" width="48px" height="48px" borderRadius="8px" bg="transparent" color="white"/>
+                <DrawerCloseButton position="fixed" bottom="10%" top="54%"  left="47%" width="48px" height="48px" borderRadius="8px" bg="transparent" color="white"/>
             </DrawerBody>
           </DrawerContent>
         </Drawer>

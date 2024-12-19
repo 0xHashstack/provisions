@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   HStack,
+  Skeleton,
   Spinner,
   Stack,
   Text,
@@ -30,10 +31,14 @@ import EkuboIcon from "@/assets/ekuboIcon";
 import numberFormatter from "@/functions/numberFormatter";
 import Footer from "@/components/footer";
 import Link from "next/link";
+import { hstkPrice } from "@/Blockchain/scripts/claimProxy";
+import { BigNumber } from "ethers";
+import { parseAmount } from "@/Blockchain/utils/utils";
 
 export default function Tokenomics() {
   const [isLargerThan2000] = useMediaQuery("(min-width: 2000px)");
   const [isLargerThan1280] = useMediaQuery("(min-width: 1248px)");
+  const [tokenPrice, settokenPrice] = useState<number>()
 
   // const
   const [render, setRender] = useState(false);
@@ -42,7 +47,23 @@ export default function Tokenomics() {
       setRender(true);
     }, 2000);
   }, []);
-  const router=useRouter()
+
+  useEffect(()=>{
+    try {
+      const fetchPrice=async()=>{
+        const res=await hstkPrice()
+        if(res){
+          let priceValue=parseAmount(BigNumber.from(res?._reserve0).toString(),8)/parseAmount(BigNumber.from(res?._reserve1).toString(),18)*100
+          settokenPrice(priceValue)
+        }
+      }
+      fetchPrice()
+    } catch (error) {
+      console.log(error,'err while fetching price')
+    }
+  },[])
+
+  const router = useRouter();
   return (
     <Box>
       <Box
@@ -89,7 +110,9 @@ export default function Tokenomics() {
                 Hashstack Tokenomics
               </Text>
               <Text maxW="500px">
-              The HSTK token serves as the cornerstone of our DeFi ecosystem, built to drive value, incentivize active participation, and generate sustainable economic momentum.
+                The HSTK token serves as the cornerstone of our DeFi ecosystem,
+                built to drive value, incentivize active participation, and
+                generate sustainable economic momentum.
               </Text>
               <Box height="1px" border="1px solid #272943" width="60%"></Box>
               <Box display="flex" flexDirection="column" mt="0.5rem">
@@ -276,7 +299,11 @@ export default function Tokenomics() {
                 alignItems="center"
                 width="40%"
               >
-                <Link style={{width:"100%"}} href="https://app.uniswap.org/swap?chain=mainnet&inputCurrency=0xf38774a034f5f533d7f9e2ba6b7f3a7542714fa9&outputCurrency=0xdac17f958d2ee523a2206206994597c13d831ec7" target="_blank">
+                <Link
+                  style={{ width: "100%" }}
+                  href="https://app.uniswap.org/swap?chain=mainnet&inputCurrency=0xf38774a034f5f533d7f9e2ba6b7f3a7542714fa9&outputCurrency=0xdac17f958d2ee523a2206206994597c13d831ec7"
+                  target="_blank"
+                >
                   <Box
                     border="1px solid #272943"
                     borderRadius="6px"
@@ -332,11 +359,17 @@ export default function Tokenomics() {
               >
                 <Box display="flex" width="100%" justifyContent="space-between">
                   <Text fontSize="16px" maxW="70%">
-                  Check out our liquidity pools on uniswap and ekubo, start earning!
+                    Check out our liquidity pools on uniswap and ekubo, start
+                    earning!
                   </Text>
-                  <Button onClick={()=>{
-                    router.push('/provisions')
-                  }} variant="link">Earn</Button>
+                  <Button
+                    onClick={() => {
+                      router.push("/provisions");
+                    }}
+                    variant="link"
+                  >
+                    Earn
+                  </Button>
                 </Box>
                 <Box display="flex" gap="1rem" width="100%">
                   <Box
@@ -350,7 +383,13 @@ export default function Tokenomics() {
                     gap="0.3rem"
                   >
                     <Text>HSTK Price</Text>
-                    <Text color="#676D9A">NA</Text>
+                    {tokenPrice?<Text color="#676D9A">{numberFormatter(tokenPrice)}</Text>:<Skeleton
+                    width="3rem"
+                    height="0.8rem"
+                    startColor="#101216"
+                    endColor="#2B2F35"
+                    borderRadius="6px"
+                  />}
                   </Box>
                   <Box
                     border="1px solid #272943"
@@ -382,7 +421,6 @@ export default function Tokenomics() {
           >
             <EmissionRateChart />
           </HStack>
-          <Footer/>
 
           {/* <Text color="white" mt="3rem" mb="2rem">
           Tokenomics
@@ -390,6 +428,7 @@ export default function Tokenomics() {
         <ContributorsChart/> */}
         </Box>
       }
+      <Footer />
     </Box>
   );
 }
