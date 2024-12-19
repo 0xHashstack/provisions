@@ -12,6 +12,7 @@ import {
   VStack,
   HStack,
   Skeleton,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import React from "react";
 import Image from "next/image";
@@ -103,6 +104,8 @@ const EmissionDashboard = () => {
       ],
     },
   ];
+  const [isSmallerThan1250] = useMediaQuery("(max-width: 1250px)");
+  const [isSmallerThan500] = useMediaQuery("(max-width: 500px)");
   return (
     <Box
       border="1px solid var(--stroke-of-30, rgba(103, 109, 154, 0.30))"
@@ -111,9 +114,23 @@ const EmissionDashboard = () => {
       p={8}
       shadow="lg"
       color="white"
+      overflow={isSmallerThan1250 ? "scroll" : "hidden"}
+      overflowX="visible"
     >
-      <TableContainer>
-        <Text fontSize="32px" fontWeight="600" mb="1rem">
+      <TableContainer   css={{
+    '&::-webkit-scrollbar': {
+      display: 'block', // Override global styles
+      height: '8px', // Ensure the scrollbar height is defined
+    },
+    '&::-webkit-scrollbar-thumb': {
+      background: 'rgba(103, 109, 154, 0.5)', // Style the thumb
+      borderRadius: '4px',
+    },
+    '&::-webkit-scrollbar-track': {
+      background: 'rgba(103, 109, 154, 0.2)', // Style the track
+    },
+  }} overflowX="visible"  overflow={isSmallerThan1250 ? "scroll" : "hidden"}>
+        <Text fontSize={isSmallerThan500?"22px": "32px"} fontWeight="600" mb="1rem">
           HSTK Tokenomics
         </Text>
         <Table variant="unstyled" width="100%">
@@ -123,7 +140,7 @@ const EmissionDashboard = () => {
                 <Td
                   key={index}
                   color="#676D9A"
-                  fontSize="16px"
+                  fontSize={isSmallerThan500?"14px": "16px"}
                   fontWeight="500"
                   textAlign="left"
                 >
@@ -147,7 +164,7 @@ const EmissionDashboard = () => {
                     <Td
                       rowSpan={item.subData.length}
                       color="#F0F0F5"
-                      fontSize="14px"
+                      fontSize={isSmallerThan500?"12px": "16px"}
                       // display="flex"
                       // justifyContent="center"
                       // alignItems="center"
@@ -160,7 +177,8 @@ const EmissionDashboard = () => {
                         display="flex"
                         alignItems="center"
                         gap="0.5rem"
-                        fontSize="16px"
+                        fontSize={isSmallerThan500?"12px": "16px"}
+                        whiteSpace="nowrap"
                       >
                         {item.icon && <item.icon />}
                         {item.title}
@@ -169,15 +187,16 @@ const EmissionDashboard = () => {
                   )}
                   <Td
                     width="180px" // Increased width for the "SUB" column
-                    whiteSpace="normal" // Allows wrapping
                     wordBreak="break-word" // Breaks long words
                     fontWeight="300"
+                    fontSize={isSmallerThan500?"12px": "16px"}
+                   whiteSpace="nowrap" 
                   >
                     {sub}
                   </Td>
                   <Td
                     color="#F0F0F5"
-                    fontSize="14px"
+                    fontSize={isSmallerThan500?"12px": "16px"}
                     width="100px"
                     whiteSpace="normal"
                     wordBreak="break-word"
@@ -187,9 +206,9 @@ const EmissionDashboard = () => {
                   </Td>
                   <Td
                     color="#F0F0F5"
-                    fontSize="14px"
+                    fontSize={isSmallerThan500?"12px": "16px"}
                     width="120px"
-                    whiteSpace="normal"
+                    whiteSpace="nowrap"
                     wordBreak="break-word"
                     fontWeight="300"
                   >
@@ -201,7 +220,7 @@ const EmissionDashboard = () => {
                     wordBreak="break-word"
                     fontWeight="300"
                   >
-                    <Text color="#F0F0F5" fontSize="14px">
+                    <Text color="#F0F0F5" fontSize={isSmallerThan500?"12px": "16px"}>
                       {item.criterias[idx]}
                     </Text>
                   </Td>

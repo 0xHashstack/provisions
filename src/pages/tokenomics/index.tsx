@@ -38,8 +38,11 @@ import { parseAmount } from "@/Blockchain/utils/utils";
 export default function Tokenomics() {
   const [isLargerThan2000] = useMediaQuery("(min-width: 2000px)");
   const [isLargerThan1280] = useMediaQuery("(min-width: 1248px)");
-  const [tokenPrice, settokenPrice] = useState<number>()
-
+  const [tokenPrice, settokenPrice] = useState<number>();
+  const [isSmallerThan1250] = useMediaQuery("(max-width: 1250px)");
+  const [isSmallerThan900] = useMediaQuery("(max-width: 900px)");
+  const [isSmallerThan700] = useMediaQuery("(max-width: 700px)");
+  const [isSmallerThan500] = useMediaQuery("(max-width: 500px)");
   // const
   const [render, setRender] = useState(false);
   useEffect(() => {
@@ -48,20 +51,23 @@ export default function Tokenomics() {
     }, 2000);
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     try {
-      const fetchPrice=async()=>{
-        const res=await hstkPrice()
-        if(res){
-          let priceValue=parseAmount(BigNumber.from(res?._reserve0).toString(),8)/parseAmount(BigNumber.from(res?._reserve1).toString(),18)*100
-          settokenPrice(priceValue)
+      const fetchPrice = async () => {
+        const res = await hstkPrice();
+        if (res) {
+          let priceValue =
+            (parseAmount(BigNumber.from(res?._reserve0).toString(), 8) /
+              parseAmount(BigNumber.from(res?._reserve1).toString(), 18)) *
+            100;
+          settokenPrice(priceValue);
         }
-      }
-      fetchPrice()
+      };
+      fetchPrice();
     } catch (error) {
-      console.log(error,'err while fetching price')
+      console.log(error, "err while fetching price");
     }
-  },[])
+  }, []);
 
   const router = useRouter();
   return (
@@ -91,22 +97,34 @@ export default function Tokenomics() {
           padding="0"
           // mb="4rem"
           // pr="4rem"
-          pl={isLargerThan2000 ? "6rem" : "4rem"}
+          pl={isSmallerThan1250 ? "2rem" : isLargerThan2000 ? "6rem" : "4rem"}
           display="flex"
           flexDirection="column"
           minHeight={"100vh"}
           pt="6rem"
-          pb={isLargerThan1280 ? "7rem" : "0rem"}
+          pb={"7rem"}
         >
           <Box
             display="flex"
+            flexDirection={isSmallerThan900 ? "column" : "row"}
+            alignItems="center"
             width="100%"
             justifyContent="center"
-            gap="14%"
+            gap={isSmallerThan1250 ? "4%" : "14%"}
             mb="2rem"
           >
-            <Box display="flex" flexDirection="column" gap="1rem" maxW="700px">
-              <Text fontSize="52px" fontWeight="700" maxW="400px">
+            <Box
+              display="flex"
+              flexDirection="column"
+              gap="1rem"
+              maxW="700px"
+              pr={isSmallerThan700 ? "1rem" : "0rem"}
+            >
+              <Text
+                fontSize={isSmallerThan700 ? "36px" : "52px"}
+                fontWeight="700"
+                maxW="400px"
+              >
                 Hashstack Tokenomics
               </Text>
               <Text maxW="500px">
@@ -133,7 +151,7 @@ export default function Tokenomics() {
                 <Text
                   mt="0.5rem"
                   lineHeight="20px"
-                  fontSize="16px"
+                  fontSize={isSmallerThan500?"12px": "16px"}
                   color="#676D9A"
                 >
                   To enable decentralised governance.
@@ -157,7 +175,7 @@ export default function Tokenomics() {
                 <Text
                   mt="0.5rem"
                   lineHeight="20px"
-                  fontSize="16px"
+                  fontSize={isSmallerThan500?"12px": "16px"}
                   color="#676D9A"
                   maxW="500px"
                 >
@@ -184,7 +202,7 @@ export default function Tokenomics() {
                 <Text
                   mt="0.5rem"
                   lineHeight="20px"
-                  fontSize="16px"
+                  fontSize={isSmallerThan500?"12px": "16px"}
                   color="#676D9A"
                   maxW="500px"
                 >
@@ -196,108 +214,210 @@ export default function Tokenomics() {
             </Box>
             <Box display="flex" flexDirection="column" gap="0rem" mt="2rem">
               <ContributorsChart />
-              <Box display="flex" flexDirection="column" gap="2rem" mt="3rem">
-                <Box display="flex" gap="1.5rem">
-                  <Box
-                    display="flex"
-                    flexDirection="column"
-                    borderLeft="4px solid #3E7CFF"
-                  >
-                    <Text ml="0.4rem" fontWeight="700">
-                      18%
-                    </Text>
-                    <Text ml="0.4rem" fontWeight="600" color="#676D9A">
-                      Hashstack Investors
-                    </Text>
+              {!isSmallerThan700 ? (
+                <Box display="flex" flexDirection="column" gap="2rem" mt="3rem" >
+                  <Box display="flex" gap="1.5rem">
+                    <Box
+                      display="flex"
+                      flexDirection="column"
+                      borderLeft="4px solid #3E7CFF"
+                    >
+                      <Text ml="0.4rem" fontWeight="700">
+                        18%
+                      </Text>
+                      <Text ml="0.4rem" fontWeight="600" color="#676D9A" >
+                        Hashstack Investors
+                      </Text>
+                    </Box>
+                    <Box
+                      display="flex"
+                      flexDirection="column"
+                      borderLeft="4px solid #00D395"
+                    >
+                      <Text ml="0.4rem" fontWeight="700">
+                        24.4%
+                      </Text>
+                      <Text ml="0.4rem" fontWeight="600" color="#676D9A">
+                        Adoption Incentives
+                      </Text>
+                    </Box>
+                    <Box
+                      display="flex"
+                      flexDirection="column"
+                      borderLeft="4px solid #00C7F2"
+                    >
+                      <Text ml="0.4rem" fontWeight="700">
+                        3.3%
+                      </Text>
+                      <Text ml="0.4rem" fontWeight="600" color="#676D9A">
+                        Community
+                      </Text>
+                    </Box>
                   </Box>
-                  <Box
-                    display="flex"
-                    flexDirection="column"
-                    borderLeft="4px solid #00D395"
-                  >
-                    <Text ml="0.4rem" fontWeight="700">
-                      24.4%
-                    </Text>
-                    <Text ml="0.4rem" fontWeight="600" color="#676D9A">
-                      Adoption Incentives
-                    </Text>
-                  </Box>
-                  <Box
-                    display="flex"
-                    flexDirection="column"
-                    borderLeft="4px solid #00C7F2"
-                  >
-                    <Text ml="0.4rem" fontWeight="700">
-                      3.3%
-                    </Text>
-                    <Text ml="0.4rem" fontWeight="600" color="#676D9A">
-                      Community
-                    </Text>
+                  <Box display="flex" gap="1.5rem">
+                    <Box
+                      display="flex"
+                      flexDirection="column"
+                      borderLeft="4px solid #FFAB80"
+                    >
+                      <Text ml="0.4rem" fontWeight="700">
+                        14%
+                      </Text>
+                      <Text ml="0.4rem" fontWeight="600" color="#676D9A">
+                        Product development
+                      </Text>
+                    </Box>
+                    <Box
+                      display="flex"
+                      flexDirection="column"
+                      borderLeft="4px solid #A38CFF"
+                    >
+                      <Text ml="0.4rem" fontWeight="700">
+                        26%
+                      </Text>
+                      <Text ml="0.4rem" fontWeight="600" color="#676D9A">
+                        Founder(s) & team
+                      </Text>
+                    </Box>
+                    <Box
+                      display="flex"
+                      flexDirection="column"
+                      borderLeft="4px solid #FFD347"
+                    >
+                      <Text ml="0.4rem" fontWeight="700">
+                        14.3%
+                      </Text>
+                      <Text ml="0.4rem" fontWeight="600" color="#676D9A">
+                        Exchange liquidity
+                      </Text>
+                    </Box>
                   </Box>
                 </Box>
-                <Box display="flex" gap="1.5rem">
+              ) : (
+                <Box display="flex" flexDirection="column" gap="2rem" mt="3rem" fontSize={isSmallerThan500?"14px":"16px"}>
                   <Box
                     display="flex"
-                    flexDirection="column"
-                    borderLeft="4px solid #FFAB80"
+                    flexWrap="wrap"
+                    gap="1.5rem"
+                    justifyContent={{ base: "center", md: "flex-start" }}
                   >
-                    <Text ml="0.4rem" fontWeight="700">
-                      14%
-                    </Text>
-                    <Text ml="0.4rem" fontWeight="600" color="#676D9A">
-                      Product development
-                    </Text>
-                  </Box>
-                  <Box
-                    display="flex"
-                    flexDirection="column"
-                    borderLeft="4px solid #A38CFF"
-                  >
-                    <Text ml="0.4rem" fontWeight="700">
-                      26%
-                    </Text>
-                    <Text ml="0.4rem" fontWeight="600" color="#676D9A">
-                      Founder(s) & team
-                    </Text>
-                  </Box>
-                  <Box
-                    display="flex"
-                    flexDirection="column"
-                    borderLeft="4px solid #FFD347"
-                  >
-                    <Text ml="0.4rem" fontWeight="700">
-                      14.3%
-                    </Text>
-                    <Text ml="0.4rem" fontWeight="600" color="#676D9A">
-                      Exchange liquidity
-                    </Text>
+                    <Box
+                      display="flex"
+                      flexDirection="column"
+                      borderLeft="4px solid #3E7CFF"
+                      width={{ base: "45%", md: "auto" }}
+                    >
+                      <Text ml="0.4rem" fontWeight="700">
+                        18%
+                      </Text>
+                      <Text ml="0.4rem" fontWeight="600" color="#676D9A">
+                        Hashstack Investors
+                      </Text>
+                    </Box>
+                    <Box
+                      display="flex"
+                      flexDirection="column"
+                      borderLeft="4px solid #00D395"
+                      width={{ base: "45%", md: "auto" }}
+                    >
+                      <Text ml="0.4rem" fontWeight="700">
+                        24.4%
+                      </Text>
+                      <Text ml="0.4rem" fontWeight="600" color="#676D9A">
+                        Adoption Incentives
+                      </Text>
+                    </Box>
+                    <Box
+                      display="flex"
+                      flexDirection="column"
+                      borderLeft="4px solid #00C7F2"
+                      width={{ base: "45%", md: "auto" }}
+                    >
+                      <Text ml="0.4rem" fontWeight="700">
+                        3.3%
+                      </Text>
+                      <Text ml="0.4rem" fontWeight="600" color="#676D9A">
+                        Community
+                      </Text>
+                    </Box>
+                    <Box
+                      display="flex"
+                      flexDirection="column"
+                      borderLeft="4px solid #FFAB80"
+                      width={{ base: "45%", md: "auto" }}
+                    >
+                      <Text ml="0.4rem" fontWeight="700">
+                        14%
+                      </Text>
+                      <Text ml="0.4rem" fontWeight="600" color="#676D9A">
+                        Product development
+                      </Text>
+                    </Box>
+                    <Box
+                      display="flex"
+                      flexDirection="column"
+                      borderLeft="4px solid #A38CFF"
+                      width={{ base: "45%", md: "auto" }}
+                    >
+                      <Text ml="0.4rem" fontWeight="700">
+                        26%
+                      </Text>
+                      <Text ml="0.4rem" fontWeight="600" color="#676D9A">
+                        Founder(s) & team
+                      </Text>
+                    </Box>
+                    <Box
+                      display="flex"
+                      flexDirection="column"
+                      borderLeft="4px solid #FFD347"
+                      width={{ base: "45%", md: "auto" }}
+                    >
+                      <Text ml="0.4rem" fontWeight="700">
+                        14.3%
+                      </Text>
+                      <Text ml="0.4rem" fontWeight="600" color="#676D9A">
+                        Exchange liquidity
+                      </Text>
+                    </Box>
                   </Box>
                 </Box>
-              </Box>
+              )}
             </Box>
           </Box>
-          <Box paddingLeft="7rem" paddingRight="7rem" mt="2rem">
+          <Box
+            paddingLeft={
+              isSmallerThan700 ? "0rem" : isSmallerThan1250 ? "2rem" : "7rem"
+            }
+            paddingRight={
+              isSmallerThan700 ? "1rem" : isSmallerThan1250 ? "2rem" : "7rem"
+            }
+            mt="2rem"
+          >
             <EmissionDashboard />
+            <Text fontSize={isSmallerThan700?"24px": "48px"} mt="3rem">
+                HSTK Markets
+              </Text>
             <Box
-              padding="36px"
-              bg="#0C0C1D"
+              // padding="36px"
+              // bg="#0C0C1D"
               mt="2rem"
               borderRadius="6px"
-              border="1px solid #272943"
+              // border="1px solid #272943"
               display="flex"
+              flexDirection={isSmallerThan700?"column":"row"}
               width="100%"
               gap="2rem"
             >
               <Box
-                border="1px solid #272943"
+                // border="1px solid #272943"
                 borderRadius="6px"
-                padding="28px"
+                // padding="28px"
                 display="flex"
-                flexDirection="column"
+                flexDirection={isSmallerThan700?"row": "column"}
                 gap="1.5rem"
                 justifyContent="space-between"
                 alignItems="center"
-                width="40%"
+                width={isSmallerThan700?"100%": "40%"}
               >
                 <Link
                   style={{ width: "100%" }}
@@ -316,11 +436,11 @@ export default function Tokenomics() {
                   >
                     <Box display="flex" alignItems="center" gap="0.8rem">
                       <UniswapLogo />
-                      <Text fontSize="16px" fontWeight="600">
+                      <Text fontSize={isSmallerThan500?"12px": "16px"} fontWeight="600">
                         Uniswap
                       </Text>
                     </Box>
-                    <Box>
+                    <Box ml="0.5rem">
                       <LeadingLogo />
                     </Box>
                   </Box>
@@ -337,11 +457,11 @@ export default function Tokenomics() {
                 >
                   <Box display="flex" alignItems="center" gap="0.8rem">
                     <EkuboIcon />
-                    <Text fontSize="16px" fontWeight="600">
+                    <Text fontSize={isSmallerThan500?"12px": "16px"} fontWeight="600">
                       Ekubo
                     </Text>
                   </Box>
-                  <Box>
+                  <Box ml="0.5rem">
                     <LeadingLogo />
                   </Box>
                 </Box>
@@ -352,13 +472,13 @@ export default function Tokenomics() {
                 padding="28px"
                 display="flex"
                 flexDirection="column"
-                gap="1.5rem"
+                // gap="1.5rem"
                 justifyContent="space-between"
                 alignItems="center"
-                width="60%"
+                width={isSmallerThan700?"100%":"60%"}
               >
                 <Box display="flex" width="100%" justifyContent="space-between">
-                  <Text fontSize="16px" maxW="70%">
+                  <Text fontSize={isSmallerThan500?"12px": "16px"} maxW={isSmallerThan900?"80%": "70%"}>
                     Check out our liquidity pools on uniswap and ekubo, start
                     earning!
                   </Text>
@@ -371,37 +491,41 @@ export default function Tokenomics() {
                     Earn
                   </Button>
                 </Box>
-                <Box display="flex" gap="1rem" width="100%">
+                <Box display="flex" gap="1rem" width="100%" mt="1.5rem">
                   <Box
-                    border="1px solid #272943"
+                    // border="1px solid #272943"
                     borderRadius="6px"
                     // bg="#191934"
-                    padding="24px 28px"
+                    // padding="8px"
                     width="50%"
                     display="flex"
                     flexDirection="column"
                     gap="0.3rem"
                   >
-                    <Text>HSTK Price</Text>
-                    {tokenPrice?<Text color="#676D9A">NA</Text>:<Skeleton
-                    width="3rem"
-                    height="0.8rem"
-                    startColor="#101216"
-                    endColor="#2B2F35"
-                    borderRadius="6px"
-                  />}
+                    <Text fontWeight="600">HSTK Price</Text>
+                    {tokenPrice ? (
+                      <Text color="#676D9A">{numberFormatter(tokenPrice)}</Text>
+                    ) : (
+                      <Skeleton
+                        width="3rem"
+                        height="0.8rem"
+                        startColor="#101216"
+                        endColor="#2B2F35"
+                        borderRadius="6px"
+                      />
+                    )}
                   </Box>
                   <Box
-                    border="1px solid #272943"
+                    // border="1px solid #272943"
                     borderRadius="6px"
                     // bg="#191934"
-                    padding="24px 28px"
+                    // padding="24px 28px"
                     display="flex"
                     flexDirection="column"
                     gap="0.3rem"
                     width="50%"
                   >
-                    <Text>24H Trading Volume</Text>
+                    <Text fontWeight="600" whiteSpace="nowrap">24H Trading Volume</Text>
                     <Text color="#676D9A">NA</Text>
                   </Box>
                 </Box>
@@ -416,8 +540,12 @@ export default function Tokenomics() {
             display="flex"
             justifyContent="space-between"
             alignItems="flex-start"
-            paddingLeft="7rem"
-            paddingRight="7rem"
+            paddingLeft={
+              isSmallerThan700 ? "0rem" : isSmallerThan1250 ? "2rem" : "7rem"
+            }
+            paddingRight={
+              isSmallerThan700 ? "1rem" : isSmallerThan1250 ? "2rem" : "7rem"
+            }
           >
             <EmissionRateChart />
           </HStack>
