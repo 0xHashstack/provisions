@@ -1,10 +1,11 @@
 import React from "react";
-import { Box } from "@chakra-ui/react";
+import { Box, useMediaQuery } from "@chakra-ui/react";
 import dynamic from "next/dynamic";
 
 const ApexCharts = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 const ContributorsChart = () => {
+  const [isSmallerThan500] = useMediaQuery("(max-width: 500px)");
   const splineColor = [
     "#3E7CFF",
     "#00D395",
@@ -24,7 +25,7 @@ const ContributorsChart = () => {
           breakpoint: 480,
           options: {
             chart: {
-              width: 200,
+              width: 350,
             },
             legend: {
               position: "bottom",
@@ -67,14 +68,14 @@ const ContributorsChart = () => {
                 },
                 value: {
                   show: true,
-                  fontSize: "24px", // Slightly larger for better visibility
+                  fontSize: isSmallerThan500?"16px":"24px", // Slightly larger for better visibility
                   fontWeight: "bold",
                   color: "#FFFFFF", // Change the center percentage color to white
                 },
                 total: {
                   show: true,
                   label: "Total Supply",
-                  fontSize: "24px",
+                  fontSize: isSmallerThan500?"16px":"24px",
                   fontWeight: "bold",
                   color: "#676D9A", // Change the "Total" label color
                   formatter: function () {
@@ -107,12 +108,12 @@ const ContributorsChart = () => {
 
   return (
     <Box borderRadius="6px" maxWidth="600px">
-      <Box display="flex" gap="10rem" flexDirection={"row"}>
+      <Box display="flex" width="100%" justifyContent="center" alignItems="center" gap="0rem" flexDirection={"row"}>
         <ApexCharts
           options={splineChartData.options}
           series={splineChartData.series}
           type="donut"
-          height={450}
+          height={isSmallerThan500?"300": 450}
           width={500}
         />
       </Box>
