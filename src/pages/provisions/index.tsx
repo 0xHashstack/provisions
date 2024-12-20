@@ -245,7 +245,6 @@ export default function Provisions() {
   const handleTransactionL2 = async () => {
     try {
       if (ticketIdL2 !== 0) {
-        console.log(ticketIdL2, "l2");
         const res = await writeAsyncClaimL2();
       }
     } catch (error) {
@@ -496,7 +495,6 @@ export default function Provisions() {
         handleTransactionl1();
       }
       if (ticketIdL2 !== 0 && address) {
-        console.log("entry");
         handleTransactionL2();
       }
     }
@@ -937,46 +935,6 @@ export default function Provisions() {
                         justifyContent={isSmallerThan700 ? "space-between" : ""}
                       >
                         {catgeory.id}
-                        {
-                          <Box
-  display="inline-flex"
-  alignItems="center"
-  justifyContent="center"
-  ml="1rem"
-  px="3"
-  py="1"
-  bg={
-    catgeory.id === "Investors" || catgeory.id === "Community partners"
-      ? "#F7BB5B"
-      : "#3E415C"
-  } // Dark gray background
-  color={catgeory.id === "Investors" || catgeory.id === "Community partners"?"black":"white"}
-  fontWeight="bold"
-  fontSize="sm"
-  borderRadius="8px"
-  position="relative"
-  _before={{
-    content: `""`,
-    position: "absolute",
-    left: "-10px", // Adjust arrow position
-    width: "0",
-    height: "0",
-    borderTop: "14px solid transparent", // Arrow top
-    borderBottom: "14px solid transparent", // Arrow bottom
-    borderRight:
-      catgeory.id === "Investors" || catgeory.id === "Community partners"
-        ? "14px solid #F7BB5B" // Arrow color matches ACTIVE background
-        : "14px solid #3E415C", // Default arrow color
-  }}
->
-  <Text>
-    {catgeory.id === "Investors" || catgeory.id === "Community partners"
-      ? "ACTIVE"
-      : "20/12/2024"}
-  </Text>
-</Box>
-
-                        }
                         {addressAuthenticated && isSmallerThan700 && (
                           <Button
                             bg="none"
