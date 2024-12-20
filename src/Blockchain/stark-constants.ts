@@ -19,4 +19,4 @@ export const uniswapPoolAddress=process.env.NEXT_PUBLIC_NODE_ENV==='testnet'?con
 
 export const claimContractL1=process.env.NEXT_PUBLIC_NODE_ENV==='testnet'?contractsEnv?.sepolia?.CLAIM_CONTRACT_ADDRESS:contractsEnv?.mainnet?.CLAIM_CONTRACT_ADDRESS
 
-export const claimContractL2=process.env.NEXT_PUBLIC_NODE_ENV==='testnet'?contractsEnv?.sepolia?.CLAIM_CONTRACT_ADDRESS_STARKNET:contractsEnv?.mainnet?.CLAIM_CONTRACT_ADDRESS
+export const claimContractL2=process.env.NEXT_PUBLIC_NODE_ENV==='testnet'?contractsEnv?.sepolia?.CLAIM_CONTRACT_ADDRESS_STARKNET:contractsEnv?.mainnet?.CLAIM_CONTRACT_ADDRESS_STARKNET

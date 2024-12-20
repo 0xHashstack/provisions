@@ -64,7 +64,7 @@ const EmissionDashboard = () => {
       icon: AdoptionIncentives,
       totals: [216000000, 630000000, 1350000000],
       criterias: [
-        "6 months cliff. 3 months linear release",
+        "25% unlocked at tge,6 months cliff. 3 months linear release",
         "0% unlocked at tge. 12.5% quarterly deployed over 24 months",
         "60% dripped over 24 months after lockdrop. Equally distributed to supply/borrow. 40% non-linearly dripped over 20 months.",
       ],
