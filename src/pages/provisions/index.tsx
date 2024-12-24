@@ -313,7 +313,7 @@ export default function Provisions() {
     setprovisionCategories(updatedCategories);
   };
   useEffect(() => {
-    if (addressInput.length === 42 && addressAuthenticated) {
+    if (addressInput && addressAuthenticated) {
       let arr: any = [];
       const fetchData = async () => {
         try {
@@ -346,7 +346,7 @@ export default function Provisions() {
       };
 
       fetchData();
-    } else if (addressInput.length === 66 && addressAuthenticated) {
+    } else if (addressInput && addressAuthenticated) {
       let arr: any = [];
       const fetchData = async () => {
         try {
@@ -416,32 +416,32 @@ export default function Provisions() {
     if (addressInput) {
       if (address || addressL1) {
         if (address) {
-          if (address === processAddress(addressInput)) {
-            setaddressAuthenticated(true);
-          } else {
-            if (loading) {
-              if (!toastPopupConfimred) {
-                toast.error("Please sign in with the correct wallet address", {
-                  position: "bottom-right",
-                });
-                settoastPopupConfimred(true);
-              }
-            }
-          }
+          setaddressAuthenticated(true);
+          // if (address === processAddress(addressInput)) {
+          // } else {
+          //   if (loading) {
+          //     if (!toastPopupConfimred) {
+          //       toast.error("Please sign in with the correct wallet address", {
+          //         position: "bottom-right",
+          //       });
+          //       settoastPopupConfimred(true);
+          //     }
+          //   }
+          // }
         }
         if (addressL1) {
-          if (addressL1 === addressInput) {
-            setaddressAuthenticated(true);
-          } else {
-            if (loading) {
-              if (!toastPopupConfimred) {
-                toast.error("Please sign in with the correct wallet address", {
-                  position: "bottom-right",
-                });
-                settoastPopupConfimred(true);
-              }
-            }
-          }
+          setaddressAuthenticated(true);
+          // if (addressL1 === addressInput) {
+          // } else {
+          //   if (loading) {
+          //     if (!toastPopupConfimred) {
+          //       toast.error("Please sign in with the correct wallet address", {
+          //         position: "bottom-right",
+          //       });
+          //       settoastPopupConfimred(true);
+          //     }
+          //   }
+          // }
         }
       }
     }
