@@ -313,11 +313,11 @@ export default function Provisions() {
     setprovisionCategories(updatedCategories);
   };
   useEffect(() => {
-    if (addressInput && addressAuthenticated) {
+    if ((addressInput.length <=42 &&addressInput.length>=40) && addressAuthenticated &&addressL1) {
       let arr: any = [];
       const fetchData = async () => {
         try {
-          const res = await getuserbeneficiaryTicketsL1(addressInput);
+          const res = await getuserbeneficiaryTicketsL1(addressL1);
           const dataTickets = res;
 
           for (let i = 0; i < dataTickets.length; i++) {
@@ -346,11 +346,12 @@ export default function Provisions() {
       };
 
       fetchData();
-    } else if (addressInput && addressAuthenticated) {
+    } else if ((addressInput.length>=64 &&addressInput.length<=68) && addressAuthenticated && address) {
       let arr: any = [];
       const fetchData = async () => {
         try {
-          const res = await getuserbeneficiaryTicketsL2(addressInput);
+          const res = await getuserbeneficiaryTicketsL2(processAddress(address));
+          console.log(res,'value')
           const dataTickets = res;
 
           for (let i = 0; i < dataTickets.length; i++) {
@@ -416,32 +417,32 @@ export default function Provisions() {
     if (addressInput) {
       if (address || addressL1) {
         if (address) {
-          setaddressAuthenticated(true);
-          // if (address === processAddress(addressInput)) {
-          // } else {
-          //   if (loading) {
-          //     if (!toastPopupConfimred) {
-          //       toast.error("Please sign in with the correct wallet address", {
-          //         position: "bottom-right",
-          //       });
-          //       settoastPopupConfimred(true);
-          //     }
-          //   }
-          // }
+          if (address === processAddress(addressInput)) {
+            setaddressAuthenticated(true);
+          } else {
+            if (loading) {
+              if (!toastPopupConfimred) {
+                toast.error("Please sign in with the correct wallet address", {
+                  position: "bottom-right",
+                });
+                settoastPopupConfimred(true);
+              }
+            }
+          }
         }
         if (addressL1) {
-          setaddressAuthenticated(true);
-          // if (addressL1 === addressInput) {
-          // } else {
-          //   if (loading) {
-          //     if (!toastPopupConfimred) {
-          //       toast.error("Please sign in with the correct wallet address", {
-          //         position: "bottom-right",
-          //       });
-          //       settoastPopupConfimred(true);
-          //     }
-          //   }
-          // }
+          if (addressL1 === addressInput) {
+            setaddressAuthenticated(true);
+          } else {
+            if (loading) {
+              if (!toastPopupConfimred) {
+                toast.error("Please sign in with the correct wallet address", {
+                  position: "bottom-right",
+                });
+                settoastPopupConfimred(true);
+              }
+            }
+          }
         }
       }
     }
@@ -460,9 +461,9 @@ export default function Provisions() {
   }, [loading, address, addressL1]);
 
   useEffect(() => {
-    if (addressInput.length === 66 && address) {
+    if ((addressInput.length>=64 &&addressInput.length<=68) && address) {
       setwalletTypeSelected("L2");
-    } else if (addressInput.length === 42 && addressL1) {
+    } else if ((addressInput.length <=42 &&addressInput.length>=40) && addressL1) {
       setwalletTypeSelected("L1");
     } else {
       setwalletTypeSelected("");
@@ -770,8 +771,8 @@ export default function Provisions() {
                       <Text ml="0.2rem">Verifiying</Text>
                     </Box>
                   )
-                ) : addressInput.length === 66 || addressInput.length === 42 ? (
-                  addressInput.length === 66 ? (
+                ) : (addressInput.length>=64 &&addressInput.length<=68) || (addressInput.length <=42 &&addressInput.length>=40) ? (
+                  (addressInput.length>=64 &&addressInput.length<=68) ? (
                     <ConnectStarknetWalletModal
                       cursor="pointer"
                       display="flex"
