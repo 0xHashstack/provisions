@@ -157,7 +157,7 @@ export default function Provisions() {
     }, 2000);
   }, []);
   const handleSearch = async () => {
-    if ((addressInput.length>=64 &&addressInput.length<=66) || (addressInput.length <=42 &&addressInput.length>=40)) {
+    if ((addressInput.length>=64 &&addressInput.length<=68) || (addressInput.length <=42 &&addressInput.length>=40)) {
       // setaddressDetails(1);
       // setaddressSearched(true);
     } else {
