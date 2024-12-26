@@ -417,7 +417,7 @@ export default function Provisions() {
     if (addressInput) {
       if (address || addressL1) {
         if (address) {
-          if (address === processAddress(addressInput)) {
+          if (processAddress(address) === processAddress(addressInput)) {
             setaddressAuthenticated(true);
           } else {
             if (loading) {
