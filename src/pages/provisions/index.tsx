@@ -1029,11 +1029,7 @@ export default function Provisions() {
                         </AccordionItem>
                       ))}
                     </Accordion>
-                  </AccordionPanel>
-                </AccordionItem>
-              </Accordion>
-            </Box>
-            <Box ml={isSmallerThan1250 ? "2rem" : "5rem"} mt="2rem">
+                    <Box mt="0.5rem">
               <Text fontSize={isSmallerThan700 ? "20px" : "32px"}>
                 Still Facing any issue
               </Text>
@@ -1048,6 +1044,10 @@ export default function Provisions() {
                   Reach out to us on Discord! --{">"}
                 </Text>
               </Link>
+            </Box>
+                  </AccordionPanel>
+                </AccordionItem>
+              </Accordion>
             </Box>
           </Box>
           <Box width="100%" mt="5rem">
