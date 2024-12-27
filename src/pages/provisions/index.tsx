@@ -1050,7 +1050,7 @@ export default function Provisions() {
               </Link>
             </Box>
           </Box>
-          <Box width="100%" mt="3rem">
+          <Box width="100%" mt="5rem">
             <Box ml={isSmallerThan1250 ? "2rem" : "5rem"} gap="0">
               <Box
                 display="flex"
