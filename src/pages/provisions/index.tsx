@@ -1,6 +1,11 @@
 import Navbar from "@/components/Navbar";
 import ContributorsChart from "@/components/charts/ContributorsChart";
 import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
   Box,
   Button,
   HStack,
@@ -156,8 +161,78 @@ export default function Provisions() {
       setRender(true);
     }, 2000);
   }, []);
+  const faqData = [
+    {
+      question: "Why do I see zero claimable tokens?",
+      answer:
+        "Check if you meet the eligibility criteria under Airdrop, CCP, or Early Investors at https://token.hashstack.finance/tokenomics.",
+    },
+    {
+      question: "My wallet address is missing in the JSON provision file!",
+      answer:
+        "Ensure you’re searching without leading zeros and verify if you qualify under the defined eligibility categories.",
+    },
+    {
+      question:
+        "I participated in campaigns but don’t see my allocations. Why?",
+      answer:
+        "Double-check the eligibility criteria (e.g., number of CCP posts or transaction thresholds) on the https://token.hashstack.finance/tokenomics page.",
+    },
+    {
+      question: "Why does my leaderboard rank not match token allocations?",
+      answer:
+        "Token allocations depend on contribution quality, not just leaderboard rank; refer to the CCP guidelines for more details.",
+    },
+    {
+      question: "Where can I trade HSTK tokens now?",
+      answer:
+        "HSTK is live on Uniswap and Ekubo. You can trade or swap your tokens their",
+    },
+    {
+      question: "Can we get a token chart or swap link?",
+      answer:
+        "Charts and swap links will be updated in announcements shortly; keep an eye on official channels.",
+    },
+    {
+      question: "What are the staking benefits for HSTK?",
+      answer:
+        " HSTK offers utility for governance, transaction fees, and unlocking features; specific staking benefits will be revealed in future updates.",
+    },
+    {
+      question: "Will HSTK be listed on centralized exchanges?",
+      answer:
+        "Listings on centralized exchanges are being explored; stay tuned for official announcements.",
+    },
+    {
+      question: "I’m new. How do I get started with Hashstack?",
+      answer:
+        "Visit https://hashstack.finance for documentation and walkthrough videos to help you get started",
+    },
+  ];
+  const renderAnswer = (text:string) => {
+    const parts = text.split(/(https?:\/\/[^\s]+)/g); // Split text into parts by URLs
+    return parts.map((part, index) => {
+      if (part.match(/https?:\/\/[^\s]+/)) {
+        return (
+          <a
+            key={index}
+            href={part}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "#676D9A",textDecoration:'underline' }} // Optional: Styling for the link
+          >
+            {part}
+          </a>
+        );
+      }
+      return <span key={index}>{part}</span>;
+    });
+  };
   const handleSearch = async () => {
-    if ((addressInput.length>=64 &&addressInput.length<=68) || (addressInput.length <=42 &&addressInput.length>=40)) {
+    if (
+      (addressInput.length >= 64 && addressInput.length <= 68) ||
+      (addressInput.length <= 42 && addressInput.length >= 40)
+    ) {
       // setaddressDetails(1);
       // setaddressSearched(true);
     } else {
@@ -313,7 +388,12 @@ export default function Provisions() {
     setprovisionCategories(updatedCategories);
   };
   useEffect(() => {
-    if ((addressInput.length <=42 &&addressInput.length>=40) && addressAuthenticated &&addressL1) {
+    if (
+      addressInput.length <= 42 &&
+      addressInput.length >= 40 &&
+      addressAuthenticated &&
+      addressL1
+    ) {
       let arr: any = [];
       const fetchData = async () => {
         try {
@@ -346,12 +426,19 @@ export default function Provisions() {
       };
 
       fetchData();
-    } else if ((addressInput.length>=64 &&addressInput.length<=68) && addressAuthenticated && address) {
+    } else if (
+      addressInput.length >= 64 &&
+      addressInput.length <= 68 &&
+      addressAuthenticated &&
+      address
+    ) {
       let arr: any = [];
       const fetchData = async () => {
         try {
-          const res = await getuserbeneficiaryTicketsL2(processAddress(address));
-          console.log(res,'value')
+          const res = await getuserbeneficiaryTicketsL2(
+            processAddress(address)
+          );
+          console.log(res, "value");
           const dataTickets = res;
 
           for (let i = 0; i < dataTickets.length; i++) {
@@ -461,9 +548,13 @@ export default function Provisions() {
   }, [loading, address, addressL1]);
 
   useEffect(() => {
-    if ((addressInput.length>=64 &&addressInput.length<=68) && address) {
+    if (addressInput.length >= 64 && addressInput.length <= 68 && address) {
       setwalletTypeSelected("L2");
-    } else if ((addressInput.length <=42 &&addressInput.length>=40) && addressL1) {
+    } else if (
+      addressInput.length <= 42 &&
+      addressInput.length >= 40 &&
+      addressL1
+    ) {
       setwalletTypeSelected("L1");
     } else {
       setwalletTypeSelected("");
@@ -550,7 +641,7 @@ export default function Provisions() {
                   : "5%"
                 : addressAuthenticated
                 ? "6%"
-                : "11%"
+                : "7%"
             }
             left={isSmallerThan700 ? "4%" : "7%"}
             transform="rotate(120deg)"
@@ -566,7 +657,7 @@ export default function Provisions() {
                   : "9%"
                 : addressAuthenticated
                 ? "11%"
-                : "16%"
+                : "13%"
             }
             left={"18%"}
             width="14px"
@@ -583,7 +674,7 @@ export default function Provisions() {
                   : "5%"
                 : addressAuthenticated
                 ? "6%"
-                : "11%"
+                : "7%"
             }
             right={isSmallerThan700 ? "5%" : "7%"}
           >
@@ -598,7 +689,7 @@ export default function Provisions() {
                   : "9%"
                 : addressAuthenticated
                 ? "11%"
-                : "16%"
+                : "13%"
             }
             right="18%"
             width="14px"
@@ -771,8 +862,9 @@ export default function Provisions() {
                       <Text ml="0.2rem">Verifiying</Text>
                     </Box>
                   )
-                ) : (addressInput.length>=64 &&addressInput.length<=68) || (addressInput.length <=42 &&addressInput.length>=40) ? (
-                  (addressInput.length>=64 &&addressInput.length<=68) ? (
+                ) : (addressInput.length >= 64 && addressInput.length <= 68) ||
+                  (addressInput.length <= 42 && addressInput.length >= 40) ? (
+                  addressInput.length >= 64 && addressInput.length <= 68 ? (
                     <ConnectStarknetWalletModal
                       cursor="pointer"
                       display="flex"
@@ -872,6 +964,92 @@ export default function Provisions() {
               </Box>
             </Box>
           )}
+          <Box width="100%" mt="3rem">
+            <Box
+              ml={isSmallerThan1250 ? "2rem" : "5rem"}
+              mt={8}
+              color="white"
+              borderRadius="lg"
+            >
+              <Accordion
+                border="1px solid #272942"
+                borderRadius="6px"
+                defaultIndex={[0]}
+                allowMultiple
+              >
+                <AccordionItem>
+                  <h2>
+                    <AccordionButton
+                      padding={isSmallerThan700 ? "16px 22px" : "32px 44px"}
+                      bg="#0C0C1C"
+                      _hover={{ bg: "#0C0C1C" }}
+                    >
+                      <Box
+                        as="span"
+                        flex="1"
+                        textAlign="left"
+                        fontSize={isSmallerThan700 ? "20px" : "32px"}
+                        fontWeight="bold"
+                      >
+                        Frequently Asked Questions
+                      </Box>
+                      <AccordionIcon />
+                    </AccordionButton>
+                  </h2>
+                  <AccordionPanel pb={4}>
+                    <Accordion border="0px" allowMultiple>
+                      {faqData.map((faq, index) => (
+                        <AccordionItem
+                          padding="1rem 0rem"
+                          border="0px"
+                          borderBottom={
+                            index === faqData.length - 1
+                              ? "0px"
+                              : "1px solid #272942"
+                          }
+                          key={index}
+                        >
+                          <h2>
+                            <AccordionButton>
+                              <Box
+                                fontSize="16px"
+                                as="span"
+                                flex="1"
+                                textAlign="left"
+                                fontWeight="400"
+                              >
+                                {faq.question}
+                              </Box>
+                              <AccordionIcon />
+                            </AccordionButton>
+                          </h2>
+                          <AccordionPanel pb={4} color="#676D9A">
+                            {renderAnswer(faq.answer)}
+                          </AccordionPanel>
+                        </AccordionItem>
+                      ))}
+                    </Accordion>
+                  </AccordionPanel>
+                </AccordionItem>
+              </Accordion>
+            </Box>
+            <Box ml={isSmallerThan1250 ? "2rem" : "5rem"} mt="2rem">
+              <Text fontSize={isSmallerThan700 ? "20px" : "32px"}>
+                Still Facing any issue
+              </Text>
+              <Link href="https://discord.com/invite/VaThqq8vbS" target="blank">
+                <Text
+                  mt="0.5rem"
+                  fontSize={isSmallerThan700 ? "14px" : "18px"}
+                  color="#00D395"
+                  cursor="pointer"
+                  _hover={{ textDecoration: "underline" }}
+                >
+                  Reach out to us on Discord! --{">"}
+                </Text>
+              </Link>
+            </Box>
+          </Box>
           <Box width="100%" mt="3rem">
             <Box ml={isSmallerThan1250 ? "2rem" : "5rem"} gap="0">
               <Box
