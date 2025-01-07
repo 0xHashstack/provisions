@@ -327,6 +327,34 @@
         ],
         "outputs": [],
         "state_mutability": "external"
+      },
+      {
+        "name": "transfer_tickets",
+        "type": "function",
+        "inputs": [
+          {
+            "name": "beneficiaries",
+            "type": "core::array::Array::<core::starknet::contract_address::ContractAddress>"
+          },
+          {
+            "name": "ticket_type",
+            "type": "core::integer::u8"
+          }
+        ],
+        "outputs": [],
+        "state_mutability": "external"
+      },
+      {
+        "name": "claim_tokens",
+        "type": "function",
+        "inputs": [
+          {
+            "name": "receipient",
+            "type": "core::starknet::contract_address::ContractAddress"
+          }
+        ],
+        "outputs": [],
+        "state_mutability": "external"
       }
     ]
   },
