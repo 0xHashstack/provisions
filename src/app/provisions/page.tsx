@@ -1,5 +1,5 @@
 'use client';
-import Navbar from '@/components/Navbar';
+import Navbar from '@/components/navbar';
 import {
 	Accordion,
 	AccordionButton,
@@ -26,6 +26,7 @@ import investorIcon from '../../assets/investor.png';
 import othersIcon from '../../assets/others.png';
 import ccpIcon from '../../assets/ccp.jpg';
 import kolIcon from '../../assets/kols.png';
+
 import Image from 'next/image';
 import HashTokenIconFloater from '@/assets/hashTokenIconFloater';
 import ConnectStarknetWalletModal from '@/components/modals/ConnectWalletModal';
@@ -577,17 +578,7 @@ export default function Provisions() {
 
 	return (
 		<Box>
-			<Box
-				background={`
-            radial-gradient(circle 1800px at top left, rgba(115, 49, 234, 0.10), transparent) top left,
-            radial-gradient(circle 1200px at bottom right, rgba(115, 49, 234, 0.10), transparent) bottom right,
-            black
-          `}
-				position={'fixed'}
-				zIndex={3}
-			>
-				<Navbar />
-			</Box>
+			<Navbar />
 			{
 				<Box
 					background={`

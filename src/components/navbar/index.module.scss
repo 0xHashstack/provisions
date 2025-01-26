@@ -1,0 +1,17 @@
+.navbar {
+	background: radial-gradient(
+				circle 1800px at top left,
+				rgba(114, 49, 234, 0.151),
+				transparent
+			)
+			top left,
+		radial-gradient(
+				circle 1200px at bottom right,
+				rgba(114, 49, 234, 0.175),
+				transparent
+			)
+			bottom right,
+		black;
+	box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px,
+		rgba(0, 0, 0, 0.05) 0px 5px 10px;
+}

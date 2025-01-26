@@ -5,7 +5,7 @@ import { WagmiConfig, createConfig, configureChains } from 'wagmi';
 import { ConnectKitProvider, getDefaultConfig } from 'connectkit';
 import { publicProvider } from '@wagmi/core/providers/public';
 import Head from 'next/head';
-import { ChakraProvider, extendTheme } from '@chakra-ui/react';
+// import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet';
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect';
@@ -15,61 +15,61 @@ import { mainnet } from '@wagmi/core/chains';
 import { StarknetProvider } from '@starknet-react/core/dist/providers';
 import Layout from '@/components/toasts';
 
-const theme = extendTheme({
-	components: {
-		Tabs: {
-			baseStyle: {
-				tab: {
-					_disabled: {
-						background: '#676D9A1A',
-						opacity: '100%',
-						cursor: 'pointer',
-					},
-					'> *:first-of-type': {
-						background: '#676D9A1A',
-						opacity: '100%',
-					},
-				},
-			},
-		},
-		Checkbox: {
-			baseStyle: {
-				icon: {
-					bg: '#4D59E8',
-					color: 'white',
-					borderWidth: '0px',
-					_disabled: {
-						borderWidth: '0px',
-						padding: '0px',
-						color: '#4D59E8',
-						bg: '#4D59E8',
-						colorScheme: '#4D59E8',
-					},
-				},
-				control: {
-					borderRadius: 'base',
-					_disabled: {
-						borderWidth: '0px',
-						padding: '0px',
-						color: 'black',
-					},
-				},
-			},
-		},
-	},
+// const theme = extendTheme({
+// 	components: {
+// 		Tabs: {
+// 			baseStyle: {
+// 				tab: {
+// 					_disabled: {
+// 						background: '#676D9A1A',
+// 						opacity: '100%',
+// 						cursor: 'pointer',
+// 					},
+// 					'> *:first-of-type': {
+// 						background: '#676D9A1A',
+// 						opacity: '100%',
+// 					},
+// 				},
+// 			},
+// 		},
+// 		Checkbox: {
+// 			baseStyle: {
+// 				icon: {
+// 					bg: '#4D59E8',
+// 					color: 'white',
+// 					borderWidth: '0px',
+// 					_disabled: {
+// 						borderWidth: '0px',
+// 						padding: '0px',
+// 						color: '#4D59E8',
+// 						bg: '#4D59E8',
+// 						colorScheme: '#4D59E8',
+// 					},
+// 				},
+// 				control: {
+// 					borderRadius: 'base',
+// 					_disabled: {
+// 						borderWidth: '0px',
+// 						padding: '0px',
+// 						color: 'black',
+// 					},
+// 				},
+// 			},
+// 		},
+// 	},
 
-	colors: {
-		customBlue: {
-			500: '#0969DA',
-		},
-		customPurple: {
-			500: '#4D59E8',
-		},
-	},
-	fonts: {
-		body: 'Inter, sans-serif',
-	},
-});
+// 	colors: {
+// 		customBlue: {
+// 			500: '#0969DA',
+// 		},
+// 		customPurple: {
+// 			500: '#4D59E8',
+// 		},
+// 	},
+// 	fonts: {
+// 		body: 'Inter, sans-serif',
+// 	},
+// });
 
 export default function App({ children }: { children: React.ReactNode }) {
 	const { publicClient } = configureChains([mainnet], [publicProvider()]);
@@ -133,17 +133,17 @@ export default function App({ children }: { children: React.ReactNode }) {
 			</Head>
 
 			<body>
-				<ChakraProvider theme={theme}>
-					<StarknetProvider autoConnect={true} connectors={connectors}>
-						<DrawerContextProvider>
-							<Layout>
-								<WagmiConfig config={config}>
-									<ConnectKitProvider>{children}</ConnectKitProvider>
-								</WagmiConfig>
-							</Layout>
-						</DrawerContextProvider>
-					</StarknetProvider>
-				</ChakraProvider>
+				{/* <ChakraProvider theme={theme}> */}
+				<StarknetProvider autoConnect={true} connectors={connectors}>
+					<DrawerContextProvider>
+						<Layout>
+							<WagmiConfig config={config}>
+								<ConnectKitProvider>{children}</ConnectKitProvider>
+							</WagmiConfig>
+						</Layout>
+					</DrawerContextProvider>
+				</StarknetProvider>
+				{/* </ChakraProvider> */}
 			</body>
 		</html>
 	);
