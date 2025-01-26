@@ -53,6 +53,7 @@ import HstkLogo from '@/assets/HstkLogo';
 import VideoLogo from '@/assets/videoLogo';
 import Footer from '@/components/footer';
 import Link from 'next/link';
+import Hero from '@/features/provisions/Hero';
 
 export default function Provisions() {
 	const [isLargerThan2000] = useMediaQuery('(min-width: 2000px)');
@@ -577,166 +578,17 @@ export default function Provisions() {
 	}, [walletTypeSelected, claimAddress]);
 
 	return (
-		<Box>
+		<>
 			<Navbar />
 			{
-				<Box
-					background={`
-    radial-gradient(circle 600px at 50% 10%, rgba(83, 49, 234, 0.2), transparent),
-    radial-gradient(circle 1200px at bottom right, rgba(83, 49, 234, 0.2), transparent),
-    black
-  `}
-					backgroundAttachment="fixed"
-					position="relative"
-					color="white"
-					zIndex={1}
-					padding="0"
-					pr={isSmallerThan1250 ? '1rem' : '4rem'}
-					pl={isLargerThan2000 ? '6rem' : isSmallerThan1250 ? '0rem' : '4rem'}
-					display="flex"
-					flexDirection="column"
-					minHeight="100vh"
-					pt="6rem"
-					pb={'7rem'}
+				<div
+					className="relative flex flex-col min-h-screen pt-24 pb-28 text-white z-10 bg-fixed"
+					style={{
+						background: `radial-gradient(circle 600px at 50% 10%, rgba(83, 49, 234, 0.2), transparent), radial-gradient(circle 1200px at bottom right, rgba(83, 49, 234, 0.2), transparent), black`,
+						backgroundAttachment: 'fixed',
+					}}
 				>
-					<Box
-						position="absolute"
-						top={
-							isSmallerThan700
-								? addressAuthenticated
-									? '3%'
-									: '5%'
-								: addressAuthenticated
-								? '6%'
-								: '7%'
-						}
-						left={isSmallerThan700 ? '4%' : '7%'}
-						transform="rotate(120deg)"
-					>
-						<HashTokenIconFloater />
-					</Box>
-					<Box
-						position="absolute"
-						top={
-							isSmallerThan700
-								? addressAuthenticated
-									? '7%'
-									: '9%'
-								: addressAuthenticated
-								? '11%'
-								: '13%'
-						}
-						left={'18%'}
-						width="14px"
-						height="14px"
-						bg="#9780FF"
-						borderRadius="200px"
-					/>
-					<Box
-						position="absolute"
-						top={
-							isSmallerThan700
-								? addressAuthenticated
-									? '3%'
-									: '5%'
-								: addressAuthenticated
-								? '6%'
-								: '7%'
-						}
-						right={isSmallerThan700 ? '5%' : '7%'}
-					>
-						<HashTokenIconFloater />
-					</Box>
-					<Box
-						position="absolute"
-						top={
-							isSmallerThan700
-								? addressAuthenticated
-									? '7%'
-									: '9%'
-								: addressAuthenticated
-								? '11%'
-								: '13%'
-						}
-						right="18%"
-						width="14px"
-						height="14px"
-						bg="#9780FF"
-						borderRadius="200px"
-					/>
-					<Box width="100%">
-						<Box width="100%">
-							<Box display="flex" width="100%" justifyContent="center">
-								<Box display="flex" flexDirection="column" alignItems="center">
-									<Box borderRadius="200px" border="10px solid #3B39C9">
-										<HstkLogo />
-									</Box>
-									<Text
-										fontSize={isSmallerThan700 ? '36px' : '56px'}
-										mt="1rem"
-										fontWeight="700"
-									>
-										HSTK
-									</Text>
-								</Box>
-							</Box>
-							<Box display="flex" width="100%" justifyContent="center">
-								<Text fontSize={isSmallerThan700 ? '28px' : '44px'} mt="1rem">
-									Hashstack Provisions
-								</Text>
-							</Box>
-							<Box width="100%" display="flex" justifyContent="center">
-								<Text
-									maxW="900px"
-									mt="2rem"
-									fontSize={
-										isSmallerThan700
-											? '12px'
-											: isSmallerThan1250
-											? '14px'
-											: '16px'
-									}
-									lineHeight="20px"
-									textAlign="left"
-									color="#F0F0F0"
-									ml={isSmallerThan1000 ? '2rem' : '0'}
-								>
-									Hashstack team is excited to introduce the HSTK provisions.
-									Over the 4 past years of our existence, we have been fortunate
-									to have worked with the members of various groups in the form
-									of product users, investors, community contributors who have
-									helped advance Hashstack. Through out this journey, we have
-									incentivised your participation through points, token
-									allocation etc. Provisions page is where you claim them, the
-									HSTK tokens.
-								</Text>
-							</Box>
-							<Box
-								display="flex"
-								width="100%"
-								justifyContent="center"
-								alignItems="center"
-								mt="3rem"
-								gap="0.5rem"
-								cursor="pointer"
-							>
-								<VideoLogo />
-								<Link
-									href="https://app.supademo.com/demo/cm4ts6m8j0qfh6gs8dm50znl7"
-									target="_blank"
-								>
-									<Text
-										color="#00D395"
-										border="2px dotted transparent"
-										_hover={{ borderBottom: '2px dotted #00D395' }}
-										cursor="pointer"
-									>
-										Quick guide to HSTK provisions
-									</Text>
-								</Link>
-							</Box>
-						</Box>
-					</Box>
+					<Hero addressAuthenticated={addressAuthenticated} />
 					<Box display="flex" width="100%" mb="0rem" mt="3rem">
 						<Box
 							display="flex"
@@ -1236,9 +1088,9 @@ export default function Provisions() {
           Tokenomics
         </Text>
         <ContributorsChart/> */}
-				</Box>
+				</div>
 			}
 			{!isSmallerThan1250 && <Footer />}
-		</Box>
+		</>
 	);
 }
