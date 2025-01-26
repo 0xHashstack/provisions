@@ -1,11 +1,6 @@
 'use client';
 import Navbar from '@/components/navbar';
 import {
-	Accordion,
-	AccordionButton,
-	AccordionIcon,
-	AccordionItem,
-	AccordionPanel,
 	Box,
 	Button,
 	Input,
@@ -49,14 +44,11 @@ import {
 } from '@/Blockchain/scripts/claimProxy';
 import numberFormatter from '@/functions/numberFormatter';
 import { useDrawContext } from '@/context/DrawerContext';
-import HstkLogo from '@/assets/HstkLogo';
-import VideoLogo from '@/assets/videoLogo';
 import Footer from '@/components/footer';
-import Link from 'next/link';
 import Hero from '@/features/provisions/Hero';
+import FAQs from '@/features/provisions/Faqs';
 
 export default function Provisions() {
-	const [isLargerThan2000] = useMediaQuery('(min-width: 2000px)');
 	const [isSmallerThan1250] = useMediaQuery('(max-width: 1250px)');
 	const [isSmallerThan1000] = useMediaQuery('(max-width: 1000px)');
 	const [isSmallerThan700] = useMediaQuery('(max-width: 700px)');
@@ -139,73 +131,6 @@ export default function Provisions() {
 			setRender(true);
 		}, 2000);
 	}, []);
-	const faqData = [
-		{
-			question: 'Why do I see zero claimable tokens?',
-			answer:
-				'Check if you meet the eligibility criteria under Airdrop, CCP, or Early Investors at https://token.hashstack.finance/tokenomics.',
-		},
-		{
-			question: 'My wallet address is missing in the JSON provision file!',
-			answer:
-				'Ensure you’re searching without leading zeros and verify if you qualify under the defined eligibility categories.',
-		},
-		{
-			question:
-				'I participated in campaigns but don’t see my allocations. Why?',
-			answer:
-				'Double-check the eligibility criteria (e.g., number of CCP posts or transaction thresholds) on the https://token.hashstack.finance/tokenomics page.',
-		},
-		{
-			question: 'Why does my leaderboard rank not match token allocations?',
-			answer:
-				'Token allocations depend on contribution quality, not just leaderboard rank; refer to the CCP guidelines for more details.',
-		},
-		{
-			question: 'Where can I trade HSTK tokens now?',
-			answer:
-				'HSTK is live on Uniswap and Ekubo. You can trade or swap your tokens their',
-		},
-		{
-			question: 'Can we get a token chart or swap link?',
-			answer:
-				'Charts and swap links will be updated in announcements shortly; keep an eye on official channels.',
-		},
-		{
-			question: 'What are the staking benefits for HSTK?',
-			answer:
-				' HSTK offers utility for governance, transaction fees, and unlocking features; specific staking benefits will be revealed in future updates.',
-		},
-		{
-			question: 'Will HSTK be listed on centralized exchanges?',
-			answer:
-				'Listings on centralized exchanges are being explored; stay tuned for official announcements.',
-		},
-		{
-			question: 'I’m new. How do I get started with Hashstack?',
-			answer:
-				'Visit https://hashstack.finance for documentation and walkthrough videos to help you get started',
-		},
-	];
-	const renderAnswer = (text: string) => {
-		const parts = text.split(/(https?:\/\/[^\s]+)/g); // Split text into parts by URLs
-		return parts.map((part, index) => {
-			if (part.match(/https?:\/\/[^\s]+/)) {
-				return (
-					<a
-						key={index}
-						href={part}
-						target="_blank"
-						rel="noopener noreferrer"
-						style={{ color: '#676D9A', textDecoration: 'underline' }} // Optional: Styling for the link
-					>
-						{part}
-					</a>
-				);
-			}
-			return <span key={index}>{part}</span>;
-		});
-	};
 	const handleSearch = async () => {
 		if (
 			(addressInput.length >= 64 && addressInput.length <= 68) ||
@@ -783,95 +708,7 @@ export default function Provisions() {
 							</Box>
 						</Box>
 					)}
-					<Box width="100%" mt="3rem">
-						<Box
-							ml={isSmallerThan1250 ? '2rem' : '5rem'}
-							mt={8}
-							color="white"
-							borderRadius="lg"
-						>
-							<Accordion
-								border="1px solid #272942"
-								borderRadius="6px"
-								defaultIndex={[0]}
-								allowMultiple
-							>
-								<AccordionItem>
-									<h2>
-										<AccordionButton
-											padding={isSmallerThan700 ? '16px 22px' : '32px 44px'}
-											bg="#0C0C1C"
-											_hover={{ bg: '#0C0C1C' }}
-										>
-											<Box
-												as="span"
-												flex="1"
-												textAlign="left"
-												fontSize={isSmallerThan700 ? '20px' : '32px'}
-												fontWeight="bold"
-											>
-												Frequently Asked Questions
-											</Box>
-											<AccordionIcon />
-										</AccordionButton>
-									</h2>
-									<AccordionPanel pb={4}>
-										<Accordion border="0px" allowMultiple>
-											{faqData.map((faq, index) => (
-												<AccordionItem
-													padding="1rem 0rem"
-													border="0px"
-													borderBottom={
-														index === faqData.length - 1
-															? '0px'
-															: '1px solid #272942'
-													}
-													key={index}
-												>
-													<h2>
-														<AccordionButton>
-															<Box
-																fontSize="16px"
-																as="span"
-																flex="1"
-																textAlign="left"
-																fontWeight="400"
-															>
-																{faq.question}
-															</Box>
-															<AccordionIcon />
-														</AccordionButton>
-													</h2>
-													<AccordionPanel pb={4} color="#676D9A">
-														{renderAnswer(faq.answer)}
-													</AccordionPanel>
-												</AccordionItem>
-											))}
-										</Accordion>
-										<Box mt="0.5rem">
-											<Text fontSize={isSmallerThan700 ? '20px' : '32px'}>
-												Still Facing any issue
-											</Text>
-											<Link
-												href="https://discord.com/invite/VaThqq8vbS"
-												target="blank"
-											>
-												<Text
-													mt="0.5rem"
-													fontSize={isSmallerThan700 ? '14px' : '18px'}
-													color="#00D395"
-													cursor="pointer"
-													_hover={{ textDecoration: 'underline' }}
-												>
-													Reach out to us on Discord! --{'>'}
-												</Text>
-											</Link>
-										</Box>
-									</AccordionPanel>
-								</AccordionItem>
-							</Accordion>
-						</Box>
-					</Box>
+					<FAQs />
 					<Box width="100%" mt="5rem">
 						<Box ml={isSmallerThan1250 ? '2rem' : '5rem'} gap="0">
 							<Box
