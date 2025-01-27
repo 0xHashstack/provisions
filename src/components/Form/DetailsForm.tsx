@@ -45,7 +45,7 @@ import {
 import { formatUnits, parseUnits } from "viem";
 import { number } from "starknet";
 import { toast } from "react-toastify";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import ConnectStarknetWalletModal from "../modals/ConnectWalletModal";
 import DollarIcon from "@/assets/dollarIcon";
 import TickCompleteIcon from "@/assets/tickIcon";

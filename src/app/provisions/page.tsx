@@ -48,6 +48,9 @@ import Footer from '@/components/footer';
 import Hero from '@/features/provisions/Hero';
 import FAQs from '@/features/provisions/Faqs';
 
+export const dynamic = 'force-static';
+export const runtime = 'nodejs';
+
 export default function Provisions() {
 	const [isSmallerThan1250] = useMediaQuery('(max-width: 1250px)');
 	const [isSmallerThan1000] = useMediaQuery('(max-width: 1000px)');
@@ -252,15 +255,20 @@ export default function Provisions() {
 	const updateProvisionCategories = (incomingData: any) => {
 		const updatedCategories = provisionCategories.map((category) => {
 			const matchingData = incomingData.find(
-				(data: any, index: number) => data.ticketType === category.ticketType
+				(data: any, index: number) =>
+					data.ticketType === category.ticketType
 			);
 
 			if (matchingData) {
 				return {
 					...category,
 					ticketId: matchingData.ticketId,
-					claimableAmount: parseAmount(matchingData.amount.toString()),
-					currentClaimableAmount: parseAmount(matchingData.balance.toString()),
+					claimableAmount: parseAmount(
+						matchingData.amount.toString()
+					),
+					currentClaimableAmount: parseAmount(
+						matchingData.balance.toString()
+					),
 				};
 			}
 
@@ -280,8 +288,12 @@ export default function Provisions() {
 				return {
 					...category,
 					ticketId: matchingData.ticketId,
-					claimableAmount: parseAmount(matchingData.amount.toString()),
-					currentClaimableAmount: parseAmount(matchingData.balance.toString()),
+					claimableAmount: parseAmount(
+						matchingData.amount.toString()
+					),
+					currentClaimableAmount: parseAmount(
+						matchingData.balance.toString()
+					),
 				};
 			}
 
@@ -379,7 +391,8 @@ export default function Provisions() {
 			let currentClaimbale = 0;
 			for (var i = 0; i < provisionCategories.length; i++) {
 				valueTotal += provisionCategories[i].claimableAmount;
-				currentClaimbale += provisionCategories[i].currentClaimableAmount;
+				currentClaimbale +=
+					provisionCategories[i].currentClaimableAmount;
 			}
 			setcurrentClaimableAmount(currentClaimbale);
 			settotalClaimableAmount(valueTotal);
@@ -407,14 +420,19 @@ export default function Provisions() {
 		if (addressInput) {
 			if (address || addressL1) {
 				if (address) {
-					if (processAddress(address) === processAddress(addressInput)) {
+					if (
+						processAddress(address) === processAddress(addressInput)
+					) {
 						setaddressAuthenticated(true);
 					} else {
 						if (loading) {
 							if (!toastPopupConfimred) {
-								toast.error('Please sign in with the correct wallet address', {
-									position: 'bottom-right',
-								});
+								toast.error(
+									'Please sign in with the correct wallet address',
+									{
+										position: 'bottom-right',
+									}
+								);
 								settoastPopupConfimred(true);
 							}
 						}
@@ -426,9 +444,12 @@ export default function Provisions() {
 					} else {
 						if (loading) {
 							if (!toastPopupConfimred) {
-								toast.error('Please sign in with the correct wallet address', {
-									position: 'bottom-right',
-								});
+								toast.error(
+									'Please sign in with the correct wallet address',
+									{
+										position: 'bottom-right',
+									}
+								);
 								settoastPopupConfimred(true);
 							}
 						}
@@ -507,51 +528,53 @@ export default function Provisions() {
 			<Navbar />
 			{
 				<div
-					className="relative flex flex-col min-h-screen pt-24 pb-28 text-white z-10 bg-fixed"
+					className='relative flex flex-col min-h-screen pt-24 pb-28 text-white z-10 bg-fixed'
 					style={{
 						background: `radial-gradient(circle 600px at 50% 10%, rgba(83, 49, 234, 0.2), transparent), radial-gradient(circle 1200px at bottom right, rgba(83, 49, 234, 0.2), transparent), black`,
 						backgroundAttachment: 'fixed',
-					}}
-				>
+					}}>
 					<Hero addressAuthenticated={addressAuthenticated} />
-					<Box display="flex" width="100%" mb="0rem" mt="3rem">
+					<Box
+						display='flex'
+						width='100%'
+						mb='0rem'
+						mt='3rem'>
 						<Box
-							display="flex"
-							flexDirection="column"
-							width="100%"
-							justifyContent="center"
-							alignItems="center"
-						>
+							display='flex'
+							flexDirection='column'
+							width='100%'
+							justifyContent='center'
+							alignItems='center'>
 							<Text
 								fontSize={isSmallerThan700 ? '20px' : '32px'}
-								fontWeight="700"
-							>
+								fontWeight='700'>
 								Check Your Eligibility
 							</Text>
-							<Box display="flex" mt="1.5rem" background="none">
+							<Box
+								display='flex'
+								mt='1.5rem'
+								background='none'>
 								<InputGroup
 									width={
-										isSmallerThan700
-											? '60%'
-											: isSmallerThan1000
-											? '400px'
-											: '600px'
+										isSmallerThan700 ? '60%'
+										: isSmallerThan1000 ?
+											'400px'
+										:	'600px'
 									}
-									mt="0rem"
-									border="1px solid var(--stroke-of-30, rgba(103, 109, 154, 0.30))"
-									borderRight="0px"
-									borderRadius="6px 0px 0px 6px"
-									height="50px"
-									bg="white"
-									ml={isSmallerThan700 ? '2rem' : '0rem'}
-								>
+									mt='0rem'
+									border='1px solid var(--stroke-of-30, rgba(103, 109, 154, 0.30))'
+									borderRight='0px'
+									borderRadius='6px 0px 0px 6px'
+									height='50px'
+									bg='white'
+									ml={isSmallerThan700 ? '2rem' : '0rem'}>
 									<Input
-										fontSize="16px"
-										height="100%"
-										border="none"
-										pl="0.5rem"
-										color="black"
-										placeholder="enter your address"
+										fontSize='16px'
+										height='100%'
+										border='none'
+										pl='0.5rem'
+										color='black'
+										placeholder='enter your address'
 										_placeholder={{ color: '#BFBFC7' }}
 										value={addressInput}
 										ml={'0.4rem'}
@@ -565,7 +588,7 @@ export default function Provisions() {
 										//   value={
 										//     totalBorrow == 0 && totalSupply == 0 ? '****' : refferal
 										//   }
-										paddingInlineStart="0"
+										paddingInlineStart='0'
 										_focus={{
 											outline: '0',
 											boxShadow: 'none',
@@ -573,289 +596,383 @@ export default function Provisions() {
 										//   onChange={handleChange}
 									/>
 								</InputGroup>
-								{addressAuthenticated ? (
-									addressDetails ? (
+								{addressAuthenticated ?
+									addressDetails ?
 										<Box
-											display="flex"
-											justifyContent="center"
-											alignItems="center"
-											paddingLeft="16px"
-											paddingRight="16px"
-											borderRightRadius="6px"
-											bg="#323FF4"
-											width={isSmallerThan1000 ? '200px' : '300px'}
-											height="50px"
-										>
+											display='flex'
+											justifyContent='center'
+											alignItems='center'
+											paddingLeft='16px'
+											paddingRight='16px'
+											borderRightRadius='6px'
+											bg='#323FF4'
+											width={
+												isSmallerThan1000 ? '200px' : (
+													'300px'
+												)
+											}
+											height='50px'>
 											<WhitetickIcon />
-											<Text ml="0.4rem">Authenticated</Text>
+											<Text ml='0.4rem'>
+												Authenticated
+											</Text>
 										</Box>
-									) : (
-										<Box
-											display="flex"
-											justifyContent="center"
-											alignItems="center"
-											paddingLeft="16px"
-											width={isSmallerThan1000 ? '200px' : '300px'}
-											paddingRight="16px"
-											borderRightRadius="6px"
-											bg="#323FF4"
-											gap="0.4rem"
-											height="50px"
-										>
+									:	<Box
+											display='flex'
+											justifyContent='center'
+											alignItems='center'
+											paddingLeft='16px'
+											width={
+												isSmallerThan1000 ? '200px' : (
+													'300px'
+												)
+											}
+											paddingRight='16px'
+											borderRightRadius='6px'
+											bg='#323FF4'
+											gap='0.4rem'
+											height='50px'>
 											<Spinner />
-											<Text ml="0.2rem">Verifiying</Text>
+											<Text ml='0.2rem'>Verifiying</Text>
 										</Box>
-									)
-								) : (addressInput.length >= 64 && addressInput.length <= 68) ||
-								  (addressInput.length <= 42 && addressInput.length >= 40) ? (
-									addressInput.length >= 64 && addressInput.length <= 68 ? (
+
+								: (
+									(addressInput.length >= 64 &&
+										addressInput.length <= 68) ||
+									(addressInput.length <= 42 &&
+										addressInput.length >= 40)
+								) ?
+									(
+										addressInput.length >= 64 &&
+										addressInput.length <= 68
+									) ?
 										<ConnectStarknetWalletModal
-											cursor="pointer"
-											display="flex"
-											justifyContent="center"
-											alignItems="center"
-											paddingLeft="16px"
-											paddingRight="16px"
-											borderRightRadius="6px"
-											bg="#323FF4"
-											width={isSmallerThan1000 ? '200px' : '300px'}
-											buttonText="Authenticate"
-											height="50px"
+											cursor='pointer'
+											display='flex'
+											justifyContent='center'
+											alignItems='center'
+											paddingLeft='16px'
+											paddingRight='16px'
+											borderRightRadius='6px'
+											bg='#323FF4'
+											width={
+												isSmallerThan1000 ? '200px' : (
+													'300px'
+												)
+											}
+											buttonText='Authenticate'
+											height='50px'
 										/>
-									) : (
-										<ConnectWalletL1Modal
-											cursor="pointer"
-											display="flex"
-											justifyContent="center"
-											alignItems="center"
-											paddingLeft="16px"
-											paddingRight="16px"
-											width={isSmallerThan1000 ? '200px' : '300px'}
-											borderRightRadius="6px"
-											bg="#323FF4"
-											buttonText="Authenticate"
-											height="50px"
+									:	<ConnectWalletL1Modal
+											cursor='pointer'
+											display='flex'
+											justifyContent='center'
+											alignItems='center'
+											paddingLeft='16px'
+											paddingRight='16px'
+											width={
+												isSmallerThan1000 ? '200px' : (
+													'300px'
+												)
+											}
+											borderRightRadius='6px'
+											bg='#323FF4'
+											buttonText='Authenticate'
+											height='50px'
 										/>
-									)
-								) : (
-									<Box
-										cursor="pointer"
-										display="flex"
-										width={isSmallerThan1000 ? '200px' : '300px'}
-										justifyContent="center"
-										alignItems="center"
-										paddingLeft="16px"
-										paddingRight="16px"
-										borderRightRadius="6px"
-										bg="#323FF4"
+
+								:	<Box
+										cursor='pointer'
+										display='flex'
+										width={
+											isSmallerThan1000 ? '200px' : (
+												'300px'
+											)
+										}
+										justifyContent='center'
+										alignItems='center'
+										paddingLeft='16px'
+										paddingRight='16px'
+										borderRightRadius='6px'
+										bg='#323FF4'
 										onClick={() => {
 											if (addressInput.length !== 0) {
 												handleSearch();
 											}
-										}}
-									>
+										}}>
 										Authenticate
 									</Box>
-								)}
+								}
 							</Box>
 						</Box>
 					</Box>
 					{addressDetails && (
 						<Box
-							width="100%"
-							display="flex"
-							justifyContent="center"
-							alignItems="center"
-							textAlign="center"
-							mt="1rem"
-							gap={isSmallerThan700 ? '1rem' : '2rem'}
-						>
+							width='100%'
+							display='flex'
+							justifyContent='center'
+							alignItems='center'
+							textAlign='center'
+							mt='1rem'
+							gap={isSmallerThan700 ? '1rem' : '2rem'}>
 							<Box
-								display="flex"
-								color="white"
-								alignItems="center"
-								flexDirection="column"
-								padding={isSmallerThan700 ? '16px 32px' : '32px 64px'}
-								bg="#120F25"
-								border="1px solid #2C2B48"
-								borderRadius="6px"
-								mt="1rem"
-							>
-								<Text whiteSpace="nowrap" fontWeight="600" fontSize="18px">
+								display='flex'
+								color='white'
+								alignItems='center'
+								flexDirection='column'
+								padding={
+									isSmallerThan700 ? '16px 32px' : '32px 64px'
+								}
+								bg='#120F25'
+								border='1px solid #2C2B48'
+								borderRadius='6px'
+								mt='1rem'>
+								<Text
+									whiteSpace='nowrap'
+									fontWeight='600'
+									fontSize='18px'>
 									{numberFormatter(totalClaimableAmount)} HSTK
 								</Text>
-								<Text whiteSpace="nowrap" color="#676D9A">
+								<Text
+									whiteSpace='nowrap'
+									color='#676D9A'>
 									Tokens
 								</Text>
 							</Box>
 							<Box
-								display="flex"
-								color="white"
-								alignItems="center"
-								flexDirection="column"
-								border="1px solid #2C2B48"
-								padding={isSmallerThan700 ? '16px 32px' : '32px 64px'}
-								bg="#120F25"
-								borderRadius="6px"
-								mt="1rem"
-							>
-								<Text whiteSpace="nowrap" fontWeight="600" fontSize="18px">
-									{numberFormatter(currentClaimableAmount)} HSTK
+								display='flex'
+								color='white'
+								alignItems='center'
+								flexDirection='column'
+								border='1px solid #2C2B48'
+								padding={
+									isSmallerThan700 ? '16px 32px' : '32px 64px'
+								}
+								bg='#120F25'
+								borderRadius='6px'
+								mt='1rem'>
+								<Text
+									whiteSpace='nowrap'
+									fontWeight='600'
+									fontSize='18px'>
+									{numberFormatter(currentClaimableAmount)}{' '}
+									HSTK
 								</Text>
-								<Text whiteSpace="nowrap" color="#676D9A">
+								<Text
+									whiteSpace='nowrap'
+									color='#676D9A'>
 									Claimable Tokens
 								</Text>
 							</Box>
 						</Box>
 					)}
 					<FAQs />
-					<Box width="100%" mt="5rem">
-						<Box ml={isSmallerThan1250 ? '2rem' : '5rem'} gap="0">
+					<Box
+						width='100%'
+						mt='5rem'>
+						<Box
+							ml={isSmallerThan1250 ? '2rem' : '5rem'}
+							gap='0'>
 							<Box
-								display="flex"
-								gap="0.4rem"
+								display='flex'
+								gap='0.4rem'
 								fontSize={
-									isSmallerThan700
-										? '20px'
-										: isSmallerThan1250
-										? '28px'
-										: '40px'
+									isSmallerThan700 ? '20px'
+									: isSmallerThan1250 ?
+										'28px'
+									:	'40px'
 								}
-								whiteSpace="nowrap"
-							>
-								Are you eligible for <Text color="#FFD027">HSTK</Text> tokens ?
+								whiteSpace='nowrap'>
+								Are you eligible for{' '}
+								<Text color='#FFD027'>HSTK</Text> tokens ?
 							</Box>
 						</Box>
 						<Box>
-							{provisionCategories.map((catgeory: any, index: number) => (
-								<Box key={index} ml={isSmallerThan1250 ? '2rem' : '5rem'}>
+							{provisionCategories.map(
+								(catgeory: any, index: number) => (
 									<Box
-										display="flex"
-										gap={isSmallerThan700 ? '2rem' : '3rem'}
-										mt={'3rem'}
-										flexDirection={isSmallerThan700 ? 'column' : 'row'}
-										// alignItems="stretch"
-										// alignItems="center"
-									>
+										key={index}
+										ml={
+											isSmallerThan1250 ? '2rem' : '5rem'
+										}>
 										<Box
-											borderRadius="6px"
-											border="1px solid #2C2B48"
-											width={
-												isSmallerThan700
-													? '100%'
-													: isSmallerThan1250
-													? '300px'
-													: '360px'
+											display='flex'
+											gap={
+												isSmallerThan700 ? '2rem' : (
+													'3rem'
+												)
 											}
-											height="100%" // Optional: adjust based on your layout needs
-											display="flex" // Optional: helps if you want the image centered inside the box
-											justifyContent="center" // Optional: centers the image horizontally
-											alignItems="center" // Optional: centers the image vertically
+											mt={'3rem'}
+											flexDirection={
+												isSmallerThan700 ? 'column' : (
+													'row'
+												)
+											}
+											// alignItems="stretch"
+											// alignItems="center"
 										>
-											<Image
-												src={catgeory.icon}
-												alt=""
-												style={{
-													width: '100%', // Ensures the image takes full width of the Box
-													height: '100%', // Ensures the image takes full height of the Box
-													objectFit: 'contain', // Keeps the aspect ratio intact while filling the box
-												}}
-											/>
-										</Box>
-
-										<Box display="flex" flexDir="column">
 											<Box
-												color="#F0F0F5"
-												fontSize={isSmallerThan1250 ? '22px' : '32px'}
-												fontWeight="800"
-												display="flex"
-												alignItems="center"
-												justifyContent={isSmallerThan700 ? 'space-between' : ''}
-											>
-												{catgeory.id}
-												{addressAuthenticated && isSmallerThan700 && (
-													<Button
-														bg="none"
-														border="1px solid #F0F0F5"
-														color="#F0F0F5"
-														width="20%"
-														height="35px"
-														// mt="0.4rem"
-														_hover={{
-															background: 'white',
-															color: 'black',
-														}}
-														isDisabled={
-															catgeory.ticketId === 0
-																? catgeory.claimableAmount === 0
-																: claimAddress !== ''
-																? !userConfirmation
-																: catgeory.currentClaimableAmount === 0
-														}
-														onClick={() => {
-															setticketId(catgeory.ticketId);
-															setticketIdL2(catgeory.ticketId);
-															setcalltransaction(true);
-														}}
-													>
-														Claim
-													</Button>
-												)}
-											</Box>
-											<Text
-												maxW="700px"
-												mt={
-													isSmallerThan700
-														? '1.5rem'
-														: isSmallerThan1250
-														? '0.5rem'
-														: '1rem'
+												borderRadius='6px'
+												border='1px solid #2C2B48'
+												width={
+													isSmallerThan700 ? '100%'
+													: isSmallerThan1250 ?
+														'300px'
+													:	'360px'
 												}
-												fontSize={isSmallerThan1250 ? '14px' : '16px'}
+												height='100%' // Optional: adjust based on your layout needs
+												display='flex' // Optional: helps if you want the image centered inside the box
+												justifyContent='center' // Optional: centers the image horizontally
+												alignItems='center' // Optional: centers the image vertically
 											>
-												{catgeory.description}
-											</Text>
-											{addressDetails && (
-												<Box display="flex" gap="1.5rem" mt="1.5rem">
+												<Image
+													src={catgeory.icon}
+													alt=''
+													style={{
+														width: '100%', // Ensures the image takes full width of the Box
+														height: '100%', // Ensures the image takes full height of the Box
+														objectFit: 'contain', // Keeps the aspect ratio intact while filling the box
+													}}
+												/>
+											</Box>
+
+											<Box
+												display='flex'
+												flexDir='column'>
+												<Box
+													color='#F0F0F5'
+													fontSize={
+														isSmallerThan1250 ?
+															'22px'
+														:	'32px'
+													}
+													fontWeight='800'
+													display='flex'
+													alignItems='center'
+													justifyContent={
+														isSmallerThan700 ?
+															'space-between'
+														:	''
+													}>
+													{catgeory.id}
+													{addressAuthenticated &&
+														isSmallerThan700 && (
+															<Button
+																bg='none'
+																border='1px solid #F0F0F5'
+																color='#F0F0F5'
+																width='20%'
+																height='35px'
+																// mt="0.4rem"
+																_hover={{
+																	background:
+																		'white',
+																	color: 'black',
+																}}
+																isDisabled={
+																	(
+																		catgeory.ticketId ===
+																		0
+																	) ?
+																		catgeory.claimableAmount ===
+																		0
+																	: (
+																		claimAddress !==
+																		''
+																	) ?
+																		!userConfirmation
+																	:	catgeory.currentClaimableAmount ===
+																		0
+
+																}
+																onClick={() => {
+																	setticketId(
+																		catgeory.ticketId
+																	);
+																	setticketIdL2(
+																		catgeory.ticketId
+																	);
+																	setcalltransaction(
+																		true
+																	);
+																}}>
+																Claim
+															</Button>
+														)}
+												</Box>
+												<Text
+													maxW='700px'
+													mt={
+														isSmallerThan700 ?
+															'1.5rem'
+														: isSmallerThan1250 ?
+															'0.5rem'
+														:	'1rem'
+													}
+													fontSize={
+														isSmallerThan1250 ?
+															'14px'
+														:	'16px'
+													}>
+													{catgeory.description}
+												</Text>
+												{addressDetails && (
 													<Box
-														fontSize={
-															isSmallerThan700
-																? '12px'
-																: isSmallerThan1250
-																? '14px'
-																: '16px'
-														}
-													>
-														<Text>
-															{numberFormatter(catgeory.claimableAmount)}
-														</Text>
-														<Text whiteSpace="nowrap">Tokens</Text>
-													</Box>
-													<Box
-														height="50px"
-														borderLeft="2px solid #2C2B48"
-														borderRadius="6px"
-													></Box>
-													<Box
-														fontSize={
-															isSmallerThan700
-																? '12px'
-																: isSmallerThan1250
-																? '14px'
-																: '16px'
-														}
-													>
-														<Text>
-															{numberFormatter(catgeory.currentClaimableAmount)}
-														</Text>
-														<Text whiteSpace="nowrap">Claimable Tokens</Text>
-													</Box>
-													{/* <Box
+														display='flex'
+														gap='1.5rem'
+														mt='1.5rem'>
+														<Box
+															fontSize={
+																(
+																	isSmallerThan700
+																) ?
+																	'12px'
+																: (
+																	isSmallerThan1250
+																) ?
+																	'14px'
+																:	'16px'
+															}>
+															<Text>
+																{numberFormatter(
+																	catgeory.claimableAmount
+																)}
+															</Text>
+															<Text whiteSpace='nowrap'>
+																Tokens
+															</Text>
+														</Box>
+														<Box
+															height='50px'
+															borderLeft='2px solid #2C2B48'
+															borderRadius='6px'></Box>
+														<Box
+															fontSize={
+																(
+																	isSmallerThan700
+																) ?
+																	'12px'
+																: (
+																	isSmallerThan1250
+																) ?
+																	'14px'
+																:	'16px'
+															}>
+															<Text>
+																{numberFormatter(
+																	catgeory.currentClaimableAmount
+																)}
+															</Text>
+															<Text whiteSpace='nowrap'>
+																Claimable Tokens
+															</Text>
+														</Box>
+														{/* <Box
                             height="50px"
                             borderLeft="2px solid #2C2B48"
                             borderRadius="6px"
                           ></Box> */}
-													{/* <Box
+														{/* <Box
                             fontSize={
                               isSmallerThan700
                                 ? "12px"
@@ -872,53 +989,72 @@ export default function Provisions() {
                               Emisiion Rate
                             </Text>
                           </Box> */}
-													{!isSmallerThan700 && (
-														<Box
-															height="50px"
-															borderLeft="2px solid #2C2B48"
-															borderRadius="6px"
-														></Box>
-													)}
-													{addressAuthenticated && !isSmallerThan700 && (
-														<Button
-															bg="none"
-															border="1px solid #F0F0F5"
-															color="#F0F0F5"
-															width="20%"
-															height="50px"
-															// mt="0.4rem"
-															_hover={{
-																background: 'white',
-																color: 'black',
-															}}
-															isDisabled={
-																catgeory.ticketId === 0
-																	? catgeory.claimableAmount === 0
-																	: claimAddress !== ''
-																	? !userConfirmation
-																	: catgeory.currentClaimableAmount === 0
-															}
-															onClick={() => {
-																setticketId(catgeory.ticketId);
-																setticketIdL2(catgeory.ticketId);
-																setcalltransaction(true);
-															}}
-														>
-															Claim
-														</Button>
-													)}
-												</Box>
-											)}
+														{!isSmallerThan700 && (
+															<Box
+																height='50px'
+																borderLeft='2px solid #2C2B48'
+																borderRadius='6px'></Box>
+														)}
+														{addressAuthenticated &&
+															!isSmallerThan700 && (
+																<Button
+																	bg='none'
+																	border='1px solid #F0F0F5'
+																	color='#F0F0F5'
+																	width='20%'
+																	height='50px'
+																	// mt="0.4rem"
+																	_hover={{
+																		background:
+																			'white',
+																		color: 'black',
+																	}}
+																	isDisabled={
+																		(
+																			catgeory.ticketId ===
+																			0
+																		) ?
+																			catgeory.claimableAmount ===
+																			0
+																		: (
+																			claimAddress !==
+																			''
+																		) ?
+																			!userConfirmation
+																		:	catgeory.currentClaimableAmount ===
+																			0
+
+																	}
+																	onClick={() => {
+																		setticketId(
+																			catgeory.ticketId
+																		);
+																		setticketIdL2(
+																			catgeory.ticketId
+																		);
+																		setcalltransaction(
+																			true
+																		);
+																	}}>
+																	Claim
+																</Button>
+															)}
+													</Box>
+												)}
+											</Box>
 										</Box>
+										<Box
+											height='1px'
+											border='1px solid #2C2B48'
+											mt='1.5rem'
+											width={
+												isSmallerThan700 ? '100%' : (
+													'80%'
+												)
+											}></Box>
 									</Box>
-									<Box
-										height="1px"
-										border="1px solid #2C2B48"
-										mt="1.5rem"
-										width={isSmallerThan700 ? '100%' : '80%'}
-									></Box>
-								</Box>
-							))}
+								)
+							)}
 						</Box>
 					</Box>
 					{/* <Text color="white" mt="3rem" mb="2rem">
