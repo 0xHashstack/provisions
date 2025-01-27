@@ -26,55 +26,55 @@ const Navbar = () => {
 	};
 
 	return (
-		<nav
-			className={cn(
-				styles.navbar,
-				'flex items-center justify-between w-full p-2.5 fixed z-50 h-[60px]'
-			)}>
-			<div className='flex gap-4 items-center'>
-				<HashstackLogo />
-				{NAVIGATION_LINKS.map((link) => (
-					<Link
-						key={link.route}
-						href={link.href}
-						className='hidden lg:block'
-						{...(link.external && { target: 'blank' })}
-						{...(!link.external && {
-							className: 'ml-4 hidden lg:block',
-						})}
-						style={{
-							color:
-								pathname === link.route ? '#4D59E8' : '#676D9A',
-						}}>
-						{link.label}
-					</Link>
-				))}
-			</div>
+		<nav className={cn(styles.navbar, ' w-full  fixed z-50 ')}>
+			<div className='flex items-center justify-between p-2.5 h-[60px] bg-[rgba(103,109,154,0.10)]'>
+				<div className='flex gap-4 items-center'>
+					<HashstackLogo />
+					{NAVIGATION_LINKS.map((link) => (
+						<Link
+							key={link.route}
+							href={link.href}
+							className='hidden lg:block'
+							{...(link.external && { target: 'blank' })}
+							{...(!link.external && {
+								className: 'ml-4 hidden lg:block',
+							})}
+							style={{
+								color:
+									pathname === link.route ?
+										'#4D59E8'
+									:	'#676D9A',
+							}}>
+							{link.label}
+						</Link>
+					))}
+				</div>
 
-			<div>
-				<Link
-					href={DISCORD_LINK.href}
-					target='blank'
-					style={{ color: '#676D9A' }}
-					className='hidden lg:flex items-center gap-1'>
-					{DISCORD_LINK.label} <DiscordLogo />
-				</Link>
-				<div className='block lg:hidden h-[40px]'>
-					<button
-						onClick={toggleDrawer}
-						className='cursor-pointer'>
-						<Image
-							src={'/hamburgerIcon.svg'}
-							alt='picture of author'
-							width={40}
-							height={40}
-						/>
-					</button>
-					<Drawer
-						isOpen={isDrawerOpen}
-						onClose={toggleDrawer}>
-						<MobileMenu onClose={toggleDrawer} />
-					</Drawer>
+				<div>
+					<Link
+						href={DISCORD_LINK.href}
+						target='blank'
+						style={{ color: '#676D9A' }}
+						className='hidden lg:flex items-center gap-1'>
+						{DISCORD_LINK.label} <DiscordLogo />
+					</Link>
+					<div className='block lg:hidden h-[40px]'>
+						<button
+							onClick={toggleDrawer}
+							className='cursor-pointer'>
+							<Image
+								src={'/hamburgerIcon.svg'}
+								alt='picture of author'
+								width={40}
+								height={40}
+							/>
+						</button>
+						<Drawer
+							isOpen={isDrawerOpen}
+							onClose={toggleDrawer}>
+							<MobileMenu onClose={toggleDrawer} />
+						</Drawer>
+					</div>
 				</div>
 			</div>
 		</nav>

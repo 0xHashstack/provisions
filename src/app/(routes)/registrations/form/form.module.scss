@@ -1,0 +1,13 @@
+.form-con {
+	background: radial-gradient(
+			circle 2000px at top left,
+			rgba(115, 49, 234, 0.15),
+			transparent
+		),
+		radial-gradient(
+			circle 1400px at bottom right,
+			rgba(115, 49, 234, 0.15),
+			transparent
+		),
+		black;
+}
