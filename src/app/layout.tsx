@@ -3,6 +3,8 @@ import '@/styles/globals.scss';
 
 import { Metadata } from 'next';
 
+const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
+
 export const metadata: Metadata = {
 	title: 'Hashstack | Under-collateralised loans | Defi',
 	description:
@@ -26,7 +28,9 @@ export default function RootLayout({
 	children: React.ReactNode;
 }) {
 	return (
-		<html lang="en">
+		<html
+			lang='en'
+			className={`${inter.className} ${inter.variable}`}>
 			<body>
 				<RootContextProvider>{children}</RootContextProvider>
 			</body>
