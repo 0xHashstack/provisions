@@ -55,7 +55,7 @@ export const EligibilityChecker: React.FC<EligibilityCheckerProps> = ({
 					<h2 className='text-[20px] font-bold lg:text-[32px]'>
 						Check Your Eligibility
 					</h2>
-					<div className='flex mt-6 bg-transparent'>
+					<div className='flex mt-6 bg-transparent px-4 md:px-0'>
 						<div className='relative w-[60%] mt-0  lg:ml-0 md:w-[600px]'>
 							<Input
 								className='h-[50px] pl-2 text-black text-base border border-[rgba(103,109,154,0.30)] rounded-l-md  rounded-r-none bg-white focus-visible:ring-0 focus-visible:ring-offset-0 '
