@@ -16,11 +16,11 @@ import {
 	useWaitForTransaction,
 	useDisconnect,
 } from 'wagmi';
-import airdropIcon from '../../assets/airdrop.jpg';
-import investorIcon from '../../assets/investor.png';
-import othersIcon from '../../assets/others.png';
-import ccpIcon from '../../assets/ccp.jpg';
-import kolIcon from '../../assets/kols.png';
+import airdropIcon from '@/assets/airdrop.jpg';
+import investorIcon from '@/assets/investor.png';
+import othersIcon from '@/assets/others.png';
+import ccpIcon from '@/assets/ccp.jpg';
+import kolIcon from '@/assets/kols.png';
 
 import Image from 'next/image';
 import HashTokenIconFloater from '@/assets/hashTokenIconFloater';

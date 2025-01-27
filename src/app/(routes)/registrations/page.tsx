@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { Inter } from 'next/font/google';
 import { fetchBalance } from '@wagmi/core';
 import { Box, Text, Card, Skeleton, Button } from '@chakra-ui/react';
-import contr from '../../abi/ERC20.json';
+import contr from '../../../abi/ERC20.json';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useConnectors } from '@starknet-react/core';
