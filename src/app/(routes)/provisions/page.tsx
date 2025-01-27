@@ -532,7 +532,7 @@ export default function Provisions() {
 						background: `radial-gradient(circle 600px at 50% 10%, rgba(83, 49, 234, 0.2), transparent), radial-gradient(circle 1200px at bottom right, rgba(83, 49, 234, 0.2), transparent), black`,
 						backgroundAttachment: 'fixed',
 					}}>
-					<Hero addressAuthenticated={addressAuthenticated} />
+					<Hero />
 					<Box
 						display='flex'
 						width='100%'
