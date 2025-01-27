@@ -108,13 +108,6 @@ export default function Provisions() {
 	const [claimAddressConfirmed, setclaimAddressConfirmed] =
 		useState<boolean>(false);
 
-	// const
-	const [render, setRender] = useState(false);
-	useEffect(() => {
-		setTimeout(() => {
-			setRender(true);
-		}, 2000);
-	}, []);
 	const handleSearch = async () => {
 		if (
 			(addressInput.length >= 64 && addressInput.length <= 68) ||

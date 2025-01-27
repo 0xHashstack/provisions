@@ -2,14 +2,8 @@ import WhitetickIcon from '@/assets/whitetickIcon';
 import ConnectWalletL1Modal from '@/components/modals/ConnectWalletL1Modal';
 import ConnectStarknetWalletModal from '@/components/modals/ConnectWalletModal';
 import numberFormatter from '@/functions/numberFormatter';
-import {
-	Box,
-	Input,
-	InputGroup,
-	Spinner,
-	Text,
-	useMediaQuery,
-} from '@chakra-ui/react';
+import { Input } from '@/components/ui/input';
+import { Spinner } from '@/components/ui/spinner';
 import React from 'react';
 
 interface EligibilityCheckerProps {
@@ -37,101 +31,42 @@ export const EligibilityChecker: React.FC<EligibilityCheckerProps> = ({
 	setaddressInput,
 	handleSearch,
 }) => {
-	const [isSmallerThan700] = useMediaQuery('(max-width: 700px)');
-	const [isSmallerThan1000] = useMediaQuery('(max-width: 1000px)');
-
 	return (
 		<>
-			<Box
-				display='flex'
-				width='100%'
-				mb='0rem'
-				mt='3rem'>
-				<Box
-					display='flex'
-					flexDirection='column'
-					width='100%'
-					justifyContent='center'
-					alignItems='center'>
-					<Text
-						fontSize={isSmallerThan700 ? '20px' : '32px'}
-						fontWeight='700'>
+			<div className='flex w-full mb-0 mt-12'>
+				<div className='flex flex-col w-full justify-center items-center'>
+					<h2 className='text-[20px] font-bold lg:text-[32px]'>
 						Check Your Eligibility
-					</Text>
-					<Box
-						display='flex'
-						mt='1.5rem'
-						background='none'>
-						<InputGroup
-							width={
-								isSmallerThan700 ? '60%'
-								: isSmallerThan1000 ?
-									'400px'
-								:	'600px'
-							}
-							mt='0rem'
-							border='1px solid var(--stroke-of-30, rgba(103, 109, 154, 0.30))'
-							borderRight='0px'
-							borderRadius='6px 0px 0px 6px'
-							height='50px'
-							bg='white'
-							ml={isSmallerThan700 ? '2rem' : '0rem'}>
+					</h2>
+					<div className='flex mt-6 bg-transparent'>
+						<div className='relative w-[60%] mt-0  lg:ml-0 lg:w-[600px]'>
 							<Input
-								fontSize='16px'
-								height='100%'
-								border='none'
-								pl='0.5rem'
-								color='black'
-								placeholder='enter your address'
-								_placeholder={{ color: '#BFBFC7' }}
+								className='h-[50px] pl-2 text-black text-base border border-[rgba(103,109,154,0.30)] rounded-l-md  rounded-r-none bg-white focus-visible:ring-0 focus-visible:ring-offset-0 '
+								placeholder='Enter your address'
 								value={addressInput}
-								ml={'0.4rem'}
 								onChange={(e) => {
 									setaddressDetails(null);
 									setaddressSearched(false);
 									setaddressAuthenticated(false);
 									setaddressInput(e.target.value);
 								}}
-								paddingInlineStart='0'
-								_focus={{
-									outline: '0',
-									boxShadow: 'none',
-								}}
 							/>
-						</InputGroup>
+						</div>
 						{addressAuthenticated ?
 							addressDetails ?
-								<Box
-									display='flex'
-									justifyContent='center'
-									alignItems='center'
-									paddingLeft='16px'
-									paddingRight='16px'
-									borderRightRadius='6px'
-									bg='#323FF4'
-									width={
-										isSmallerThan1000 ? '200px' : '300px'
-									}
-									height='50px'>
+								<div className='flex justify-center items-center px-4 rounded-r-md bg-[#323FF4] w-[200px] h-[50px] lg:w-[300px]'>
 									<WhitetickIcon />
-									<Text ml='0.4rem'>Authenticated</Text>
-								</Box>
-							:	<Box
-									display='flex'
-									justifyContent='center'
-									alignItems='center'
-									paddingLeft='16px'
-									width={
-										isSmallerThan1000 ? '200px' : '300px'
-									}
-									paddingRight='16px'
-									borderRightRadius='6px'
-									bg='#323FF4'
-									gap='0.4rem'
-									height='50px'>
-									<Spinner />
-									<Text ml='0.2rem'>Verifiying</Text>
-								</Box>
+									<span className='ml-1.5'>
+										Authenticated
+									</span>
+								</div>
+							:	<div className='flex justify-center items-center px-4 rounded-r-md bg-[#323FF4] w-[200px] h-[50px] gap-1.5 lg:w-[300px]'>
+									<Spinner
+										className='text-white'
+										size='sm'
+									/>
+									<span className='ml-1'>Verifying</span>
+								</div>
 
 						: (
 							(addressInput.length >= 64 &&
@@ -144,111 +79,46 @@ export const EligibilityChecker: React.FC<EligibilityCheckerProps> = ({
 								addressInput.length <= 68
 							) ?
 								<ConnectStarknetWalletModal
-									cursor='pointer'
-									display='flex'
-									justifyContent='center'
-									alignItems='center'
-									paddingLeft='16px'
-									paddingRight='16px'
-									borderRightRadius='6px'
-									bg='#323FF4'
-									width={
-										isSmallerThan1000 ? '200px' : '300px'
-									}
+									className='flex justify-center items-center px-4 rounded-r-md bg-[#323FF4] w-[200px] h-[50px] cursor-pointer lg:w-[300px]'
 									buttonText='Authenticate'
-									height='50px'
 								/>
 							:	<ConnectWalletL1Modal
-									cursor='pointer'
-									display='flex'
-									justifyContent='center'
-									alignItems='center'
-									paddingLeft='16px'
-									paddingRight='16px'
-									width={
-										isSmallerThan1000 ? '200px' : '300px'
-									}
-									borderRightRadius='6px'
-									bg='#323FF4'
+									className='flex justify-center items-center px-4 rounded-r-md bg-[#323FF4] w-[200px] h-[50px] cursor-pointer lg:w-[300px]'
 									buttonText='Authenticate'
-									height='50px'
 								/>
 
-						:	<Box
-								cursor='pointer'
-								display='flex'
-								width={isSmallerThan1000 ? '200px' : '300px'}
-								justifyContent='center'
-								alignItems='center'
-								paddingLeft='16px'
-								paddingRight='16px'
-								borderRightRadius='6px'
-								bg='#323FF4'
+						:	<div
+								className='flex justify-center items-center px-4 rounded-r-md bg-[#323FF4] w-[200px] h-[50px] cursor-pointer lg:w-[300px]'
 								onClick={() => {
 									if (addressInput.length !== 0) {
 										handleSearch();
 									}
 								}}>
 								Authenticate
-							</Box>
+							</div>
 						}
-					</Box>
-				</Box>
-			</Box>
+					</div>
+				</div>
+			</div>
 			{addressDetails && (
-				<Box
-					width='100%'
-					display='flex'
-					justifyContent='center'
-					alignItems='center'
-					textAlign='center'
-					mt='1rem'
-					gap={isSmallerThan700 ? '1rem' : '2rem'}>
-					<Box
-						display='flex'
-						color='white'
-						alignItems='center'
-						flexDirection='column'
-						padding={isSmallerThan700 ? '16px 32px' : '32px 64px'}
-						bg='#120F25'
-						border='1px solid #2C2B48'
-						borderRadius='6px'
-						mt='1rem'>
-						<Text
-							whiteSpace='nowrap'
-							fontWeight='600'
-							fontSize='18px'>
+				<div className='w-full flex justify-center items-center text-center mt-4 gap-4 lg:gap-8'>
+					<div className='flex text-white items-center flex-col p-[32px_16px] mt-4 bg-[#120F25] border border-[#2C2B48] rounded-md lg:p-[64px]'>
+						<span className='whitespace-nowrap font-semibold text-lg'>
 							{numberFormatter(totalClaimableAmount)} HSTK
-						</Text>
-						<Text
-							whiteSpace='nowrap'
-							color='#676D9A'>
+						</span>
+						<span className='whitespace-nowrap text-[#676D9A]'>
 							Tokens
-						</Text>
-					</Box>
-					<Box
-						display='flex'
-						color='white'
-						alignItems='center'
-						flexDirection='column'
-						border='1px solid #2C2B48'
-						padding={isSmallerThan700 ? '16px 32px' : '32px 64px'}
-						bg='#120F25'
-						borderRadius='6px'
-						mt='1rem'>
-						<Text
-							whiteSpace='nowrap'
-							fontWeight='600'
-							fontSize='18px'>
+						</span>
+					</div>
+					<div className='flex text-white items-center flex-col p-[32px_16px] mt-4 bg-[#120F25] border border-[#2C2B48] rounded-md lg:p-[64px]'>
+						<span className='whitespace-nowrap font-semibold text-lg'>
 							{numberFormatter(currentClaimableAmount)} HSTK
-						</Text>
-						<Text
-							whiteSpace='nowrap'
-							color='#676D9A'>
+						</span>
+						<span className='whitespace-nowrap text-[#676D9A]'>
 							Claimable Tokens
-						</Text>
-					</Box>
-				</Box>
+						</span>
+					</div>
+				</div>
 			)}
 		</>
 	);
