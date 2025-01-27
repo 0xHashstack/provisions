@@ -1,7 +1,7 @@
 import { RootContextProvider } from '@/context/RootContext';
 import '@/styles/globals.scss';
-
 import { Metadata } from 'next';
+import { Inter } from 'next/font/google';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
