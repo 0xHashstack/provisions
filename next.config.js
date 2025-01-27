@@ -5,9 +5,6 @@ module.exports = {
 	images: {
 		unoptimized: true,
 	},
-	experimental: {
-		appDir: true,
-	},
 	swcMinify: true,
 	output: 'export',
 	trailingSlash: true,
