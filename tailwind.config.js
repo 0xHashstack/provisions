@@ -8,6 +8,11 @@ module.exports = {
 		'./src/features/**/*.{js,ts,jsx,tsx,mdx}',
 	],
 	theme: {
+		screens: {
+			sm: '500px',
+			md: '980px',
+			lg: '1210px',
+		},
 		extend: {
 			borderRadius: {
 				lg: 'var(--radius)',

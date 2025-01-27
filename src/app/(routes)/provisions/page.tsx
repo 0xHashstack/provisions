@@ -525,7 +525,6 @@ export default function Provisions() {
 
 	return (
 		<>
-			<Navbar />
 			{
 				<div
 					className='relative flex flex-col min-h-screen pt-24 pb-28 text-white z-10 bg-fixed'
