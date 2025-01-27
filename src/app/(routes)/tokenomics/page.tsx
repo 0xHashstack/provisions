@@ -1,5 +1,4 @@
 'use client';
-import { HStack, useMediaQuery } from '@chakra-ui/react';
 import React from 'react';
 
 import EmissionRateChart from '@/components/charts/EmissionRateChart';
@@ -8,48 +7,27 @@ import Hero from '@/features/tokenomics/Hero';
 import Market from '@/features/tokenomics/Market';
 
 export default function Tokenomics() {
-	const [isSmallerThan1250] = useMediaQuery('(max-width: 1250px)');
-	const [isSmallerThan700] = useMediaQuery('(max-width: 700px)');
-
 	return (
 		<>
 			{
 				<div
-					className='relative z-[1] text-white flex flex-col min-h-screen pt-24 pb-28 pl-8 sm:pl-16 lg:pl-24 xl:pl-16'
+					className='relative z-[1] text-white flex flex-col min-h-screen pt-24 pb-28'
 					style={{
 						background: `
 								radial-gradient(circle 600px at 30% 10%, rgba(83, 49, 234, 0.2), transparent),
 								radial-gradient(circle 600px at bottom right, rgba(83, 49, 234, 0.3), transparent),
-								black
+							black
     						`,
 						backgroundAttachment: 'fixed',
 					}}>
-					<Hero />
-					<div className='px-0 sm:px-8 lg:px-28 mt-8'>
-						<EmissionDashboard />
-						<Market />
+					<div className=' max-w-[1200px] mx-auto lg:px-0 px-4'>
+						<Hero />
+						<div className='mt-8'>
+							<EmissionDashboard />
+							<Market />
+							<EmissionRateChart />
+						</div>
 					</div>
-					<HStack
-						mt='3rem'
-						w='100%'
-						h='30%'
-						display='flex'
-						justifyContent='space-between'
-						alignItems='flex-start'
-						paddingLeft={
-							isSmallerThan700 ? '0rem'
-							: isSmallerThan1250 ?
-								'2rem'
-							:	'7rem'
-						}
-						paddingRight={
-							isSmallerThan700 ? '1rem'
-							: isSmallerThan1250 ?
-								'2rem'
-							:	'7rem'
-						}>
-						<EmissionRateChart />
-					</HStack>
 				</div>
 			}
 		</>
