@@ -108,21 +108,6 @@ export default function Provisions() {
 	const [claimAddressConfirmed, setclaimAddressConfirmed] =
 		useState<boolean>(false);
 
-	const handleSearch = async () => {
-		if (
-			(addressInput.length >= 64 && addressInput.length <= 68) ||
-			(addressInput.length <= 42 && addressInput.length >= 40)
-		) {
-			// setaddressDetails(1);
-			// setaddressSearched(true);
-		} else {
-			toast.error('Please enter correct address', {
-				position: toast.POSITION.BOTTOM_RIGHT,
-				autoClose: false,
-			});
-		}
-	};
-
 	const {
 		dataClaimL1,
 		writeClaimL1,
@@ -500,7 +485,6 @@ export default function Provisions() {
 					<EligibilityChecker
 						addressInput={addressInput}
 						setaddressInput={setaddressInput}
-						handleSearch={handleSearch}
 						addressDetails={addressDetails}
 						addressAuthenticated={addressAuthenticated}
 						setaddressDetails={setaddressDetails}

@@ -12,9 +12,6 @@ export const metadata: Metadata = {
 	verification: {
 		google: '9U0-YnKdWueBdZmj8Y5_JEkGNPOiV-_d8cPrmjIgifs',
 	},
-	icons: {
-		icon: '/favicon-32x32.png',
-	},
 	other: {
 		'Cache-Control': 'no-cache, must-revalidate',
 		Pragma: 'no-cache',
