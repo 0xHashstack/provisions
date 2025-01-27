@@ -1,14 +1,4 @@
 'use client';
-import Navbar from '@/components/navbar';
-import {
-	Box,
-	Button,
-	Input,
-	InputGroup,
-	Spinner,
-	Text,
-	useMediaQuery,
-} from '@chakra-ui/react';
 import React, { useEffect, useState } from 'react';
 
 import {
@@ -21,18 +11,12 @@ import investorIcon from '@/assets/investor.png';
 import othersIcon from '@/assets/others.png';
 import ccpIcon from '@/assets/ccp.jpg';
 import kolIcon from '@/assets/kols.png';
-
-import Image from 'next/image';
-import HashTokenIconFloater from '@/assets/hashTokenIconFloater';
-import ConnectStarknetWalletModal from '@/components/modals/ConnectWalletModal';
 import {
 	useAccount,
 	useConnectors,
 	useWaitForTransaction as useWaitForTransactionStarknet,
 } from '@starknet-react/core';
-import ConnectWalletL1Modal from '@/components/modals/ConnectWalletL1Modal';
 import { parseAmount, processAddress } from '@/Blockchain/utils/utils';
-import WhitetickIcon from '@/assets/whitetickIcon';
 import { toast } from 'react-toastify';
 import useClaimL1 from '@/Blockchain/hooks/useClaimL1';
 import useClaimStarknet from '@/Blockchain/hooks/useClaimStarknet';
@@ -42,19 +26,16 @@ import {
 	viewTicket,
 	viewTicketL2,
 } from '@/Blockchain/scripts/claimProxy';
-import numberFormatter from '@/functions/numberFormatter';
 import { useDrawContext } from '@/context/DrawerContext';
-import Footer from '@/components/footer';
 import Hero from '@/features/provisions/Hero';
 import FAQs from '@/features/provisions/Faqs';
+import { EligibilityChecker } from '@/features/provisions/EligibilityChecker';
+import { ProvisionCard } from '@/features/provisions/ProvisionCard';
 
 export const dynamic = 'force-static';
 export const runtime = 'nodejs';
 
 export default function Provisions() {
-	const [isSmallerThan1250] = useMediaQuery('(max-width: 1250px)');
-	const [isSmallerThan1000] = useMediaQuery('(max-width: 1000px)');
-	const [isSmallerThan700] = useMediaQuery('(max-width: 700px)');
 	const [addressSearched, setaddressSearched] = useState<boolean>(false);
 	const [addressDetails, setaddressDetails] = useState<any>();
 	const [addressAuthenticated, setaddressAuthenticated] =
@@ -150,30 +131,19 @@ export default function Provisions() {
 	};
 	const {
 		dataClaimL1,
-		isSuccessL1,
-		isErrorL1,
 		writeClaimL1,
 		claimAddressL1,
 		setclaimAddressL1,
 		ticketId,
 		setticketId,
-		errorL1,
 	} = useClaimL1();
 
 	const {
-		claimAddressL2,
 		setclaimAddressL2,
 		ticketIdL2,
 		setticketIdL2,
 		dataClaimL2,
-		errorClaimL2,
-		resetClaimL2,
-		writeClaimL2,
 		writeAsyncClaimL2,
-		isErrorClaimL2,
-		isIdleClaimL2,
-		isSuccessClaimL2,
-		statusClaimL2,
 	} = useClaimStarknet();
 
 	const { isLoading: approveLoading, isSuccess: approveSuccess } =
@@ -533,533 +503,44 @@ export default function Provisions() {
 						backgroundAttachment: 'fixed',
 					}}>
 					<Hero />
-					<Box
-						display='flex'
-						width='100%'
-						mb='0rem'
-						mt='3rem'>
-						<Box
-							display='flex'
-							flexDirection='column'
-							width='100%'
-							justifyContent='center'
-							alignItems='center'>
-							<Text
-								fontSize={isSmallerThan700 ? '20px' : '32px'}
-								fontWeight='700'>
-								Check Your Eligibility
-							</Text>
-							<Box
-								display='flex'
-								mt='1.5rem'
-								background='none'>
-								<InputGroup
-									width={
-										isSmallerThan700 ? '60%'
-										: isSmallerThan1000 ?
-											'400px'
-										:	'600px'
-									}
-									mt='0rem'
-									border='1px solid var(--stroke-of-30, rgba(103, 109, 154, 0.30))'
-									borderRight='0px'
-									borderRadius='6px 0px 0px 6px'
-									height='50px'
-									bg='white'
-									ml={isSmallerThan700 ? '2rem' : '0rem'}>
-									<Input
-										fontSize='16px'
-										height='100%'
-										border='none'
-										pl='0.5rem'
-										color='black'
-										placeholder='enter your address'
-										_placeholder={{ color: '#BFBFC7' }}
-										value={addressInput}
-										ml={'0.4rem'}
-										// isDisabled={true}
-										onChange={(e) => {
-											setaddressDetails(null);
-											setaddressSearched(false);
-											setaddressAuthenticated(false);
-											setaddressInput(e.target.value);
-										}}
-										//   value={
-										//     totalBorrow == 0 && totalSupply == 0 ? '****' : refferal
-										//   }
-										paddingInlineStart='0'
-										_focus={{
-											outline: '0',
-											boxShadow: 'none',
-										}}
-										//   onChange={handleChange}
-									/>
-								</InputGroup>
-								{addressAuthenticated ?
-									addressDetails ?
-										<Box
-											display='flex'
-											justifyContent='center'
-											alignItems='center'
-											paddingLeft='16px'
-											paddingRight='16px'
-											borderRightRadius='6px'
-											bg='#323FF4'
-											width={
-												isSmallerThan1000 ? '200px' : (
-													'300px'
-												)
-											}
-											height='50px'>
-											<WhitetickIcon />
-											<Text ml='0.4rem'>
-												Authenticated
-											</Text>
-										</Box>
-									:	<Box
-											display='flex'
-											justifyContent='center'
-											alignItems='center'
-											paddingLeft='16px'
-											width={
-												isSmallerThan1000 ? '200px' : (
-													'300px'
-												)
-											}
-											paddingRight='16px'
-											borderRightRadius='6px'
-											bg='#323FF4'
-											gap='0.4rem'
-											height='50px'>
-											<Spinner />
-											<Text ml='0.2rem'>Verifiying</Text>
-										</Box>
-
-								: (
-									(addressInput.length >= 64 &&
-										addressInput.length <= 68) ||
-									(addressInput.length <= 42 &&
-										addressInput.length >= 40)
-								) ?
-									(
-										addressInput.length >= 64 &&
-										addressInput.length <= 68
-									) ?
-										<ConnectStarknetWalletModal
-											cursor='pointer'
-											display='flex'
-											justifyContent='center'
-											alignItems='center'
-											paddingLeft='16px'
-											paddingRight='16px'
-											borderRightRadius='6px'
-											bg='#323FF4'
-											width={
-												isSmallerThan1000 ? '200px' : (
-													'300px'
-												)
-											}
-											buttonText='Authenticate'
-											height='50px'
-										/>
-									:	<ConnectWalletL1Modal
-											cursor='pointer'
-											display='flex'
-											justifyContent='center'
-											alignItems='center'
-											paddingLeft='16px'
-											paddingRight='16px'
-											width={
-												isSmallerThan1000 ? '200px' : (
-													'300px'
-												)
-											}
-											borderRightRadius='6px'
-											bg='#323FF4'
-											buttonText='Authenticate'
-											height='50px'
-										/>
-
-								:	<Box
-										cursor='pointer'
-										display='flex'
-										width={
-											isSmallerThan1000 ? '200px' : (
-												'300px'
-											)
-										}
-										justifyContent='center'
-										alignItems='center'
-										paddingLeft='16px'
-										paddingRight='16px'
-										borderRightRadius='6px'
-										bg='#323FF4'
-										onClick={() => {
-											if (addressInput.length !== 0) {
-												handleSearch();
-											}
-										}}>
-										Authenticate
-									</Box>
-								}
-							</Box>
-						</Box>
-					</Box>
-					{addressDetails && (
-						<Box
-							width='100%'
-							display='flex'
-							justifyContent='center'
-							alignItems='center'
-							textAlign='center'
-							mt='1rem'
-							gap={isSmallerThan700 ? '1rem' : '2rem'}>
-							<Box
-								display='flex'
-								color='white'
-								alignItems='center'
-								flexDirection='column'
-								padding={
-									isSmallerThan700 ? '16px 32px' : '32px 64px'
-								}
-								bg='#120F25'
-								border='1px solid #2C2B48'
-								borderRadius='6px'
-								mt='1rem'>
-								<Text
-									whiteSpace='nowrap'
-									fontWeight='600'
-									fontSize='18px'>
-									{numberFormatter(totalClaimableAmount)} HSTK
-								</Text>
-								<Text
-									whiteSpace='nowrap'
-									color='#676D9A'>
-									Tokens
-								</Text>
-							</Box>
-							<Box
-								display='flex'
-								color='white'
-								alignItems='center'
-								flexDirection='column'
-								border='1px solid #2C2B48'
-								padding={
-									isSmallerThan700 ? '16px 32px' : '32px 64px'
-								}
-								bg='#120F25'
-								borderRadius='6px'
-								mt='1rem'>
-								<Text
-									whiteSpace='nowrap'
-									fontWeight='600'
-									fontSize='18px'>
-									{numberFormatter(currentClaimableAmount)}{' '}
-									HSTK
-								</Text>
-								<Text
-									whiteSpace='nowrap'
-									color='#676D9A'>
-									Claimable Tokens
-								</Text>
-							</Box>
-						</Box>
-					)}
+					<EligibilityChecker
+						addressInput={addressInput}
+						setaddressInput={setaddressInput}
+						handleSearch={handleSearch}
+						addressDetails={addressDetails}
+						addressAuthenticated={addressAuthenticated}
+						setaddressDetails={setaddressDetails}
+						setaddressSearched={setaddressSearched}
+						setaddressAuthenticated={setaddressAuthenticated}
+						currentClaimableAmount={currentClaimableAmount}
+						totalClaimableAmount={totalClaimableAmount}
+					/>
 					<FAQs />
-					<Box
-						width='100%'
-						mt='5rem'>
-						<Box
-							ml={isSmallerThan1250 ? '2rem' : '5rem'}
-							gap='0'>
-							<Box
-								display='flex'
-								gap='0.4rem'
-								fontSize={
-									isSmallerThan700 ? '20px'
-									: isSmallerThan1250 ?
-										'28px'
-									:	'40px'
-								}
-								whiteSpace='nowrap'>
-								Are you eligible for{' '}
-								<Text color='#FFD027'>HSTK</Text> tokens ?
-							</Box>
-						</Box>
-						<Box>
-							{provisionCategories.map(
-								(catgeory: any, index: number) => (
-									<Box
-										key={index}
-										ml={
-											isSmallerThan1250 ? '2rem' : '5rem'
-										}>
-										<Box
-											display='flex'
-											gap={
-												isSmallerThan700 ? '2rem' : (
-													'3rem'
-												)
-											}
-											mt={'3rem'}
-											flexDirection={
-												isSmallerThan700 ? 'column' : (
-													'row'
-												)
-											}
-											// alignItems="stretch"
-											// alignItems="center"
-										>
-											<Box
-												borderRadius='6px'
-												border='1px solid #2C2B48'
-												width={
-													isSmallerThan700 ? '100%'
-													: isSmallerThan1250 ?
-														'300px'
-													:	'360px'
-												}
-												height='100%' // Optional: adjust based on your layout needs
-												display='flex' // Optional: helps if you want the image centered inside the box
-												justifyContent='center' // Optional: centers the image horizontally
-												alignItems='center' // Optional: centers the image vertically
-											>
-												<Image
-													src={catgeory.icon}
-													alt=''
-													style={{
-														width: '100%', // Ensures the image takes full width of the Box
-														height: '100%', // Ensures the image takes full height of the Box
-														objectFit: 'contain', // Keeps the aspect ratio intact while filling the box
-													}}
-												/>
-											</Box>
+					<div className='w-full mt-20 px-4 lg:px-20'>
+						<div className='flex gap-1.5 text-xl md:text-3xl lg:text-4xl whitespace-nowrap'>
+							Are you eligible for{' '}
+							<span className='text-[#FFD027]'>HSTK</span> tokens
+							?
+						</div>
 
-											<Box
-												display='flex'
-												flexDir='column'>
-												<Box
-													color='#F0F0F5'
-													fontSize={
-														isSmallerThan1250 ?
-															'22px'
-														:	'32px'
-													}
-													fontWeight='800'
-													display='flex'
-													alignItems='center'
-													justifyContent={
-														isSmallerThan700 ?
-															'space-between'
-														:	''
-													}>
-													{catgeory.id}
-													{addressAuthenticated &&
-														isSmallerThan700 && (
-															<Button
-																bg='none'
-																border='1px solid #F0F0F5'
-																color='#F0F0F5'
-																width='20%'
-																height='35px'
-																// mt="0.4rem"
-																_hover={{
-																	background:
-																		'white',
-																	color: 'black',
-																}}
-																isDisabled={
-																	(
-																		catgeory.ticketId ===
-																		0
-																	) ?
-																		catgeory.claimableAmount ===
-																		0
-																	: (
-																		claimAddress !==
-																		''
-																	) ?
-																		!userConfirmation
-																	:	catgeory.currentClaimableAmount ===
-																		0
-
-																}
-																onClick={() => {
-																	setticketId(
-																		catgeory.ticketId
-																	);
-																	setticketIdL2(
-																		catgeory.ticketId
-																	);
-																	setcalltransaction(
-																		true
-																	);
-																}}>
-																Claim
-															</Button>
-														)}
-												</Box>
-												<Text
-													maxW='700px'
-													mt={
-														isSmallerThan700 ?
-															'1.5rem'
-														: isSmallerThan1250 ?
-															'0.5rem'
-														:	'1rem'
-													}
-													fontSize={
-														isSmallerThan1250 ?
-															'14px'
-														:	'16px'
-													}>
-													{catgeory.description}
-												</Text>
-												{addressDetails && (
-													<Box
-														display='flex'
-														gap='1.5rem'
-														mt='1.5rem'>
-														<Box
-															fontSize={
-																(
-																	isSmallerThan700
-																) ?
-																	'12px'
-																: (
-																	isSmallerThan1250
-																) ?
-																	'14px'
-																:	'16px'
-															}>
-															<Text>
-																{numberFormatter(
-																	catgeory.claimableAmount
-																)}
-															</Text>
-															<Text whiteSpace='nowrap'>
-																Tokens
-															</Text>
-														</Box>
-														<Box
-															height='50px'
-															borderLeft='2px solid #2C2B48'
-															borderRadius='6px'></Box>
-														<Box
-															fontSize={
-																(
-																	isSmallerThan700
-																) ?
-																	'12px'
-																: (
-																	isSmallerThan1250
-																) ?
-																	'14px'
-																:	'16px'
-															}>
-															<Text>
-																{numberFormatter(
-																	catgeory.currentClaimableAmount
-																)}
-															</Text>
-															<Text whiteSpace='nowrap'>
-																Claimable Tokens
-															</Text>
-														</Box>
-														{/* <Box
-                            height="50px"
-                            borderLeft="2px solid #2C2B48"
-                            borderRadius="6px"
-                          ></Box> */}
-														{/* <Box
-                            fontSize={
-                              isSmallerThan700
-                                ? "12px"
-                                : isSmallerThan1250
-                                ? "14px"
-                                : "16px"
-                            }
-                          >
-                            <Text ml="0.4rem">
-                              {numberFormatterPercentage(catgeory.EmissionRate)}
-                              %
-                            </Text>
-                            <Text ml="0.4rem" whiteSpace="nowrap">
-                              Emisiion Rate
-                            </Text>
-                          </Box> */}
-														{!isSmallerThan700 && (
-															<Box
-																height='50px'
-																borderLeft='2px solid #2C2B48'
-																borderRadius='6px'></Box>
-														)}
-														{addressAuthenticated &&
-															!isSmallerThan700 && (
-																<Button
-																	bg='none'
-																	border='1px solid #F0F0F5'
-																	color='#F0F0F5'
-																	width='20%'
-																	height='50px'
-																	// mt="0.4rem"
-																	_hover={{
-																		background:
-																			'white',
-																		color: 'black',
-																	}}
-																	isDisabled={
-																		(
-																			catgeory.ticketId ===
-																			0
-																		) ?
-																			catgeory.claimableAmount ===
-																			0
-																		: (
-																			claimAddress !==
-																			''
-																		) ?
-																			!userConfirmation
-																		:	catgeory.currentClaimableAmount ===
-																			0
-
-																	}
-																	onClick={() => {
-																		setticketId(
-																			catgeory.ticketId
-																		);
-																		setticketIdL2(
-																			catgeory.ticketId
-																		);
-																		setcalltransaction(
-																			true
-																		);
-																	}}>
-																	Claim
-																</Button>
-															)}
-													</Box>
-												)}
-											</Box>
-										</Box>
-										<Box
-											height='1px'
-											border='1px solid #2C2B48'
-											mt='1.5rem'
-											width={
-												isSmallerThan700 ? '100%' : (
-													'80%'
-												)
-											}></Box>
-									</Box>
-								)
-							)}
-						</Box>
-					</Box>
-					{/* <Text color="white" mt="3rem" mb="2rem">
-          Tokenomics
-        </Text>
-        <ContributorsChart/> */}
+						<div>
+							{provisionCategories.map((category, index) => (
+								<ProvisionCard
+									key={index}
+									category={category}
+									addressAuthenticated={addressAuthenticated}
+									addressDetails={addressDetails}
+									claimAddress={claimAddress}
+									userConfirmation={userConfirmation}
+									onClaim={(ticketId) => {
+										setticketId(ticketId);
+										setticketIdL2(ticketId);
+										setcalltransaction(true);
+									}}
+								/>
+							))}
+						</div>
+					</div>
 				</div>
 			}
 		</>

@@ -17,8 +17,6 @@ interface ExtendedAccountInterface extends AccountInterface {
 const Footer: React.FC = () => {
 	const [protocolReserves, setProtocolReserves] =
 		useState<Record<string, number>>();
-	const isLessThan1400 = useMediaQuery('(max-width: 1400px)');
-	const [perviewCount, setPerviewCount] = useState<number>(2);
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -35,16 +33,12 @@ const Footer: React.FC = () => {
 		fetchData();
 	}, []);
 
-	useEffect(() => {
-		setPerviewCount(isLessThan1400 ? 1 : 2);
-	}, [isLessThan1400]);
-
 	return (
 		<div className='fixed bottom-0 z-[14] w-screen h-8 bg-[#02010F] shadow-[0_15px_25px_rgba(0,0,0,0.15),0_5px_10px_rgba(0,0,0,0.05)] text-white border-y border-[#2B2F35]'>
 			<div className='w-[95%] flex justify-between items-center mx-auto'>
 				<MetricsSlider
 					protocolReserves={protocolReserves}
-					perviewCount={perviewCount}
+					perviewCount={2}
 				/>
 				<FooterLinks />
 			</div>
