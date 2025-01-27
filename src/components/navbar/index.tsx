@@ -7,9 +7,15 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React, { useState } from 'react';
-import { Drawer } from './drawer/Drawer';
+const Drawer = dynamic(
+	() => import('./drawer/Drawer').then((mod) => mod.Drawer),
+	{
+		ssr: false,
+	}
+);
 import { MobileMenu } from './drawer/MobileMenu';
 import styles from './index.module.scss';
+import dynamic from 'next/dynamic';
 
 const Navbar = () => {
 	const pathname = usePathname().replaceAll('/', '');

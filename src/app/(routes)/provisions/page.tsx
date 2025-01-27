@@ -122,6 +122,7 @@ export default function Provisions() {
 			});
 		}
 	};
+
 	const {
 		dataClaimL1,
 		writeClaimL1,
