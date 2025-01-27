@@ -23,7 +23,7 @@ const Navbar = () => {
 		<nav
 			className={cn(
 				styles.navbar,
-				'flex items-center justify-between w-full p-2.5 fixed z-50'
+				'flex items-center justify-between w-full p-2.5 fixed z-50 h-[60px]'
 			)}>
 			<div className='flex gap-4 items-center'>
 				<HashstackLogo />

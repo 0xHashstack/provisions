@@ -1062,7 +1062,6 @@ export default function Provisions() {
         <ContributorsChart/> */}
 				</div>
 			}
-			{!isSmallerThan1250 && <Footer />}
 		</>
 	);
 }
