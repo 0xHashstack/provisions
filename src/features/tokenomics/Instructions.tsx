@@ -17,7 +17,7 @@ const list = [
 
 const Instructions = () => {
 	return (
-		<div>
+		<div className='max-w-[700px]'>
 			<p className='text-3xl sm:text-5xl font-bold max-w-[400px]'>
 				Hashstack Tokenomics
 			</p>

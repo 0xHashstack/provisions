@@ -1,11 +1,11 @@
 import React from 'react';
-import { Box, useMediaQuery } from '@chakra-ui/react';
 import dynamic from 'next/dynamic';
+import { useMediaQuery } from '@/hooks/useMediaQuery';
 
 const ApexCharts = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 const ContributorsChart = () => {
-	const [isSmallerThan500] = useMediaQuery('(max-width: 500px)');
+	const isSmallerThan500 = useMediaQuery('(max-width: 500px)');
 	const splineColor = [
 		'#3E7CFF',
 		'#00D395',
@@ -47,9 +47,6 @@ const ContributorsChart = () => {
 			},
 			dataLabels: {
 				enabled: true,
-				style: {
-					//   colors: ["#000000"], // Set numbers on the chart to black
-				},
 				formatter: function (val: number) {
 					return `${val.toFixed(1)}%`; // Format the text as percentages
 				},
@@ -83,18 +80,6 @@ const ContributorsChart = () => {
 								},
 							},
 						},
-						// labels: {
-						//   show: true,
-						//   total: {
-						//     show: true,
-						//     label: "Total",
-						//     color: "#FFFFFF", // Change the total text color in the center to white
-						//     fontSize: "24px",
-						//     formatter: function () {
-						//       return "100%"; // Display total percentage
-						//     },
-						//   },
-						// },
 					},
 				},
 			},
@@ -107,16 +92,8 @@ const ContributorsChart = () => {
 	};
 
 	return (
-		<Box
-			borderRadius='6px'
-			maxWidth='600px'>
-			<Box
-				display='flex'
-				width='100%'
-				justifyContent='center'
-				alignItems='center'
-				gap='0rem'
-				flexDirection={'row'}>
+		<div className='rounded-lg max-w-xl'>
+			<div className='flex justify-center items-center w-full'>
 				<ApexCharts
 					options={splineChartData.options}
 					series={splineChartData.series}
@@ -124,8 +101,8 @@ const ContributorsChart = () => {
 					height={isSmallerThan500 ? '300' : 450}
 					width={500}
 				/>
-			</Box>
-		</Box>
+			</div>
+		</div>
 	);
 };
 

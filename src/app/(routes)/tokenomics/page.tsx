@@ -58,7 +58,7 @@ export default function Tokenomics() {
 
 	const router = useRouter();
 	return (
-		<Box>
+		<>
 			{
 				<div
 					className='relative z-[1] text-white flex flex-col min-h-screen pt-24 pb-28 pl-8 sm:pl-16 lg:pl-24 xl:pl-16'
@@ -280,6 +280,6 @@ export default function Tokenomics() {
 					</HStack>
 				</div>
 			}
-		</Box>
+		</>
 	);
 }

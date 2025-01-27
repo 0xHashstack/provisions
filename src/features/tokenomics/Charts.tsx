@@ -1,125 +1,40 @@
-import { Box, Text } from '@chakra-ui/react';
 import ContributorsChart from '@/components/charts/ContributorsChart';
+
+const cards = [
+	{ percentage: '18%', title: 'Hashstack Investors', borderColor: '#3E7CFF' },
+	{
+		percentage: '24.4%',
+		title: 'Adoption Incentives',
+		borderColor: '#00D395',
+	},
+	{ percentage: '3.3%', title: 'Community', borderColor: '#00C7F2' },
+	{ percentage: '14%', title: 'Product Development', borderColor: '#FFAB80' },
+	{ percentage: '26%', title: 'Founder(s) & Team', borderColor: '#A38CFF' },
+	{
+		percentage: '14.3%',
+		title: 'Exchange Liquidity',
+		borderColor: '#FFD347',
+	},
+];
 
 const Charts = () => {
 	return (
-		<Box
-			display='flex'
-			flexDirection='column'
-			gap='0rem'
-			mt='2rem'>
+		<div className='flex flex-col gap-8 mt-8'>
 			<ContributorsChart />
-			<Box
-				display='flex'
-				flexDirection='column'
-				gap='2rem'
-				mt='3rem'>
-				<Box
-					display='flex'
-					gap='1.5rem'>
-					<Box
-						display='flex'
-						flexDirection='column'
-						borderLeft='4px solid #3E7CFF'>
-						<Text
-							ml='0.4rem'
-							fontWeight='700'>
-							18%
-						</Text>
-						<Text
-							ml='0.4rem'
-							fontWeight='600'
-							color='#676D9A'>
-							Hashstack Investors
-						</Text>
-					</Box>
-					<Box
-						display='flex'
-						flexDirection='column'
-						borderLeft='4px solid #00D395'>
-						<Text
-							ml='0.4rem'
-							fontWeight='700'>
-							24.4%
-						</Text>
-						<Text
-							ml='0.4rem'
-							fontWeight='600'
-							color='#676D9A'>
-							Adoption Incentives
-						</Text>
-					</Box>
-					<Box
-						display='flex'
-						flexDirection='column'
-						borderLeft='4px solid #00C7F2'>
-						<Text
-							ml='0.4rem'
-							fontWeight='700'>
-							3.3%
-						</Text>
-						<Text
-							ml='0.4rem'
-							fontWeight='600'
-							color='#676D9A'>
-							Community
-						</Text>
-					</Box>
-				</Box>
-				<Box
-					display='flex'
-					gap='1.5rem'>
-					<Box
-						display='flex'
-						flexDirection='column'
-						borderLeft='4px solid #FFAB80'>
-						<Text
-							ml='0.4rem'
-							fontWeight='700'>
-							14%
-						</Text>
-						<Text
-							ml='0.4rem'
-							fontWeight='600'
-							color='#676D9A'>
-							Product development
-						</Text>
-					</Box>
-					<Box
-						display='flex'
-						flexDirection='column'
-						borderLeft='4px solid #A38CFF'>
-						<Text
-							ml='0.4rem'
-							fontWeight='700'>
-							26%
-						</Text>
-						<Text
-							ml='0.4rem'
-							fontWeight='600'
-							color='#676D9A'>
-							Founder(s) & team
-						</Text>
-					</Box>
-					<Box
-						display='flex'
-						flexDirection='column'
-						borderLeft='4px solid #FFD347'>
-						<Text
-							ml='0.4rem'
-							fontWeight='700'>
-							14.3%
-						</Text>
-						<Text
-							ml='0.4rem'
-							fontWeight='600'
-							color='#676D9A'>
-							Exchange liquidity
-						</Text>
-					</Box>
-				</Box>
-			</Box>
-		</Box>
+			<ul className='grid gap-6 grid-cols-2 lg:grid-cols-3'>
+				{cards.map((card, index) => (
+					<li
+						key={index}
+						className='flex flex-col border-l-4 pl-2'
+						style={{ borderColor: card.borderColor }}>
+						<p className='font-bold'>{card.percentage}</p>
+						<p className='font-semibold text-[#676D9A]'>
+							{card.title}
+						</p>
+					</li>
+				))}
+			</ul>
+		</div>
 	);
 };
 
