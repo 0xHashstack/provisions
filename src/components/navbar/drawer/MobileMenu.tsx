@@ -1,5 +1,5 @@
 import { Btn } from '@/components/ui/button';
-import { NAVIGATION_LINKS } from '@/constants/router.constant';
+import { NAVIGATION_LINKS_MOBILE } from '@/constants/router.constant';
 import { cn } from '@/utils/cn';
 import { X } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
@@ -26,19 +26,19 @@ export function MobileMenu({ onClose }: Props) {
 		<div className='flex flex-col items-center min-h-screen pt-16'>
 			<nav className='w-full'>
 				<ul>
-					{NAVIGATION_LINKS.map((item) => (
+					{NAVIGATION_LINKS_MOBILE.map((item) => (
 						<li
 							key={item.label}
 							className='mb-0 cursor-pointer'>
 							<button
 								onClick={() => handleNavigation(item.href)}
 								className={cn(
-									'flex w-full px-4 py-2',
+									'w-full flex justify-center items-center',
 									'text-sm font-medium border border-[#1A1A1F]',
-									'transition-colors duration-200',
-									item.route === pathname
-										? 'text-[#4d59e8]'
-										: 'text-white hover:text-[#4d59e8]'
+									'transition-colors duration-200 h-16',
+									item.route === pathname ?
+										'text-[#4d59e8]'
+									:	'text-white hover:text-[#4d59e8]'
 								)}>
 								{item.label}
 							</button>
