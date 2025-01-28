@@ -7,6 +7,7 @@ import ProductIncentives from '@/assets/productIncentives';
 import FoundersIncentives from '@/assets/foundersIncentives';
 import ExchangeLiquidity from '@/assets/exchangeLiquidity';
 import { Table, TableBody, TableCell, TableRow } from './ui/table';
+
 const EmissionDashboard = () => {
 	const columnItems = [
 		'Category',
@@ -15,6 +16,7 @@ const EmissionDashboard = () => {
 		'Total',
 		'Unlock & vesting',
 	];
+
 	const data = [
 		{
 			title: 'Hastack Investors',
@@ -73,58 +75,61 @@ const EmissionDashboard = () => {
 			],
 		},
 	];
+
 	return (
-		<div
-			className={`border border-gray-300/30 bg-gray-300/10 rounded-lg p-8 shadow-lg text-white`}>
-			<div
-				className={`overflow-x-visible`}
-				style={{
-					scrollbarWidth: 'thin',
-					scrollbarColor:
-						'rgba(103, 109, 154, 0.5) rgba(103, 109, 154, 0.2)',
-				}}>
-				<h2 className={`sm:text-xl text-2xl font-semibold mb-4`}>
-					HSTK Tokenomics
-				</h2>
-				<Table>
-					<TableBody>
-						<TableRow>
-							{columnItems.map((columnItem, index) => (
-								<TableCell
-									key={index}
-									className='text-base font-medium text-left text-gray-400'>
-									{columnItem}
-								</TableCell>
-							))}
-						</TableRow>
-						{data.map((item, index) =>
-							item.subData.map((sub, idx) => (
-								<TableRow key={`${index}-${idx}`}>
-									{idx === 0 && (
-										<TableCell
-											rowSpan={item.subData.length}
-											className='flex items-center gap-2 whitespace-normal break-words font-medium w-52'>
-											{item.icon && <item.icon />}
-											{item.title}
+		<div className='rounded-lg p-4 sm:p-8 bg-[rgba(103,109,154,0.05)] backdrop-blur-md border border-[rgba(103,109,154,0.15)] shadow-[0_8px_32px_0_rgba(31,38,135,0.17)]'>
+			<h2 className='text-xl sm:text-2xl font-semibold mb-6 text-white'>
+				HSTK Tokenomics
+			</h2>
+
+			<div className='overflow-x-auto -mx-4 w-[86vw] md:w-full  sm:mx-0'>
+				<div className='min-w-[800px] md:min-w-full p-4 sm:p-0'>
+					<Table className='w-full'>
+						<TableBody>
+							<TableRow className='border-b border-[rgba(103,109,154,0.15)] hover:bg-transparent'>
+								{columnItems.map((columnItem, index) => (
+									<TableCell
+										key={index}
+										className='py-4 text-sm sm:text-base font-medium text-left text-gray-400'>
+										{columnItem}
+									</TableCell>
+								))}
+							</TableRow>
+							{data.map((item, index) =>
+								item.subData.map((sub, idx) => (
+									<TableRow
+										key={`${index}-${idx}`}
+										className='border-b border-[rgba(103,109,154,0.15)] hover:bg-transparent'>
+										{idx === 0 && (
+											<TableCell
+												rowSpan={item.subData.length}
+												className='py-4 flex items-center gap-3 font-medium'>
+												<div className='w-6 h-6 flex-shrink-0'>
+													{item.icon && <item.icon />}
+												</div>
+												<span className='text-sm sm:text-base'>
+													{item.title}
+												</span>
+											</TableCell>
+										)}
+										<TableCell className='py-4 text-sm sm:text-base font-light'>
+											{sub}
 										</TableCell>
-									)}
-									<TableCell className='whitespace-nowrap break-words font-light w-44'>
-										{sub}
-									</TableCell>
-									<TableCell className='text-white font-light w-28'>
-										{item.distributions[idx]}%
-									</TableCell>
-									<TableCell className='text-white font-light w-32'>
-										{numberFormatter(item.totals[idx])}
-									</TableCell>
-									<TableCell className='text-white font-light w-52 whitespace-normal break-words'>
-										{item.criterias[idx]}
-									</TableCell>
-								</TableRow>
-							))
-						)}
-					</TableBody>
-				</Table>
+										<TableCell className='py-4 text-sm sm:text-base font-light'>
+											{item.distributions[idx]}%
+										</TableCell>
+										<TableCell className='py-4 text-sm sm:text-base font-light'>
+											{numberFormatter(item.totals[idx])}
+										</TableCell>
+										<TableCell className='py-4 text-sm sm:text-base font-light max-w-xs'>
+											{item.criterias[idx]}
+										</TableCell>
+									</TableRow>
+								))
+							)}
+						</TableBody>
+					</Table>
+				</div>
 			</div>
 		</div>
 	);

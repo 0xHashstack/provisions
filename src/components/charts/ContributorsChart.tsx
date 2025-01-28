@@ -93,7 +93,7 @@ const ContributorsChart = () => {
 
 	return (
 		<div className='rounded-lg max-w-xl'>
-			<div className='flex justify-center items-center w-full'>
+			<div className='flex justify-center items-center w-full min-w-full md:min-w-[500px] h-[300px] sm:h-[500px]'>
 				<ApexCharts
 					options={splineChartData.options}
 					series={splineChartData.series}

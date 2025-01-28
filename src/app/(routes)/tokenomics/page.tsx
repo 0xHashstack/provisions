@@ -11,7 +11,7 @@ export default function Tokenomics() {
 		<>
 			{
 				<div
-					className='relative z-[1] text-white flex flex-col min-h-screen pt-24 pb-28'
+					className='relative z-[1] text-white flex flex-col min-h-screen pt-24 pb-28 px-0 lg:px-6'
 					style={{
 						background: `
 								radial-gradient(circle 600px at 30% 10%, rgba(83, 49, 234, 0.2), transparent),

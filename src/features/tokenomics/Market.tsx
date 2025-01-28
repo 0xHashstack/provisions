@@ -3,6 +3,7 @@ import LeadingLogo from '@/assets/leadingLogo';
 import UniswapLogo from '@/assets/uniswapLogo';
 import { hstkPrice } from '@/Blockchain/scripts/claimProxy';
 import { parseAmount } from '@/Blockchain/utils/utils';
+import { Button } from '@/components/ui/button';
 import numberFormatter from '@/functions/numberFormatter';
 import { BigNumber } from 'ethers';
 import Link from 'next/link';
@@ -78,11 +79,12 @@ const Market = () => {
 						Check out our liquidity pools on Uniswap and Ekubo,
 						start earning!
 					</p>
-					<button
-						className='text-blue-500 underline'
+					<Button
+						variant={'link'}
+						className='p-0 h-fit'
 						onClick={() => router.push('/provisions')}>
 						Earn
-					</button>
+					</Button>
 				</div>
 				<div className='flex gap-4 w-full mt-6'>
 					<div className='rounded-md flex flex-col gap-1 w-1/2'>
