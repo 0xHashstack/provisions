@@ -23,7 +23,7 @@ export const faqData: FAQ[] = [
 	},
 	{
 		question: 'Where can I trade HSTK tokens now?',
-		answer: 'HSTK is live on Uniswap and Ekubo. You can trade or swap your tokens their',
+		answer: 'HSTK is live on Uniswap and Ekubo.',
 	},
 	{
 		question: 'Can we get a token chart or swap link?',
