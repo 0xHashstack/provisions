@@ -86,47 +86,62 @@ const EmissionDashboard = () => {
 				<div className='min-w-[800px] md:min-w-full p-4 sm:p-0'>
 					<Table className='w-full'>
 						<TableBody>
-							<TableRow className='border-b border-[rgba(103,109,154,0.15)] hover:bg-transparent'>
+							<TableRow className='border-b border-white/5 hover:bg-transparent'>
 								{columnItems.map((columnItem, index) => (
 									<TableCell
 										key={index}
-										className='py-4 text-sm sm:text-base font-medium text-left text-gray-400'>
+										className='py-6 text-sm sm:text-base font-medium text-left text-gray-400'>
 										{columnItem}
 									</TableCell>
 								))}
 							</TableRow>
-							{data.map((item, index) =>
-								item.subData.map((sub, idx) => (
-									<TableRow
-										key={`${index}-${idx}`}
-										className='border-b border-[rgba(103,109,154,0.15)] hover:bg-transparent'>
-										{idx === 0 && (
-											<TableCell
-												rowSpan={item.subData.length}
-												className='py-4 flex items-center gap-3 font-medium'>
-												<div className='w-6 h-6 flex-shrink-0'>
-													{item.icon && <item.icon />}
-												</div>
-												<span className='text-sm sm:text-base'>
-													{item.title}
-												</span>
+							{data.map((item, index) => (
+								<React.Fragment key={index}>
+									{item.subData.map((sub, subIndex) => (
+										<TableRow
+											key={`${index}-${subIndex}`}
+											className='border-b border-white/5 hover:bg-transparent'>
+											{subIndex === 0 && (
+												<TableCell
+													rowSpan={
+														item.subData.length
+													}
+													className='py-6 border-0 align-top'>
+													<div className='flex items-center gap-2'>
+														{React.createElement(
+															item.icon,
+															{
+																className:
+																	'w-6 h-6',
+															}
+														)}
+														<span>
+															{item.title}
+														</span>
+													</div>
+												</TableCell>
+											)}
+											<TableCell className='py-6'>
+												{sub}
 											</TableCell>
-										)}
-										<TableCell className='py-4 text-sm sm:text-base font-light'>
-											{sub}
-										</TableCell>
-										<TableCell className='py-4 text-sm sm:text-base font-light'>
-											{item.distributions[idx]}%
-										</TableCell>
-										<TableCell className='py-4 text-sm sm:text-base font-light'>
-											{numberFormatter(item.totals[idx])}
-										</TableCell>
-										<TableCell className='py-4 text-sm sm:text-base font-light max-w-xs'>
-											{item.criterias[idx]}
-										</TableCell>
-									</TableRow>
-								))
-							)}
+											<TableCell className='py-6'>
+												{numberFormatter(
+													item.distributions[subIndex]
+												)}
+												%
+											</TableCell>
+											<TableCell className='py-6'>
+												{numberFormatter(
+													item.totals[subIndex]
+												)}
+											</TableCell>
+											<TableCell className='py-6'>
+												{item.criterias[subIndex]}
+											</TableCell>
+										</TableRow>
+									))}
+								</React.Fragment>
+							))}
 						</TableBody>
 					</Table>
 				</div>
