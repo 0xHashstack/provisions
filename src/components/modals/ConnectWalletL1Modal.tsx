@@ -1,238 +1,132 @@
-import BravosIcon from "@/assets/braavos";
+import { useAccount, useConnect } from 'wagmi';
+import { mainnet } from 'viem/chains';
+import Image from 'next/image';
+import { useEffect } from 'react';
+import MetamaskIcon from '@/assets/metamaskIcon';
+import CoinbaseIcon from '@/assets/coinbaseIcon';
+import WalletConnectIcon from '@/assets/walletConnectIcon';
 import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalBody,
-  ModalCloseButton,
-  useDisclosure,
-  Button,
-  Tooltip,
-  Slider,
-  SliderMark,
-  SliderTrack,
-  SliderThumb,
-  SliderFilledTrack,
-  NumberInput,
-  NumberInputField,
-  Box,
-  Text,
-  Card,
-  ModalHeader,
-  Skeleton,
-} from "@chakra-ui/react";
-import {  useConnectors } from "@starknet-react/core";
-import Link from "next/link";
-import Image from "next/image";
+	Dialog,
+	DialogContent,
+	DialogHeader,
+	DialogTitle,
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 
-import { useEffect, useState } from "react";
-import { useAccount, useConnect } from "wagmi";
-import { baseSepolia, polygon, polygonMumbai, sepolia } from "viem/chains";
-import MetamaskIcon from "@/assets/metamaskIcon";
-import CoinbaseIcon from "@/assets/coinbaseIcon";
-import WalletConnectIcon from "@/assets/walletConnectIcon";
+interface ConnectorOption {
+	id: string;
+	name: string;
+	icon: React.ReactNode;
+}
 
-const ConnectWalletL1Modal = ({ buttonText, ...restProps }: any) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [availableDataLoading, setAvailableDataLoading] = useState(false);
-  const {address}=useAccount()
-  const { connect, connectors, error, isLoading, pendingConnector } =
-    useConnect({
-      chainId: baseSepolia.id,
-    });
-    useEffect(() => {
-      if (address) {
-        onClose();
-      }
-    }, [address]);
-  return (
-    <Box>
-      <Box
-        onClick={() => {
-          onOpen();
-        }}
-        {...restProps}
-      >
-        {buttonText}
-      </Box>
-      <Modal
-        isOpen={isOpen}
-        onClose={() => {
-          onClose();
-        }}
-        isCentered
-        scrollBehavior="inside"
-      >
-        <ModalOverlay bg="rgba(244, 242, 255, 0.5);" mt="3.8rem" />
-        <ModalContent mt="8rem" bg={"#02010F"} maxW="464px">
-          <ModalHeader
-            mt="1rem"
-            fontSize="14px"
-            fontWeight="600"
-            fontStyle="normal"
-            lineHeight="20px"
-            color="white"
-          >
-            Connect L1 Wallet
-          </ModalHeader>
-          <ModalCloseButton color="white" mt="1rem" mr="1rem" />
-          {/* <ModalHeader>Borrow</ModalHeader> */}
-          <ModalBody color={"#E6EDF3"}>
-            {/* <ModalCloseButton mt="1rem" mr="1rem" color="white" /> */}
-            {/* <button onClick={onClose}>Cancel</button> */}
-            <Box
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              backgroundColor="#191922"
-              //   height="100vh"
-            >
-              {/* <PageCard
-      justifyContent="center"
-      alignItems="center"
-      backgroundColor="#191922"
-      height="100vh"
-    > */}
+interface ConnectWalletL1ModalProps {
+	open: boolean;
+	onOpenChange: (open: boolean) => void;
+}
 
-              <Box
-                display="flex"
-                background="#02010F"
-                flexDirection="column"
-                alignItems="flex-start"
-                padding="32px"
-                width="462px"
-                // height="567px"
-                border="1px solid var(--stroke-of-30, rgba(103, 109, 154, 0.30))"
-                borderRadius="8px"
-                // bgColor="red"
-              >
-                <Card
-                  p="1rem"
-                  background="var(--surface-of-10, rgba(103, 109, 154, 0.10))"
-                  border="1px solid var(--stroke-of-30, rgba(103, 109, 154, 0.30))"
-                  width="400px"
-                  // mt="8px"
-                >
-                  {connectors.map((connector: any) => (
-                    <Box
-                      w="full"
-                      border="1px solid var(--stroke-of-30, rgba(103, 109, 154, 0.30))"
-                      py="2"
-                      borderRadius="6px"
-                      gap="3px"
-                      display="flex"
-                      justifyContent="space-between"
-                      cursor="pointer"
-                      mb="16px"
-                      // onClick={() => router.push("/market")}
-                      key={connector.id}
-                      onClick={() => connect({ connector })}
-                    >
-                      <Box ml="1rem" color="white">
-                        {availableDataLoading ? (
-                          <Skeleton
-                            width="6rem"
-                            height="1.4rem"
-                            startColor="#101216"
-                            endColor="#2B2F35"
-                            borderRadius="6px"
-                          />
-                        ) : connector.id == "metaMask" ? (
-                          "MetaMask"
-                        ) : connector.id == "coinbaseWallet" ? (
-                          "Coinbase"
-                        ) : (
-                          "Wallet Connect"
-                        )}
-                      </Box>
-                      <Box p="1" mr="16px">
-                        {connector.id == "metaMask" ? (
-                          <MetamaskIcon />
-                        ) : connector.id == "coinbaseWallet" ? (
-                          <CoinbaseIcon />
-                        ) : (
-                          <WalletConnectIcon />
-                        )}
-                      </Box>
-                    </Box>
-                  ))}
-                </Card>
-                <Box
-                  display="flex"
-                  flexDirection="row"
-                  fontSize="12px"
-                  lineHeight="30px"
-                  fontWeight="400"
-                  mt="16px"
-                ></Box>
-                <Box
-                  alignItems="center"
-                  fontSize="14px"
-                  lineHeight="22px"
-                  fontWeight="400"
-                  mt="8px"
-                >
-                  <Text
-                    fontSize="14px"
-                    lineHeight="22px"
-                    fontWeight="400"
-                    color="#fff"
-                  >
-                    By connecting your wallet, you agree to Hashstack&apos;s
-                  </Text>
-                  <Button
-                    variant="link"
-                    fontSize="14px"
-                    display="inline"
-                    color="#4D59E8"
-                    cursor="pointer"
-                    lineHeight="22px"
-                  >
-                    terms of service & disclaimer
-                  </Button>
-                </Box>
+const connectorOptions: ConnectorOption[] = [
+	{
+		id: 'metaMask',
+		name: 'MetaMask',
+		icon: <MetamaskIcon />,
+	},
+	{
+		id: 'coinbaseWallet',
+		name: 'Coinbase',
+		icon: <CoinbaseIcon />,
+	},
+	{
+		id: 'walletConnect',
+		name: 'Wallet Connect',
+		icon: <WalletConnectIcon />,
+	},
+];
 
-                <Box
-                  mt="16px"
-                  display="flex"
-                  flexDirection="column"
-                  // pb="32px"
-                  // bgColor="blue"
-                >
-                  <Text
-                    fontSize="12px"
-                    lineHeight="18px"
-                    fontWeight="400"
-                    color="#3E415C"
-                  >
-                    {/* This mainnet is currently in alpha with limitations on the maximum
-            supply & borrow amount. This is done in consideration of the current
-            network and liquidity constraints of the Starknet. We urge the users
-            to use the dapp with caution. Hashstack will not cover any
-            accidental loss of user funds. */}
-                    Wallets are provided by External Providers and by selecting
-                    you agree to Terms of those Providers. Your access to the
-                    wallet might be reliant on the External Provider being
-                    operational.
-                  </Text>
-                  <Text
-                    fontSize="12px"
-                    lineHeight="18px"
-                    fontWeight="400"
-                    color="#3E415C"
-                    mt="1rem"
-                  >
-                    We urge the users to use the dapp with caution. Hashstack
-                    will not cover any accidental loss of user funds.
-                  </Text>
-                </Box>
-              </Box>
-              {/* </PageCard> */}
-            </Box>
-          </ModalBody>
-        </ModalContent>
-      </Modal>
-    </Box>
-  );
+export const ConnectWalletL1Modal = ({
+	open,
+	onOpenChange,
+}: ConnectWalletL1ModalProps) => {
+	const { address } = useAccount();
+	const { connect, connectors } = useConnect({
+		chainId: mainnet.id,
+	});
+
+	useEffect(() => {
+		if (address) {
+			onOpenChange(false);
+		}
+	}, [address, onOpenChange]);
+
+	const handleConnect = (connectorId: string) => {
+		const connector = connectors.find((c) => c.id === connectorId);
+		if (connector) {
+			connect({ connector });
+		}
+	};
+
+	return (
+		<>
+			<Dialog
+				open={open}
+				onOpenChange={onOpenChange}>
+				<DialogContent className='bg-[#02010F] border-[#2C2B48] sm:max-w-[464px]'>
+					<DialogHeader>
+						<DialogTitle className='text-white text-sm font-semibold'>
+							Connect L1 Wallet
+						</DialogTitle>
+					</DialogHeader>
+					<div className='flex flex-col gap-6'>
+						<div className='bg-[rgba(103,109,154,0.10)] border border-[rgba(103,109,154,0.30)] rounded-lg p-4'>
+							{connectorOptions.map((option) => (
+								<button
+									key={option.id}
+									onClick={() => handleConnect(option.id)}
+									className={cn(
+										'w-full flex items-center justify-between p-2 mb-4 last:mb-0',
+										'border border-[rgba(103,109,154,0.30)] rounded-md',
+										'text-white hover:bg-[rgba(103,109,154,0.05)]',
+										'transition-colors duration-200'
+									)}>
+									<span className='ml-4'>{option.name}</span>
+									<span className='p-1 mr-4'>
+										{option.icon}
+									</span>
+								</button>
+							))}
+						</div>
+
+						<div className='space-y-4'>
+							<div className='text-sm text-white'>
+								By connecting your wallet, you agree to
+								Hashstack&apos;s{' '}
+								<Button
+									variant='link'
+									className='text-[#4D59E8] p-0 h-auto'>
+									terms of service & disclaimer
+								</Button>
+							</div>
+
+							<div className='space-y-4 text-xs text-[#3E415C]'>
+								<p>
+									Wallets are provided by External Providers
+									and by selecting you agree to Terms of those
+									Providers. Your access to the wallet might
+									be reliant on the External Provider being
+									operational.
+								</p>
+								<p>
+									We urge the users to use the dapp with
+									caution. Hashstack will not cover any
+									accidental loss of user funds.
+								</p>
+							</div>
+						</div>
+					</div>
+				</DialogContent>
+			</Dialog>
+		</>
+	);
 };
+
 export default ConnectWalletL1Modal;
