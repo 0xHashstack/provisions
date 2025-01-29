@@ -1,3 +1,4 @@
+import HashstackLogo from '@/assets/hashstacklogo';
 import { Btn } from '@/components/ui/button';
 import { NAVIGATION_LINKS_MOBILE } from '@/constants/router.constant';
 import { cn } from '@/utils/cn';
@@ -23,8 +24,10 @@ export function MobileMenu({ onClose }: Props) {
 	};
 
 	return (
-		<div className='flex flex-col items-center min-h-screen pt-16'>
-			<nav className='w-full'>
+		<div className='flex flex-col items-center min-h-screen pt-6'>
+			<HashstackLogo />
+
+			<nav className='w-full mt-4'>
 				<ul>
 					{NAVIGATION_LINKS_MOBILE.map((item) => (
 						<li

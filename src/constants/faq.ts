@@ -6,7 +6,7 @@ interface FAQ {
 export const faqData: FAQ[] = [
 	{
 		question: 'Why do I see zero claimable tokens?',
-		answer: 'Check if you meet the eligibility criteria under Airdrop, CCP, or Early Investors at https://token.hashstack.finance/tokenomics.',
+		answer: 'Check if you meet the eligibility criteria under Airdrop, CCP, or Early Investors at https://token.hashstack.finance/tokenomics',
 	},
 	{
 		question: 'My wallet address is missing in the JSON provision file!',
@@ -23,7 +23,7 @@ export const faqData: FAQ[] = [
 	},
 	{
 		question: 'Where can I trade HSTK tokens now?',
-		answer: 'HSTK is live on Uniswap and Ekubo. You can trade or swap your tokens their',
+		answer: 'HSTK is live on Uniswap and Ekubo.',
 	},
 	{
 		question: 'Can we get a token chart or swap link?',

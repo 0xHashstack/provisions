@@ -32,23 +32,23 @@ const FAQs = () => {
 			<Accordion
 				type='single'
 				collapsible
-				className='bg-[#0C0C1C] rounded-lg border overflow-hidden border-[#272942]'>
+				className='bg-[rgba(12,12,28,0.5)] backdrop-blur-md rounded-lg border border-white/10 shadow-[0_8px_32px_0_rgba(31,38,135,0.17)]'>
 				<AccordionItem
 					value='item-0'
 					className='border-none'>
-					<AccordionTrigger className='sm:px-4 sm:py-6 px-8 py-11 hover:no-underline hover:bg-[#0C0C1C] font-bold'>
+					<AccordionTrigger className='px-4 py-6  hover:no-underline  transition-colors font-bold'>
 						Frequently Asked Questions
 					</AccordionTrigger>
 					<AccordionContent className='px-4'>
 						<Accordion
 							type='multiple'
-							className='space-y-4'>
+							className='space-y-2'>
 							{faqData.map((faq, index) => (
 								<AccordionItem
 									key={index}
 									value={`faq-${index}`}
-									className={`border-0 ${index !== faqData.length - 1 ? 'border-b border-[#272942]' : ''} py-4`}>
-									<AccordionTrigger className='hover:no-underline text-base font-normal'>
+									className={`border-0 ${index !== faqData.length - 1 ? 'border-b border-white/10' : ''} sm:py-2`}>
+									<AccordionTrigger className='hover:no-underline  transition-colors text-base font-normal rounded'>
 										{faq.question}
 									</AccordionTrigger>
 									<AccordionContent className='text-[#676D9A]'>

@@ -1,7 +1,11 @@
 'use client';
 import DiscordLogo from '@/assets/discordLogo';
 import HashstackLogo from '@/assets/hashstacklogo';
-import { DISCORD_LINK, NAVIGATION_LINKS } from '@/constants/router.constant';
+import {
+	DISCORD_LINK,
+	NAVIGATION_LINKS,
+	ROUTES,
+} from '@/constants/router.constant';
 import { cn } from '@/utils/cn';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -27,9 +31,11 @@ const Navbar = () => {
 
 	return (
 		<nav className={cn(styles.navbar, ' w-full  fixed z-50 ')}>
-			<div className='flex items-center justify-between p-2.5 h-[60px] bg-[rgba(103,109,154,0.10)]'>
-				<div className='flex gap-4 items-center'>
-					<HashstackLogo />
+			<div className='flex items-center justify-between py-2.5 px-2.5 lg:px-6  h-[60px] bg-[rgba(103,109,154,0.10)]'>
+				<div className='flex gap-6 items-center'>
+					<Link href={ROUTES.PROVISION.HOME}>
+						<HashstackLogo />
+					</Link>
 					{NAVIGATION_LINKS.map((link) => (
 						<Link
 							key={link.route}
@@ -37,7 +43,7 @@ const Navbar = () => {
 							className='hidden lg:block'
 							{...(link.external && { target: 'blank' })}
 							{...(!link.external && {
-								className: 'ml-4 hidden lg:block',
+								className: ' hidden lg:block',
 							})}
 							style={{
 								color:

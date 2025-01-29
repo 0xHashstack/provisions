@@ -73,7 +73,7 @@ export const ConnectWalletL1Modal = ({
 				<DialogContent className='bg-[#02010F] border-[#2C2B48] sm:max-w-[464px]'>
 					<DialogHeader>
 						<DialogTitle className='text-white text-sm font-semibold'>
-							Connect L1 Wallet
+							Connect Ethereum Wallet
 						</DialogTitle>
 					</DialogHeader>
 					<div className='flex flex-col gap-6'>
