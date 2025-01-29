@@ -12,6 +12,8 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { Skeleton } from '@/components/ui/skeleton';
+import { ROUTES } from '@/constants/router.constant';
+import { useRouter } from 'next/navigation';
 
 interface ConnectStarknetWalletModalProps {
 	open: boolean;
@@ -62,6 +64,8 @@ const ConnectStarknetWalletModal = ({
 	const isArgentAvailable = available?.some(
 		(connector) => connector.options?.id === 'argentX'
 	);
+
+	const router = useRouter();
 
 	return (
 		<div>
@@ -157,6 +161,7 @@ const ConnectStarknetWalletModal = ({
 							Hashstack&apos;s{' '}
 							<Button
 								variant='link'
+								onClick={() => router.push(ROUTES.TC)}
 								className='text-[#4D59E8] p-0 h-auto'>
 								terms of service & disclaimer
 							</Button>

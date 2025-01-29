@@ -13,6 +13,8 @@ import {
 } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { ROUTES } from '@/constants/router.constant';
+import { useRouter } from 'next/navigation';
 
 interface ConnectorOption {
 	id: string;
@@ -51,6 +53,7 @@ export const ConnectWalletL1Modal = ({
 	const { connect, connectors } = useConnect({
 		chainId: mainnet.id,
 	});
+	const router = useRouter();
 
 	useEffect(() => {
 		if (address) {
@@ -102,7 +105,8 @@ export const ConnectWalletL1Modal = ({
 								Hashstack&apos;s{' '}
 								<Button
 									variant='link'
-									className='text-[#4D59E8] p-0 h-auto'>
+									className='text-[#4D59E8] p-0 h-auto'
+									onClick={() => router.push(ROUTES.TC)}>
 									terms of service & disclaimer
 								</Button>
 							</div>

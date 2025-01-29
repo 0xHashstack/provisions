@@ -25,6 +25,8 @@ import CoinbaseIcon from '@/assets/coinbaseIcon';
 import BlueInfoIcon from '@/assets/blueinfoIcon';
 import RedinfoIcon from '@/assets/redinfoIcon';
 
+import { ROUTES } from '@/constants/router.constant';
+
 export const dynamic = 'force-static';
 export const runtime = 'nodejs';
 
@@ -192,7 +194,9 @@ export default function Home() {
 				<div className='mt-4 text-sm'>
 					<p className='text-white'>
 						By connecting your wallet, you agree to Hashstack&apos;s{' '}
-						<button className='text-[#4D59E8] hover:underline'>
+						<button
+							className='text-[#4D59E8] hover:underline'
+							onClick={() => router.push(ROUTES.TC)}>
 							terms of service & disclaimer
 						</button>
 					</p>
