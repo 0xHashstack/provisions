@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import './core/core';
+
+@layer base {
+	* {
+		@apply border-border;
+	}
+	body {
+		@apply text-foreground;
+	}
+}
