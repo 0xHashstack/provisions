@@ -82,7 +82,7 @@ const EmissionDashboard = () => {
 				HSTK Tokenomics
 			</h2>
 
-			<div className='overflow-x-scroll -mx-4 sm:mx-0 flex-1 w-[80vw] md:w-fit'>
+			<div className='overflow-x-scroll -mx-4 sm:mx-0 flex-1 w-[86vw] md:w-fit'>
 				<div className='p-4 sm:p-0'>
 					<Table className='w-full'>
 						<TableBody>
@@ -106,7 +106,7 @@ const EmissionDashboard = () => {
 													rowSpan={
 														item.subData.length
 													}
-													className='py-6 border-0 align-top'>
+													className='py-6 border-0 align-center'>
 													<div className='flex items-center gap-2'>
 														{React.createElement(
 															item.icon,
