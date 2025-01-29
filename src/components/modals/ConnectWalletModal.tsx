@@ -161,7 +161,7 @@ const ConnectStarknetWalletModal = ({
 							Hashstack&apos;s{' '}
 							<Button
 								variant='link'
-								onClick={() => router.push(ROUTES.TC)}
+								onClick={() => window.open(ROUTES.TC, '_blank')}
 								className='text-[#4D59E8] p-0 h-auto'>
 								terms of service & disclaimer
 							</Button>

@@ -106,7 +106,7 @@ export const ConnectWalletL1Modal = ({
 								<Button
 									variant='link'
 									className='text-[#4D59E8] p-0 h-auto'
-									onClick={() => router.push(ROUTES.TC)}>
+									onClick={() => window.open(ROUTES.TC)}>
 									terms of service & disclaimer
 								</Button>
 							</div>

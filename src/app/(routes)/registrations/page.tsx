@@ -196,7 +196,7 @@ export default function Home() {
 						By connecting your wallet, you agree to Hashstack&apos;s{' '}
 						<button
 							className='text-[#4D59E8] hover:underline'
-							onClick={() => router.push(ROUTES.TC)}>
+							onClick={() => window.open(ROUTES.TC, '_blank')}>
 							terms of service & disclaimer
 						</button>
 					</p>

@@ -36,7 +36,7 @@ const FAQs = () => {
 				<AccordionItem
 					value='item-0'
 					className='border-none'>
-					<AccordionTrigger className='px-4 py-6  hover:no-underline  transition-colors font-bold'>
+					<AccordionTrigger className='px-4 py-6 text-xl md:text-3xl  hover:no-underline  transition-colors font-bold'>
 						Frequently Asked Questions
 					</AccordionTrigger>
 					<AccordionContent className='px-4'>
