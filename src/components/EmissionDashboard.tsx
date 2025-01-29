@@ -77,13 +77,13 @@ const EmissionDashboard = () => {
 	];
 
 	return (
-		<div className='rounded-lg p-4 sm:p-8 bg-[rgba(103,109,154,0.05)] backdrop-blur-md border border-[rgba(103,109,154,0.15)] shadow-[0_8px_32px_0_rgba(31,38,135,0.17)]'>
+		<div className='rounded-lg p-4 sm:p-8 bg-[rgba(103,109,154,0.05)] backdrop-blur-md border border-[rgba(103,109,154,0.15)] shadow-[0_8px_32px_0_rgba(31,38,135,0.17)] flex flex-col'>
 			<h2 className='text-xl sm:text-2xl font-semibold mb-6 text-white'>
 				HSTK Tokenomics
 			</h2>
 
-			<div className='overflow-x-auto -mx-4 w-[86vw] md:w-full  sm:mx-0'>
-				<div className='min-w-[800px] md:min-w-full p-4 sm:p-0'>
+			<div className='overflow-x-scroll -mx-4 sm:mx-0 flex-1 w-[80vw] md:w-fit'>
+				<div className='p-4 sm:p-0'>
 					<Table className='w-full'>
 						<TableBody>
 							<TableRow className='border-b border-white/5 hover:bg-transparent'>

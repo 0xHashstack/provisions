@@ -54,7 +54,9 @@ export function RootContextProvider({
 	);
 
 	return (
-		<StarknetProvider autoConnect={true} connectors={connectors}>
+		<StarknetProvider
+			autoConnect={true}
+			connectors={connectors}>
 			<DrawerContextProvider>
 				<Layout>
 					<WagmiConfig config={config}>

@@ -32,7 +32,6 @@ const FAQs = () => {
 			<Accordion
 				type='single'
 				collapsible
-				defaultValue='item-0'
 				className='bg-[#0C0C1C] rounded-lg border overflow-hidden border-[#272942]'>
 				<AccordionItem
 					value='item-0'

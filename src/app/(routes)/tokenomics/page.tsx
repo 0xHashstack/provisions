@@ -22,7 +22,7 @@ export default function Tokenomics() {
 					}}>
 					<div className=' max-w-[1200px] mx-auto lg:px-0 px-4'>
 						<Hero />
-						<div className='mt-8'>
+						<div className='mt-10'>
 							<EmissionDashboard />
 							<Market />
 							<EmissionRateChart />
