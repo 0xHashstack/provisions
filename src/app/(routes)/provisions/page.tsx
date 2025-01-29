@@ -6,11 +6,11 @@ import {
 	useWaitForTransaction,
 	useDisconnect,
 } from 'wagmi';
-import airdropIcon from '@/assets/airdrop.jpg';
-import investorIcon from '@/assets/investor.png';
-import othersIcon from '@/assets/others.png';
-import ccpIcon from '@/assets/ccp.jpg';
-import kolIcon from '@/assets/kols.png';
+import airdropIcon from '@/assets/airdrop.webp';
+import investorIcon from '@/assets/investor.webp';
+import othersIcon from '@/assets/others.webp';
+import ccpIcon from '@/assets/ccp.webp';
+import kolIcon from '@/assets/kols.webp';
 import {
 	useAccount,
 	useConnectors,

@@ -8,7 +8,7 @@ const HstkLogo = () => {
 			height={150}
 			fill='none'>
 			<path
-				fill='url(#a)'
+				fill='url(#hstk-logo-svg)'
 				d='M75.5 150c41.421 0 75-33.579 75-75s-33.579-75-75-75S.5 33.579.5 75s33.579 75 75 75Z'
 			/>
 			<path
@@ -17,29 +17,25 @@ const HstkLogo = () => {
 			/>
 			<defs>
 				<linearGradient
-					id='a'
-					x1={0.508}
-					x2={150.5}
-					y1={75}
-					y2={75}
+					id='hstk-logo-svg'
+					x1='0.507684'
+					y1='75'
+					x2='150.5'
+					y2='75'
 					gradientUnits='userSpaceOnUse'>
-					<stop stopColor='#7C57F2' />
+					<stop stopColor='#7C57F2'></stop>
 					<stop
-						offset={0.2}
-						stopColor='#624BE2'
-					/>
+						offset='0.2'
+						stopColor='#624BE2'></stop>
 					<stop
-						offset={0.55}
-						stopColor='#3B39C9'
-					/>
+						offset='0.55'
+						stopColor='#3B39C9'></stop>
 					<stop
-						offset={0.83}
-						stopColor='#232DBA'
-					/>
+						offset='0.83'
+						stopColor='#232DBA'></stop>
 					<stop
-						offset={1}
-						stopColor='#1A29B4'
-					/>
+						offset='1'
+						stopColor='#1A29B4'></stop>
 				</linearGradient>
 			</defs>
 		</svg>
