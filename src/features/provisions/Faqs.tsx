@@ -42,12 +42,12 @@ const FAQs = () => {
 					<AccordionContent className='px-4'>
 						<Accordion
 							type='multiple'
-							className='space-y-4'>
+							className='space-y-2'>
 							{faqData.map((faq, index) => (
 								<AccordionItem
 									key={index}
 									value={`faq-${index}`}
-									className={`border-0 ${index !== faqData.length - 1 ? 'border-b border-white/10' : ''} sm:py-4`}>
+									className={`border-0 ${index !== faqData.length - 1 ? 'border-b border-white/10' : ''} sm:py-2`}>
 									<AccordionTrigger className='hover:no-underline  transition-colors text-base font-normal rounded'>
 										{faq.question}
 									</AccordionTrigger>

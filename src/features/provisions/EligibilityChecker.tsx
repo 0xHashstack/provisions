@@ -71,7 +71,7 @@ export const EligibilityChecker: React.FC<EligibilityCheckerProps> = ({
 						</div>
 						{addressAuthenticated ?
 							addressDetails ?
-								<div className='flex justify-center items-center px-4 rounded-r-md bg-[#323FF4] w-[200px] h-[50px] lg:w-[300px]'>
+								<div className='flex justify-center items-center px-4 rounded-r-md bg-[#323FF4] w-[200px] h-[50px] lg:w-[300px] select-none'>
 									<WhitetickIcon />
 									<span className='ml-1.5'>
 										Authenticated

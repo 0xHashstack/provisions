@@ -68,7 +68,7 @@ const ConnectStarknetWalletModal = ({
 			<Dialog
 				open={open}
 				onOpenChange={onOpenChange}>
-				<DialogContent className='bg-[#02010F] border-[#2C2B48] sm:max-w-[464px] mt-32'>
+				<DialogContent className='bg-[#02010F] border-[#2C2B48] sm:max-w-[464px]'>
 					<DialogHeader>
 						<DialogTitle className='text-white text-sm font-semibold'>
 							Connect Starknet Wallet
