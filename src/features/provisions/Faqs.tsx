@@ -36,7 +36,7 @@ const FAQs = () => {
 				<AccordionItem
 					value='item-0'
 					className='border-none'>
-					<AccordionTrigger className='sm:px-4 sm:py-6 px-8 py-11 hover:no-underline  transition-colors font-bold'>
+					<AccordionTrigger className='px-4 py-6  hover:no-underline  transition-colors font-bold'>
 						Frequently Asked Questions
 					</AccordionTrigger>
 					<AccordionContent className='px-4'>
@@ -47,7 +47,7 @@ const FAQs = () => {
 								<AccordionItem
 									key={index}
 									value={`faq-${index}`}
-									className={`border-0 ${index !== faqData.length - 1 ? 'border-b border-white/10' : ''} py-4`}>
+									className={`border-0 ${index !== faqData.length - 1 ? 'border-b border-white/10' : ''} sm:py-4`}>
 									<AccordionTrigger className='hover:no-underline  transition-colors text-base font-normal rounded'>
 										{faq.question}
 									</AccordionTrigger>

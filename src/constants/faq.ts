@@ -6,7 +6,7 @@ interface FAQ {
 export const faqData: FAQ[] = [
 	{
 		question: 'Why do I see zero claimable tokens?',
-		answer: 'Check if you meet the eligibility criteria under Airdrop, CCP, or Early Investors at https://token.hashstack.finance/tokenomics.',
+		answer: 'Check if you meet the eligibility criteria under Airdrop, CCP, or Early Investors at https://token.hashstack.finance/tokenomics',
 	},
 	{
 		question: 'My wallet address is missing in the JSON provision file!',
