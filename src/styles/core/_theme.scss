@@ -62,6 +62,8 @@
 		--callout-border-rgb: 172, 175, 176;
 		--card-rgb: 180, 185, 188;
 		--card-border-rgb: 131, 134, 135;
+
+		--success: #00d395;
 	}
 	.dark {
 		--background: 0 0% 3.9%;
@@ -88,41 +90,7 @@
 		--chart-3: 30 80% 55%;
 		--chart-4: 280 65% 60%;
 		--chart-5: 340 75% 55%;
-	}
 
-	@media (prefers-color-scheme: dark) {
-		:root {
-			--foreground-rgb: 255, 255, 255;
-			--background-start-rgb: 0, 0, 0;
-			--background-end-rgb: 0, 0, 0;
-
-			--primary-glow: radial-gradient(
-				rgba(1, 65, 255, 0.4),
-				rgba(1, 65, 255, 0)
-			);
-			--secondary-glow: linear-gradient(
-				to bottom right,
-				rgba(1, 65, 255, 0),
-				rgba(1, 65, 255, 0),
-				rgba(1, 65, 255, 0.3)
-			);
-
-			--tile-start-rgb: 2, 13, 46;
-			--tile-end-rgb: 2, 5, 19;
-			--tile-border: conic-gradient(
-				#ffffff80,
-				#ffffff40,
-				#ffffff30,
-				#ffffff20,
-				#ffffff10,
-				#ffffff10,
-				#ffffff80
-			);
-
-			--callout-rgb: 20, 20, 20;
-			--callout-border-rgb: 108, 108, 108;
-			--card-rgb: 100, 100, 100;
-			--card-border-rgb: 200, 200, 200;
-		}
+		--success: #00d395;
 	}
 }

@@ -5,6 +5,7 @@ export const ROUTES = {
 	TOKENOMICS: {
 		HOME: '/tokenomics',
 	},
+	TC: '/terms-and-conditions',
 };
 
 export const NAVIGATION_LINKS = [

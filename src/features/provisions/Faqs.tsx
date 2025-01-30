@@ -22,13 +22,19 @@ const renderAnswer = (text: string) => {
 				</a>
 			);
 		}
-		return <span key={index}>{part}</span>;
+		return (
+			<span
+				key={index}
+				className='text-base font-light'>
+				{part}
+			</span>
+		);
 	});
 };
 
 const FAQs = () => {
 	return (
-		<div className='w-full mt-12 px-4 lg:px-20'>
+		<div className='w-full mt-16 md:mt-[120px] px-6 lg:px-20'>
 			<Accordion
 				type='single'
 				collapsible
@@ -36,10 +42,10 @@ const FAQs = () => {
 				<AccordionItem
 					value='item-0'
 					className='border-none'>
-					<AccordionTrigger className='px-4 py-6  hover:no-underline  transition-colors font-bold'>
+					<AccordionTrigger className='px-4 md:px-6  py-6 text-xl md:text-3xl  hover:no-underline  transition-colors font-normal'>
 						Frequently Asked Questions
 					</AccordionTrigger>
-					<AccordionContent className='px-4'>
+					<AccordionContent className='px-4 md:px-6'>
 						<Accordion
 							type='multiple'
 							className='space-y-2'>
@@ -57,12 +63,12 @@ const FAQs = () => {
 								</AccordionItem>
 							))}
 						</Accordion>
-						<div className='mt-4 text-[#676D9A]'>
+						<div className='mt-6 mb-4 text-[#676D9A] text-[18px]'>
 							Still Facing any issue{' '}
 							<Link
 								href='https://discord.com/invite/VaThqq8vbS'
 								target='blank'
-								className='text-[#676D9A] hover:text-[#7f85b5]'>
+								className='ml-2 text-white hover:underline'>
 								Reach out to us on Discord! --{'>'}
 							</Link>
 						</div>

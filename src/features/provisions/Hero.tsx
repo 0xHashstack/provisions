@@ -47,9 +47,11 @@ const Hero = () => {
 						target='_blank'
 						className='flex items-center gap-2'>
 						<VideoLogo />
-						<p className='text-[#00D395] border-b-2 border-transparent border-dotted hover:border-[#00D395] cursor-pointer'>
-							Quick guide to HSTK provisions
-						</p>
+						<span className='text-success'>
+							<p className='border-b-2 border-transparent border-dotted hover:border-[#00D395] cursor-pointer'>
+								Quick guide to HSTK provisions
+							</p>
+						</span>
 					</a>
 				</div>
 			</div>
