@@ -40,8 +40,8 @@ export function MobileMenu({ onClose }: Props) {
 									'text-sm font-medium border border-[#1A1A1F]',
 									'transition-colors duration-200 h-16',
 									item.route === pathname ?
-										'text-[#4d59e8]'
-									:	'text-white hover:text-[#4d59e8]'
+										'text-success'
+									:	'text-white hover:text-success'
 								)}>
 								{item.label}
 							</button>
