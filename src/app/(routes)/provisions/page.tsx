@@ -488,30 +488,34 @@ export default function Provisions() {
 						currentClaimableAmount={currentClaimableAmount}
 						totalClaimableAmount={totalClaimableAmount}
 					/>
-					<FAQs />
-					<div className='w-full mt-16 md:mt-[120px] px-4 lg:px-20'>
-						<div className='flex gap-1.5 text-xl md:text-3xl lg:text-4xl whitespace-nowrap'>
-							Are you eligible for{' '}
-							<span className='text-[#FFD027]'>HSTK</span> tokens
-							?
-						</div>
+					<div className='max-w-[1280px] mx-auto flex flex-col'>
+						<FAQs />
+						<div className='w-full mt-16 md:mt-[120px] px-4 lg:px-20'>
+							<div className='flex gap-1.5 text-xl md:text-3xl lg:text-4xl whitespace-nowrap'>
+								Are you eligible for{' '}
+								<span className='text-[#FFD027]'>HSTK</span>{' '}
+								tokens ?
+							</div>
 
-						<div>
-							{provisionCategories.map((category, index) => (
-								<ProvisionCard
-									key={index}
-									category={category}
-									addressAuthenticated={addressAuthenticated}
-									addressDetails={addressDetails}
-									claimAddress={claimAddress}
-									userConfirmation={userConfirmation}
-									onClaim={(ticketId) => {
-										setticketId(ticketId);
-										setticketIdL2(ticketId);
-										setcalltransaction(true);
-									}}
-								/>
-							))}
+							<div>
+								{provisionCategories.map((category, index) => (
+									<ProvisionCard
+										key={index}
+										category={category}
+										addressAuthenticated={
+											addressAuthenticated
+										}
+										addressDetails={addressDetails}
+										claimAddress={claimAddress}
+										userConfirmation={userConfirmation}
+										onClaim={(ticketId) => {
+											setticketId(ticketId);
+											setticketIdL2(ticketId);
+											setcalltransaction(true);
+										}}
+									/>
+								))}
+							</div>
 						</div>
 					</div>
 				</div>

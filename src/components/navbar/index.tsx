@@ -40,17 +40,14 @@ const Navbar = () => {
 						<Link
 							key={link.route}
 							href={link.href}
-							className='hidden lg:block'
-							{...(link.external && { target: 'blank' })}
-							{...(!link.external && {
-								className: ' hidden lg:block',
-							})}
-							style={{
-								color:
-									pathname === link.route ?
-										'#4D59E8'
-									:	'#676D9A',
-							}}>
+							className={cn(
+								'hidden lg:block text-[#676D9A] hover:text-white transition-colors',
+								{
+									'text-success hover:text-success':
+										link.route === pathname,
+								}
+							)}
+							{...(link.external && { target: 'blank' })}>
 							{link.label}
 						</Link>
 					))}

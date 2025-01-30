@@ -63,12 +63,12 @@ const FAQs = () => {
 								</AccordionItem>
 							))}
 						</Accordion>
-						<div className='mt-6 text-[#676D9A] text-[18px]'>
+						<div className='mt-6 mb-4 text-[#676D9A] text-[18px]'>
 							Still Facing any issue{' '}
 							<Link
 								href='https://discord.com/invite/VaThqq8vbS'
 								target='blank'
-								className='text-white hover:underline'>
+								className='ml-2 text-white hover:underline'>
 								Reach out to us on Discord! --{'>'}
 							</Link>
 						</div>

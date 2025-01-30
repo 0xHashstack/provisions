@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import numberFormatter from '@/functions/numberFormatter';
 import { ProvisionCategory } from '@/types/common.types';
+import { cn } from '@/lib/utils';
 
 interface ProvisionCardProps {
 	category: ProvisionCategory;
@@ -34,7 +35,10 @@ export const ProvisionCard = ({
 					/>
 				</div>
 
-				<div className='flex flex-col'>
+				<div
+					className={cn('flex flex-col justify-center', {
+						'md:pb-10': !addressDetails,
+					})}>
 					<div className='flex items-center justify-between md:justify-start text-[#F0F0F5] text-[18px] lg:text-[26px] font-medium lg:font-semibold'>
 						{category.id}
 						{addressAuthenticated && (
@@ -99,7 +103,7 @@ export const ProvisionCard = ({
 					)}
 				</div>
 			</div>
-			<div className='h-[1px] border border-[#2C2B48] mt-6 w-full md:w-4/5'></div>
+			<div className='h-[1px] bg-[#2C2B48] mt-6 w-full'></div>
 		</>
 	);
 };
