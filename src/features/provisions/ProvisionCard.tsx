@@ -35,7 +35,7 @@ export const ProvisionCard = ({
 				</div>
 
 				<div className='flex flex-col'>
-					<div className='flex items-center justify-between md:justify-start text-[#F0F0F5] text-[22px] lg:text-[32px] font-extrabold'>
+					<div className='flex items-center justify-between md:justify-start text-[#F0F0F5] text-[18px] lg:text-[26px] font-medium lg:font-semibold'>
 						{category.id}
 						{addressAuthenticated && (
 							<button
@@ -52,7 +52,7 @@ export const ProvisionCard = ({
 							</button>
 						)}
 					</div>
-					<p className='max-w-[700px] mt-6 md:mt-2 lg:mt-4 text-sm lg:text-base'>
+					<p className='max-w-[700px] mt-6 md:mt-2 lg:mt-4 text-sm font-light lg:text-base'>
 						{category.description}
 					</p>
 					{addressDetails && (

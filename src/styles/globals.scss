@@ -8,7 +8,23 @@
 	* {
 		@apply border-border;
 	}
+	html {
+		background: #09051a;
+	}
 	body {
 		@apply text-foreground;
+		background-color: rgba(83, 49, 234, 0.2);
+		background: radial-gradient(
+				circle 600px at 50% 10%,
+				rgba(83, 49, 234, 0.2),
+				transparent
+			),
+			radial-gradient(
+				circle 1200px at bottom right,
+				rgba(83, 49, 234, 0.2),
+				transparent
+			),
+			black;
+		background-attachment: fixed;
 	}
 }

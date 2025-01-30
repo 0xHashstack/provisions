@@ -475,12 +475,7 @@ export default function Provisions() {
 	return (
 		<>
 			{
-				<div
-					className='relative flex flex-col min-h-screen pt-24 pb-28 text-white z-10 bg-fixed'
-					style={{
-						background: `radial-gradient(circle 600px at 50% 10%, rgba(83, 49, 234, 0.2), transparent), radial-gradient(circle 1200px at bottom right, rgba(83, 49, 234, 0.2), transparent), black`,
-						backgroundAttachment: 'fixed',
-					}}>
+				<div className='relative flex flex-col min-h-screen pt-24 pb-28 text-white z-10'>
 					<Hero />
 					<EligibilityChecker
 						addressInput={addressInput}
@@ -494,7 +489,7 @@ export default function Provisions() {
 						totalClaimableAmount={totalClaimableAmount}
 					/>
 					<FAQs />
-					<div className='w-full mt-20 px-4 lg:px-20'>
+					<div className='w-full mt-16 md:mt-[120px] px-4 lg:px-20'>
 						<div className='flex gap-1.5 text-xl md:text-3xl lg:text-4xl whitespace-nowrap'>
 							Are you eligible for{' '}
 							<span className='text-[#FFD027]'>HSTK</span> tokens

@@ -60,8 +60,7 @@ const Navbar = () => {
 					<Link
 						href={DISCORD_LINK.href}
 						target='blank'
-						style={{ color: '#676D9A' }}
-						className='hidden lg:flex items-center gap-1'>
+						className='text-[#676D9A] hover:text-white hidden lg:flex items-center gap-1 transition-colors'>
 						{DISCORD_LINK.label} <DiscordLogo />
 					</Link>
 					<div className='block lg:hidden h-[40px]'>

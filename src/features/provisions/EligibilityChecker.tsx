@@ -58,7 +58,7 @@ export const EligibilityChecker: React.FC<EligibilityCheckerProps> = ({
 					<div className='flex mt-6 bg-transparent px-4 md:px-0'>
 						<div className='relative w-[60%] mt-0  lg:ml-0 md:w-[600px]'>
 							<Input
-								className='h-[50px] pl-2 text-black text-base border border-[rgba(103,109,154,0.30)] rounded-l-md  rounded-r-none bg-white focus-visible:ring-0 focus-visible:ring-offset-0 '
+								className='h-[50px] pl-4 text-black text-base border border-[rgba(103,109,154,0.30)] rounded-l-md  rounded-r-none bg-white focus-visible:ring-0 focus-visible:ring-offset-0 '
 								placeholder='Enter your address'
 								value={addressInput}
 								onChange={(e) => {
