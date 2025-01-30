@@ -8,5 +8,5 @@ export type ProvisionCategory = {
 	EmissionRate: number;
 	ticketType: number;
 	description: string;
-	icon: StaticImageData;
+	icon: string;
 };

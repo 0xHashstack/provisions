@@ -22,16 +22,17 @@ export const ProvisionCard = ({
 }: ProvisionCardProps) => {
 	return (
 		<>
-			<div className='flex flex-col md:flex-row gap-8 lg:gap-12 mt-12'>
-				<div className='flex justify-center items-center w-full md:w-[300px] lg:w-[360px] h-full border border-[#2C2B48] rounded-md overflow-hidden'>
+			<div className='flex flex-col regular:flex-row gap-8 lg:gap-12 mt-12'>
+				<div className='flex justify-center items-center w-full regular:w-[300px] lg:w-[360px] h-[200px] regular:h-[170px] lg:h-[198px]  border border-[#2C2B48] rounded-md overflow-hidden flex-shrink-0'>
 					<Image
 						src={category.icon}
 						alt={category.id}
-						style={{
-							width: '100%',
-							height: '100%',
-							objectFit: 'contain',
-						}}
+						width={360}
+						height={360}
+						quality={75}
+						priority={false}
+						loading='lazy'
+						className='w-full h-full object-cover object-top'
 					/>
 				</div>
 
