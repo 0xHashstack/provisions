@@ -1,7 +1,6 @@
 import HashTokenIconFloater from '@/assets/hashTokenIconFloater';
 import HstkLogo from '@/assets/HstkLogo';
 import VideoLogo from '@/assets/videoLogo';
-import { cn } from '@/utils/cn';
 
 const Hero = () => {
 	return (

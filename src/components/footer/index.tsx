@@ -1,18 +1,9 @@
 'use client';
-
-import { useAccount, useBlockNumber, useNetwork } from '@starknet-react/core';
-import { useMediaQuery } from '@/hooks/useMediaQuery';
 import React, { useEffect, useState } from 'react';
-import { AccountInterface, BlockNumber } from 'starknet';
+import { AccountInterface } from 'starknet';
 import { getProtocolReserves } from '@/Blockchain/scripts/claimProxy';
 import { MetricsSlider } from './MetricsSlider';
 import { FooterLinks } from './FooterLinks';
-
-interface ExtendedAccountInterface extends AccountInterface {
-	provider?: {
-		chainId: string;
-	};
-}
 
 const Footer: React.FC = () => {
 	const [protocolReserves, setProtocolReserves] =
