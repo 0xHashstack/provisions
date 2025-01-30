@@ -1,6 +1,10 @@
-import Footer from '@/components/footer';
+import dynamic from 'next/dynamic';
 import Navbar from '@/components/navbar';
 import React from 'react';
+
+const Footer = dynamic(() => import('@/components/footer'), {
+	ssr: false,
+});
 
 function layout({ children }: { children: React.ReactNode }) {
 	return (

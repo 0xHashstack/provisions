@@ -28,9 +28,10 @@ import {
 } from '@/Blockchain/scripts/claimProxy';
 import { useDrawContext } from '@/context/DrawerContext';
 import Hero from '@/features/provisions/Hero';
-import FAQs from '@/features/provisions/Faqs';
+
 import { EligibilityChecker } from '@/features/provisions/EligibilityChecker';
 import { ProvisionCard } from '@/features/provisions/ProvisionCard';
+import FAQs from '@/features/provisions/Faqs';
 
 export const dynamic = 'force-static';
 export const runtime = 'nodejs';

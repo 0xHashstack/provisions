@@ -1,10 +1,16 @@
 'use client';
 import React from 'react';
-
-import EmissionRateChart from '@/components/charts/EmissionRateChart';
+import dynamic from 'next/dynamic';
 import EmissionDashboard from '@/components/EmissionDashboard';
 import Hero from '@/features/tokenomics/Hero';
-import Market from '@/features/tokenomics/Market';
+
+const Market = dynamic(() => import('@/features/tokenomics/Market'), {
+	ssr: false,
+});
+const EmissionRateChart = dynamic(
+	() => import('@/components/charts/EmissionRateChart'),
+	{ ssr: false }
+);
 
 export default function Tokenomics() {
 	return (

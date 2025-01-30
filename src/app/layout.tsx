@@ -12,11 +12,6 @@ export const metadata: Metadata = {
 	verification: {
 		google: '9U0-YnKdWueBdZmj8Y5_JEkGNPOiV-_d8cPrmjIgifs',
 	},
-	other: {
-		'Cache-Control': 'no-cache, must-revalidate',
-		Pragma: 'no-cache',
-		Expires: '0',
-	},
 };
 
 export default function RootLayout({
