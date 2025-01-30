@@ -26,7 +26,7 @@ const Hero = () => {
 							Hashstack Provisions
 						</p>
 
-						<p className='max-w-[900px] text-sm text-center sm:text-balance leading-5 font-light text-[#F0F0F0] '>
+						<p className='text-sm text-center text-balance max-w-[900px]  leading-5 font-light text-[#F0F0F0] '>
 							Hashstack team is excited to introduce the HSTK
 							provisions. Over the 4 past years of our existence,
 							we have been fortunate to have worked with the
