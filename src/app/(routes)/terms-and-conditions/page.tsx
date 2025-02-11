@@ -20,7 +20,7 @@ function TermsAndConditionsPage() {
 				<Text.Medium20 className='text-gray-400 mb-8 text-center'>
 					Welcome to{' '}
 					<a
-						href='https:// app.hashstack.finance'
+						href='https://app.hashstack.finance'
 						className='text-white hover:underline'>
 						Hashstack
 					</a>
