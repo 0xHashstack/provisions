@@ -79,7 +79,7 @@ export const ProvisionCard = ({
 									Claimable Tokens
 								</p>
 							</div>
-							{!addressAuthenticated && (
+							{addressAuthenticated && (
 								<>
 									<div className='hidden md:block h-[50px] border-l-2 border-[#2C2B48] rounded-md'></div>
 									<button
