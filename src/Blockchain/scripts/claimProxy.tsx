@@ -54,21 +54,15 @@ function parseProtocolReserves(protocolReservesData: any): any {
 	try {
 		let protocolReserves: any = {
 			totalReserves: parseAmount(
-				uint256
-					.uint256ToBN(protocolReservesData?.total_reserves)
-					.toString(),
+				protocolReservesData?.total_reserves.toString(),
 				8
 			),
 			availableReserves: parseAmount(
-				uint256
-					.uint256ToBN(protocolReservesData?.available_reserves)
-					.toString(),
+				protocolReservesData?.available_reserves.toString(),
 				8
 			),
 			avgAssetUtilisation: parseAmount(
-				uint256
-					.uint256ToBN(protocolReservesData?.avg_asset_utilisation)
-					.toString(),
+				protocolReservesData?.avg_asset_utilisation.toString(),
 				2
 			),
 		};
@@ -83,7 +77,7 @@ export async function getProtocolReserves() {
 	try {
 		const metricsContract = new Contract(
 			metricsAbi,
-			'0x548f38cb45720a101a1ec2edfaf608b47d2b39d137d0d3134087315f1b5f4a5',
+			'0x55eda1d714ffd97ebdd6a0bb6dd75de91255697a848e15004eed985b0e5ed38',
 			provider
 		);
 		const res: any = await metricsContract.call(
@@ -93,7 +87,8 @@ export async function getProtocolReserves() {
 				blockIdentifier: 'pending',
 			}
 		);
-		const protocolReserves = parseProtocolReserves(res?.protocol_reserves);
+		console.log(res);
+		const protocolReserves = parseProtocolReserves(res);
 		return protocolReserves;
 	} catch (e) {
 		//console.log("get_protocol_reserves failed: ", e);

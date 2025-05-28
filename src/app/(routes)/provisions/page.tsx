@@ -158,6 +158,7 @@ export default function Provisions() {
 	const handleTransactionl1 = async () => {
 		try {
 			if (ticketId !== 0) {
+				console.log('ticketId', ticketId);
 				const res = await writeClaimL1();
 			}
 		} catch (error) {
@@ -257,7 +258,9 @@ export default function Provisions() {
 			let arr: any = [];
 			const fetchData = async () => {
 				try {
-					const res = await getuserbeneficiaryTicketsL1(addressL1);
+					const res = await getuserbeneficiaryTicketsL1(
+						'0x223Fb9328aC5983c5Cf3D0FEE014Fbf03997de0F'
+					);
 					const dataTickets = res;
 
 					for (let i = 0; i < dataTickets.length; i++) {
