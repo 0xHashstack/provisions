@@ -8,10 +8,9 @@ let basePath = '';
 
 // Only apply GitHub Pages settings when on production branch in GitHub Actions
 if (isGithubActions && isProductionBranch) {
-	// Since we already have a /provisions route in the app, we'll use the root path
-	// for GitHub Pages deployment to avoid double paths
-	assetPrefix = '/';
-	basePath = '';
+	const repo = process.env.GITHUB_REPOSITORY.replace(/.*?\//, '');
+	assetPrefix = `/${repo}/`;
+	basePath = `/${repo}`;
 }
 
 module.exports = {
