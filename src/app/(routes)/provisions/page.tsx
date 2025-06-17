@@ -53,7 +53,7 @@ export default function Provisions() {
 			ticketType: 2,
 			description:
 				'You should have completed more than five transactions on Hashstack V1 across three months, with $100+ cumulative value and $25 minimum supply/borrow balance.',
-			icon: '/images/airdrop.webp',
+			icon: './images/airdrop.webp',
 		},
 		{
 			ticketId: 0,
@@ -64,7 +64,7 @@ export default function Provisions() {
 			ticketType: 3,
 			description:
 				'You should have generated diverse, original content about Hashstack across multiple platforms, creating at least three distinct pieces in different formats.',
-			icon: '/images/ccp.webp',
+			icon: './images/ccp.webp',
 		},
 		{
 			ticketId: 0,
@@ -75,7 +75,7 @@ export default function Provisions() {
 			ticketType: 0,
 			description:
 				'Early private round investors who contributed to our foundational stage are eligible to claim their benefits.',
-			icon: '/images/investor.webp',
+			icon: './images/investor.webp',
 		},
 		{
 			ticketId: 0,
@@ -86,7 +86,7 @@ export default function Provisions() {
 			ticketType: 1,
 			description:
 				'Key community members who actively promoted our product across various channels qualify for this program.',
-			icon: '/images/kols.webp',
+			icon: './images/kols.webp',
 		},
 		{
 			ticketId: 0,
@@ -97,7 +97,7 @@ export default function Provisions() {
 			ticketType: 4,
 			description:
 				'Individuals with previous SAFT allocations or past incentive program eligibility can claim through this section.',
-			icon: '/images/others.webp',
+			icon: './images/others.webp',
 		},
 	]);
 

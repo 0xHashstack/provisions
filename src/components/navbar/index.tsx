@@ -65,7 +65,7 @@ const Navbar = () => {
 							onClick={toggleDrawer}
 							className='cursor-pointer'>
 							<Image
-								src={'/hamburgerIcon.svg'}
+								src={'./hamburgerIcon.svg'}
 								alt='picture of author'
 								width={40}
 								height={40}
