@@ -27,6 +27,8 @@ import Hero from '@/features/provisions/Hero';
 import { EligibilityChecker } from '@/features/provisions/EligibilityChecker';
 import { ProvisionCard } from '@/features/provisions/ProvisionCard';
 import FAQs from '@/features/provisions/Faqs';
+import Navbar from '@/components/navbar';
+import Footer from '@/components/footer';
 
 export const dynamic = 'force-static';
 export const runtime = 'nodejs';
@@ -472,7 +474,8 @@ export default function Page() {
 	}, [walletTypeSelected, claimAddress]);
 
 	return (
-		<>
+		<div>
+			<Navbar />
 			{
 				<div className='relative flex flex-col min-h-screen pt-24 pb-28 text-white z-10'>
 					<Hero />
@@ -519,6 +522,9 @@ export default function Page() {
 					</div>
 				</div>
 			}
-		</>
+			<div className='hidden lg:block'>
+				<Footer />
+			</div>
+		</div>
 	);
 }
