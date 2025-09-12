@@ -18,7 +18,7 @@
     "@starknet-react/chains": "^0.1.0",
     "@starknet-react/core": "^1.0.4",
     "apexcharts": "^3.44.0",
-    "axios": "^1.6.1",
+    "axios": "^1.12.0",
     "connectkit": "^1.5.3",
     "ethers": "5.5.1",
     "framer-motion": "^10.16.5",
