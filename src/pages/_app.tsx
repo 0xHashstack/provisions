@@ -4,144 +4,23 @@ import { WagmiConfig, createConfig, configureChains } from "wagmi";
 import { ConnectKitProvider, getDefaultConfig } from "connectkit";
 import { publicProvider } from '@wagmi/core/providers/public'
 import Head from "next/head";
-import { ChakraProvider, extendTheme } from "@chakra-ui/react";
+import { ChakraProvider } from "@chakra-ui/react";
 import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
-import { useState } from "react";
-// import starknet
+import { useEffect, useState } from "react";
 import {
-  
   InjectedConnector as StarknetInjector,
-  // StarknetProviderProps,
 } from "@starknet-react/core";
-import { StarknetProviderProps } from "@starknet-react/core";
 import {DrawerContextProvider} from '../context/DrawerContext'
 import { InjectedConnector } from '@wagmi/core/connectors/injected'
-import { mainnet, sepolia,goerli, polygon, optimism, polygonMumbai } from '@wagmi/core/chains'
+import { mainnet, sepolia, polygon, optimism, polygonMumbai } from '@wagmi/core/chains'
 import { StarknetProvider } from "@starknet-react/core/dist/providers";
 import Layout from "@/components/toasts";
-import { baseSepolia } from "viem/chains";
-// const chainsAllowedTestnet= [polygon];
+import 'preline/preline';
+
 let chainT=[polygonMumbai];
 let chainM=[polygon]
-const theme = extendTheme({
-  components: {
-    Tabs: {
-      baseStyle: {
-        tab: {
-          _disabled: {
-            background: "#676D9A1A",
-            opacity: "100%",
-            cursor: "pointer",
-          },
-          "> *:first-of-type": {
-            background: "#676D9A1A",
-            opacity: "100%",
-          },
-        },
-      },
-    },
-    // Checkbox: {
-    //   parts: ["control","icon"],
-    //   baseStyle: {
-    //     control: {
-    //       _checked: {
-    //         _disabled: {
-    //           bg: "#4D59E8",
-    //           borderColor:"#2B2F35",
-
-    //         }
-    //       }
-    //     },
-    //     icon:{
-    //       bg:"white.600"
-    //     }
-    //   }
-    // }
-    Checkbox: {
-      baseStyle: {
-        // {color:'black',}
-        icon: {
-          // color: 'white',
-          bg: '#4D59E8',
-          color: 'white',
-          borderWidth: '0px',
-
-
-          // borderColor: '#4D59E8',
-          _disabled: {
-            borderWidth: '0px',
-            padding: '0px',
-            color: '#4D59E8',
-            bg: '#4D59E8',
-            colorScheme: "#4D59E8",
-            // iconColor:'white.800'
-            // borderColor: '#4D59E8',
-            // bg: 'red.800',
-
-          },
-
-
-        },
-        control: {
-          // border: '1px',
-          // borderColor: 'gray.300',
-          borderRadius: 'base',
-          _disabled: {
-            borderWidth: '0px',
-            padding: '0px',
-            color: 'black',
-            bg: '#4D59E8',
-
-
-            // borderColor: '#4D59E8',
-            // bg: '#4D59E8',
-          },
-        },
-
-      },
-    },
-    // Radio: {
-    //   control: {
-    //     _checked: {
-    //       color: "red.800",
-    //       bg:"red.800"
-    //     },
-    //   },
-
-    // },
-    // Radio: {
-    //       bg:'red.800',
-    //       control: {
-    //         _checked: {
-    //           color: 'green.800',
-    //           bg:`black`,
-    //         },
-    //       },
-
-
-    // },
-  },
-
-
-  colors: {
-    customBlue: {
-      500: "#0969DA",
-    },
-    customPurple: {
-      500: "#4D59E8",
-    }
-  },
-  fonts: {
-    body: "Inter, sans-serif",
-  },
-});
-const lightTheme = extendTheme({
-  // Add your light theme styles here
-});
-
-
 
 export default function App({ Component, pageProps }: AppProps) {
   const { chains, publicClient } =   configureChains(
@@ -158,8 +37,7 @@ export default function App({ Component, pageProps }: AppProps) {
     getDefaultConfig(
       {
         publicClient:publicClient,
-      // Required API Keys
-      infuraId: infuraId, // or infuraId
+      infuraId: infuraId,
       walletConnectProjectId: projectId,
       connectors:  [
         new MetaMaskConnector({
@@ -178,25 +56,22 @@ export default function App({ Component, pageProps }: AppProps) {
       chains:[mainnet]
     }),
       ],
-
-      // Required
       appName: "Presale",
-
-      // Optional
-      appDescription: "Your App Description",
-      appUrl: "https://family.co", // your app's url
-      appIcon: "https://family.co/logo.png", // your app's icon, no bigger than 1024x1024px (max. 1MB)
+      appDescription: "Hashstack Token Claims",
+      appUrl: "https://token.hashstack.finance",
+      appIcon: "https://token.hashstack.finance/favicon-32x32.png",
     }),
   );
+
   const [feedback, setFeedback] = useState(false);
-  // loadSpace(spaceApiKey)
-  //   .then((api) => {
-  //     if (!feedback) {
-  //       api.init();
-  //       setFeedback(true);
-  //     }
-  //   })
-  //   .catch((err) => console.log(err));
+
+  // Initialize Preline on route change
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      // @ts-ignore
+      window.HSStaticMethods?.autoInit?.();
+    }
+  }, []);
 
   return (
     <>
@@ -208,27 +83,24 @@ export default function App({ Component, pageProps }: AppProps) {
         <title>Hashstack | Under-collateralised loans | Defi</title>
         <meta
           name="description"
-          content="Hashstack provides a permissionless zk-native money market protocol enabling secure under-collateralised loans to the crypto retail. Built on Starknet L2 [announcement], Hashstack leverages the capability of zero-knowledge proofs to provide a cost & capital-efficient lending solution."
+          content="Hashstack provides a permissionless zk-native money market protocol enabling secure under-collateralised loans to the crypto retail. Built on Starknet L2, Hashstack leverages the capability of zero-knowledge proofs to provide a cost & capital-efficient lending solution."
         />
-        
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="shortcut icon" href="/favicon-32x32.png" />
       </Head>
-      
-      <ChakraProvider theme={theme}>
-      <StarknetProvider autoConnect={true} connectors={connectors}>
-        <DrawerContextProvider>
-          <Layout>
-            <WagmiConfig config={config}>
-              <ConnectKitProvider>
 
-                <Component {...pageProps} />
-
-              </ConnectKitProvider>
-            </WagmiConfig>
-          </Layout>
-        </DrawerContextProvider>
-          </StarknetProvider>
-
+      <ChakraProvider>
+        <StarknetProvider autoConnect={true} connectors={connectors}>
+          <DrawerContextProvider>
+            <Layout>
+              <WagmiConfig config={config}>
+                <ConnectKitProvider>
+                  <Component {...pageProps} />
+                </ConnectKitProvider>
+              </WagmiConfig>
+            </Layout>
+          </DrawerContextProvider>
+        </StarknetProvider>
       </ChakraProvider>
     </>
   );

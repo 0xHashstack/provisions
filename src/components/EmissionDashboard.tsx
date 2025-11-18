@@ -1,7 +1,6 @@
 import {
   Box,
   Table,
-  TableContainer,
   Td,
   Thead,
   Tr,
@@ -117,7 +116,7 @@ const EmissionDashboard = () => {
       overflow={isSmallerThan1250 ? "scroll" : "hidden"}
       overflowX="visible"
     >
-      <TableContainer   css={{
+      <Box   css={{
     '&::-webkit-scrollbar': {
       display: 'block', // Override global styles
       height: '8px', // Ensure the scrollbar height is defined
@@ -229,7 +228,7 @@ const EmissionDashboard = () => {
             )}
           </Tbody>
         </Table>
-      </TableContainer>
+      </Box>
     </Box>
   );
 };
