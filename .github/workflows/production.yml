@@ -52,13 +52,16 @@ jobs:
             - name: Install dependencies
               run: yarn install --frozen-lockfile
 
-            - name: Build
-              run: NEXT_PUBLIC_APP_ENV=production yarn build
+            - name: Build for GitHub Pages
+              run: DEPLOY_TARGET=gh-pages NEXT_PUBLIC_APP_ENV=production yarn build
 
-            - name: Upload artifact
+            - name: Upload artifact for Pages
               uses: actions/upload-pages-artifact@v3
               with:
                   path: ./out
+
+            - name: Build for S3
+              run: NEXT_PUBLIC_APP_ENV=production yarn build
 
             - name: Upload S3 artifact
               uses: actions/upload-artifact@v4
