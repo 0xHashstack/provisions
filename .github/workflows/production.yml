@@ -60,6 +60,12 @@ jobs:
               with:
                   path: ./out
 
+            - name: Upload S3 artifact
+              uses: actions/upload-artifact@v4
+              with:
+                  name: s3-build
+                  path: ./out
+
     # Deployment job
     deploy:
         environment:
@@ -71,6 +77,12 @@ jobs:
             - name: Deploy to GitHub Pages
               id: deployment
               uses: actions/deploy-pages@v4
+
+            - name: Download S3 artifact
+              uses: actions/download-artifact@v4
+              with:
+                  name: s3-build
+                  path: ./out
 
             - name: Configure AWS credentials
               uses: aws-actions/configure-aws-credentials@v1
