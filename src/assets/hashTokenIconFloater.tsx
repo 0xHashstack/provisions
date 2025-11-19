@@ -30,11 +30,11 @@ const HashTokenIconFloater = () => {
           y2="32.4668"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#7C57F2" />
-          <stop offset="0.2" stop-color="#624BE2" />
-          <stop offset="0.55" stop-color="#3B39C9" />
-          <stop offset="0.83" stop-color="#232DBA" />
-          <stop offset="1" stop-color="#1A29B4" />
+          <stop stopColor="#7C57F2" />
+          <stop offset="0.2" stopColor="#624BE2" />
+          <stop offset="0.55" stopColor="#3B39C9" />
+          <stop offset="0.83" stopColor="#232DBA" />
+          <stop offset="1" stopColor="#1A29B4" />
         </linearGradient>
       </defs>
     </svg>

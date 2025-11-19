@@ -12,6 +12,8 @@ import { mainnet } from '@wagmi/core/chains';
 import { StarknetProvider } from '@starknet-react/core/dist/providers';
 import Layout from '@/components/toasts';
 
+import { RpcProvider } from 'starknet';
+
 export function RootContextProvider({
 	children,
 }: {
@@ -53,10 +55,15 @@ export function RootContextProvider({
 		})
 	);
 
+	const starknetProvider = new RpcProvider({
+		nodeUrl: 'https://1rpc.io/starknet',
+	});
+
 	return (
 		<StarknetProvider
 			autoConnect={true}
-			connectors={connectors}>
+			connectors={connectors}
+			defaultProvider={starknetProvider}>
 			<DrawerContextProvider>
 				<Layout>
 					<WagmiConfig config={config}>

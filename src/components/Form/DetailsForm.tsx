@@ -60,20 +60,20 @@ const DetailsForm = ({ handler }: any) => {
 	const [tokenContr, setTokenContr] = useState(
 		process.env.NEXT_PUBLIC_NODE_ENV == 'mainnet' ?
 			process.env.NEXT_PUBLIC_MC_USDT
-		:	process.env.NEXT_PUBLIC_TC_USDT
+			: process.env.NEXT_PUBLIC_TC_USDT
 	);
 	const USDC =
 		process.env.NEXT_PUBLIC_NODE_ENV == 'mainnet' ?
 			process.env.NEXT_PUBLIC_MC_USDC
-		:	process.env.NEXT_PUBLIC_TC_USDC;
+			: process.env.NEXT_PUBLIC_TC_USDC;
 	const USDT =
 		process.env.NEXT_PUBLIC_NODE_ENV == 'mainnet' ?
 			process.env.NEXT_PUBLIC_MC_USDT
-		:	process.env.NEXT_PUBLIC_TC_USDT;
+			: process.env.NEXT_PUBLIC_TC_USDT;
 	const PRESALE_CONTR =
 		process.env.NEXT_PUBLIC_NODE_ENV == 'mainnet' ?
 			process.env.NEXT_PUBLIC_MC_PRESALE
-		:	process.env.NEXT_PUBLIC_TC_PRESALE;
+			: process.env.NEXT_PUBLIC_TC_PRESALE;
 	const [txloading, setTxloading] = useState(false);
 	const usdtBalance = useBalance({
 		address: address,
@@ -81,7 +81,7 @@ const DetailsForm = ({ handler }: any) => {
 		chainId:
 			process.env.NEXT_PUBLIC_NODE_ENV == 'mainnet' ?
 				polygon.id
-			:	polygonMumbai.id,
+				: polygonMumbai.id,
 	});
 	const { disconnect } = useDisconnect();
 
@@ -91,7 +91,7 @@ const DetailsForm = ({ handler }: any) => {
 		chainId:
 			process.env.NEXT_PUBLIC_NODE_ENV == 'mainnet' ?
 				polygon.id
-			:	polygonMumbai.id,
+				: polygonMumbai.id,
 	});
 	// console.log((Number(usdcBalance?.data?.formatted)),"usdcbalance")
 	// useEffect(()=>{
@@ -184,7 +184,7 @@ const DetailsForm = ({ handler }: any) => {
 		chainId:
 			process.env.NEXT_PUBLIC_NODE_ENV == 'mainnet' ?
 				polygon.id
-			:	polygonMumbai.id,
+				: polygonMumbai.id,
 	});
 	const [declined, setDeclined] = useState(false);
 	const { isLoading: approveLoading, isSuccess: approveSuccess } =
@@ -206,7 +206,7 @@ const DetailsForm = ({ handler }: any) => {
 		chainId:
 			process.env.NEXT_PUBLIC_NODE_ENV == 'mainnet' ?
 				polygon.id
-			:	polygonMumbai.id,
+				: polygonMumbai.id,
 		onError: (err) => {
 			console.log(err);
 		},
